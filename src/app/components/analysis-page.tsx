@@ -12,7 +12,10 @@ type AnalysisData = {
   skillCategories: { title: string; icon: any; color: string; bgColor: string; skills: string[] }[];
 };
 
-const API_BASE_URL = "http://localhost:8000"; // Replace with your backend URL
+const API_BASE_URL = (import.meta as any).env?.VITE_API_BASE_URL ?? "http://localhost:8000";
+if (!((import.meta as any).env?.VITE_API_BASE_URL)) {
+  console.warn("VITE_API_BASE_URL not set — falling back to http://localhost:8000 for local development.");
+}
 
 export function AnalysisPage() {
   const [analysisData, setAnalysisData] = useState<AnalysisData | null>(null);

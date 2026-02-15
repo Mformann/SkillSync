@@ -5,7 +5,10 @@ import { Upload, FileText, CheckCircle2, AlertCircle, X } from "lucide-react";
 import { useState, useRef } from "react";
 import axios, { AxiosProgressEvent } from "axios";
 
-const API_BASE_URL = "http://localhost:8000"; // Replace with your backend URL
+const API_BASE_URL = (import.meta as any).env?.VITE_API_BASE_URL ?? "http://localhost:8000";
+if (!((import.meta as any).env?.VITE_API_BASE_URL)) {
+  console.warn("VITE_API_BASE_URL not set — falling back to http://localhost:8000 for local development.");
+}
 
 export function UploadPage() {
   const navigate = useNavigate();
