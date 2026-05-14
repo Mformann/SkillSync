@@ -42,4 +42,5 @@ ENV/
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
+*.sw?backend/test.db
+backend/uploads/

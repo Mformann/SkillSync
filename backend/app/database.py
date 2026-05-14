@@ -1,5 +1,4 @@
 import os
-from contextlib import contextmanager
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import as_declarative
@@ -17,22 +16,25 @@ class Base:
 
 
 engine = create_engine(
-    DATABASE_URL, connect_args={"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
+    DATABASE_URL,
+    # For Postgres, we don't need check_same_thread
+    connect_args={"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
 )
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 def init_db() -> None:
-    from . import models  # noqa: F401
-
+    from . import models
+    print("Creating database tables...")  # <-- Add this debug line
     Base.metadata.create_all(bind=engine)
+    print("Tables created!")              # <-- Add this debug line
 
 
-@contextmanager
+# ✅ FIXED DEPENDENCY (FASTAPI COMPATIBLE)
 def get_session() -> Generator[Session, None, None]:
     db: Session = SessionLocal()
     try:
         yield db
     finally:
         db.close()
-

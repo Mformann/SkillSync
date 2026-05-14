@@ -1,18 +1,48 @@
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
-import { Mail, Lock, User, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Mail, Lock, User, ArrowRight, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { useState } from "react";
+import { supabase } from "../../lib/supabase";
 
 export function SignupPage() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  
+  // New state for API handling
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock signup - in a real app, this would call an API
-    navigate("/dashboard");
+    setIsLoading(true);
+    setError("");
+
+    try {
+      // 1. Send data to Supabase
+      const { data, error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: name,
+          }
+        }
+      });
+
+      if (signUpError) throw signUpError;
+
+      // 2. Success! Redirect to Login
+      // Optional: You could show a toast notification here
+      console.log("Signup successful:", data);
+      navigate("/login");
+
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const benefits = [
@@ -68,6 +98,15 @@ export function SignupPage() {
           </div>
 
           <div className="rounded-2xl border border-border bg-card p-8 shadow-lg">
+            
+            {/* Error Message Display */}
+            {error && (
+              <div className="mb-4 flex items-center gap-2 rounded-lg bg-red-500/10 p-3 text-sm text-red-500">
+                <AlertCircle className="size-4" />
+                <span>{error}</span>
+              </div>
+            )}
+
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
                 <label htmlFor="name" className="mb-2 block text-sm">
@@ -83,6 +122,7 @@ export function SignupPage() {
                     className="w-full rounded-lg border border-input bg-input-background py-3 pl-11 pr-4 transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                     placeholder="John Doe"
                     required
+                    disabled={isLoading}
                   />
                 </div>
               </div>
@@ -101,6 +141,7 @@ export function SignupPage() {
                     className="w-full rounded-lg border border-input bg-input-background py-3 pl-11 pr-4 transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                     placeholder="you@example.com"
                     required
+                    disabled={isLoading}
                   />
                 </div>
               </div>
@@ -120,6 +161,7 @@ export function SignupPage() {
                     placeholder="••••••••"
                     required
                     minLength={8}
+                    disabled={isLoading}
                   />
                 </div>
                 <p className="mt-2 text-xs text-muted-foreground">Must be at least 8 characters</p>
@@ -127,10 +169,20 @@ export function SignupPage() {
 
               <button
                 type="submit"
-                className="group flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-3 text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25"
+                disabled={isLoading}
+                className="group flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-3 text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 disabled:cursor-not-allowed disabled:opacity-70"
               >
-                Create Account
-                <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+                {isLoading ? (
+                    <>
+                        <Loader2 className="size-4 animate-spin" />
+                        Creating Account...
+                    </>
+                ) : (
+                    <>
+                        Create Account
+                        <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+                    </>
+                )}
               </button>
             </form>
 

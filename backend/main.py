@@ -1,10 +1,23 @@
 from fastapi import FastAPI
-from backend.app.routers import auth, resume, analysis
+from backend.app.routers import resume, analysis
+from fastapi.middleware.cors import CORSMiddleware
+
+import os
 
 app = FastAPI()
 
+# Configure CORS
+allow_origins = os.getenv("CORS_ORIGINS", "*").split(",")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allow_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Include routers
-app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
 app.include_router(resume.router, prefix="/resume", tags=["Resume"])
 app.include_router(analysis.router, prefix="/analysis", tags=["Analysis"])
 

@@ -1,450 +1,180 @@
+import axios from "axios";
 import { motion } from "motion/react";
-import { BookOpen, CheckCircle2, Clock, PlayCircle, FileText, Video, Code, Award, ExternalLink, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { BookOpen, CheckCircle2, ChevronRight, Flag, Layout, Loader2, Map, Milestone } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { supabase } from "../../lib/supabase";
+
+// ✅ Type Definition matches Backend Schema
+type RoadmapData = {
+  overviewStats: { label: string; value: string }[];
+  overallProgress: { percent: number };
+  roadmap: {
+    phase: string;
+    title: string;
+    duration: string;
+    status: "completed" | "in-progress" | "pending";
+    progress: number;
+    skills: string[];
+    milestones: string[];
+  }[];
+};
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 export function RoadmapPage() {
-  const [activePhase, setActivePhase] = useState<number | null>(0);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [data, setData] = useState<RoadmapData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const roadmap = [
-    {
-      phase: "Phase 1",
-      title: "Foundation Building",
-      duration: "4-6 weeks",
-      status: "in-progress",
-      progress: 45,
-      skills: ["Docker", "Container Basics", "DevOps Fundamentals"],
-      milestones: [
-        {
-          title: "Docker Fundamentals",
-          type: "course",
-          duration: "8 hours",
-          completed: true,
-          resources: [
-            { title: "Docker Crash Course", type: "video", platform: "YouTube", link: "#" },
-            { title: "Docker Official Docs", type: "documentation", platform: "Docker", link: "#" },
-          ],
-        },
-        {
-          title: "Container Orchestration Intro",
-          type: "course",
-          duration: "6 hours",
-          completed: true,
-          resources: [
-            { title: "Containers 101", type: "course", platform: "Udemy", link: "#" },
-          ],
-        },
-        {
-          title: "Build Your First Container App",
-          type: "project",
-          duration: "12 hours",
-          completed: false,
-          resources: [
-            { title: "Project Tutorial", type: "article", platform: "Medium", link: "#" },
-          ],
-        },
-      ],
-    },
-    {
-      phase: "Phase 2",
-      title: "Kubernetes Mastery",
-      duration: "6-8 weeks",
-      status: "upcoming",
-      progress: 0,
-      skills: ["Kubernetes", "K8s Deployment", "Service Mesh"],
-      milestones: [
-        {
-          title: "Kubernetes Fundamentals",
-          type: "course",
-          duration: "15 hours",
-          completed: false,
-          resources: [
-            { title: "Kubernetes for Developers", type: "course", platform: "Pluralsight", link: "#" },
-            { title: "K8s Official Tutorial", type: "documentation", platform: "Kubernetes", link: "#" },
-          ],
-        },
-        {
-          title: "Deploy Microservices on K8s",
-          type: "project",
-          duration: "20 hours",
-          completed: false,
-          resources: [
-            { title: "Microservices Architecture", type: "course", platform: "Coursera", link: "#" },
-          ],
-        },
-        {
-          title: "Kubernetes Certification",
-          type: "certification",
-          duration: "40 hours",
-          completed: false,
-          resources: [
-            { title: "CKA Certification Prep", type: "course", platform: "Linux Foundation", link: "#" },
-          ],
-        },
-      ],
-    },
-    {
-      phase: "Phase 3",
-      title: "Modern API Development",
-      duration: "4-5 weeks",
-      status: "upcoming",
-      progress: 0,
-      skills: ["GraphQL", "API Design", "Apollo Server"],
-      milestones: [
-        {
-          title: "GraphQL Fundamentals",
-          type: "course",
-          duration: "10 hours",
-          completed: false,
-          resources: [
-            { title: "GraphQL Complete Guide", type: "course", platform: "Udemy", link: "#" },
-            { title: "GraphQL Official Docs", type: "documentation", platform: "GraphQL", link: "#" },
-          ],
-        },
-        {
-          title: "Build a GraphQL API",
-          type: "project",
-          duration: "15 hours",
-          completed: false,
-          resources: [
-            { title: "Apollo Server Tutorial", type: "course", platform: "Apollo Docs", link: "#" },
-          ],
-        },
-      ],
-    },
-    {
-      phase: "Phase 4",
-      title: "CI/CD & Automation",
-      duration: "3-4 weeks",
-      status: "upcoming",
-      progress: 0,
-      skills: ["GitHub Actions", "CI/CD Pipelines", "Testing Automation"],
-      milestones: [
-        {
-          title: "CI/CD Fundamentals",
-          type: "course",
-          duration: "8 hours",
-          completed: false,
-          resources: [
-            { title: "CI/CD Masterclass", type: "course", platform: "Udemy", link: "#" },
-          ],
-        },
-        {
-          title: "Setup Complete CI/CD Pipeline",
-          type: "project",
-          duration: "12 hours",
-          completed: false,
-          resources: [
-            { title: "GitHub Actions Guide", type: "documentation", platform: "GitHub", link: "#" },
-          ],
-        },
-      ],
-    },
-  ];
+  useEffect(() => {
+    const fetchRoadmap = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token || localStorage.getItem("token");
+      if (!token) { navigate("/login"); return; }
+      
+      try {
+        setLoading(true);
+        const endpoint = id 
+          ? `${API_BASE_URL}/resume/roadmap/${id}` 
+          : `${API_BASE_URL}/resume/roadmap/latest`;
 
-  const getResourceIcon = (type: string) => {
-    switch (type) {
-      case "video":
-        return Video;
-      case "course":
-        return PlayCircle;
-      case "documentation":
-        return FileText;
-      case "article":
-        return FileText;
-      default:
-        return BookOpen;
-    }
-  };
+        const response = await axios.get<RoadmapData>(endpoint, {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        setData(response.data);
+      } catch (err: any) {
+        console.error("Roadmap fetch error:", err);
+        setError("Could not load roadmap. Please upload a resume first.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const getMilestoneIcon = (type: string) => {
-    switch (type) {
-      case "course":
-        return BookOpen;
-      case "project":
-        return Code;
-      case "certification":
-        return Award;
-      default:
-        return CheckCircle2;
-    }
-  };
+    fetchRoadmap();
+  }, [id, navigate]);
+
+  if (loading) return (
+    <div className="flex h-[80vh] items-center justify-center">
+      <Loader2 className="size-10 animate-spin text-primary" />
+    </div>
+  );
+
+  if (error || !data) return (
+    <div className="flex h-[80vh] flex-col items-center justify-center gap-4 text-center">
+      <Map className="size-12 text-muted-foreground" />
+      <h2 className="text-xl font-semibold">No Roadmap Found</h2>
+      <p className="text-muted-foreground">{error}</p>
+      <button onClick={() => navigate("/upload")} className="mt-4 rounded-lg bg-primary px-6 py-2 text-primary-foreground">
+        Generate Roadmap
+      </button>
+    </div>
+  );
+
+  const { overviewStats, overallProgress, roadmap } = data;
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
+    <div className="mx-auto max-w-5xl px-4 py-8">
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+        
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="mb-2 text-3xl tracking-tight">Your Learning Roadmap</h1>
-          <p className="text-muted-foreground">
-            A personalized path to achieve your career goals and close skill gaps
-          </p>
+        <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h1 className="text-3xl font-bold">Learning Roadmap</h1>
+            <p className="text-muted-foreground">Your personalized path to mastering missing skills.</p>
+          </div>
+          <div className="flex items-center gap-4 rounded-xl border bg-card p-4">
+            <div className="text-sm font-medium">Overall Progress</div>
+            <div className="h-2 w-24 overflow-hidden rounded-full bg-secondary">
+              <div className="h-full bg-primary transition-all" style={{ width: `${overallProgress.percent}%` }} />
+            </div>
+            <span className="font-bold text-primary">{overallProgress.percent}%</span>
+          </div>
         </div>
 
-        {/* Overview Stats */}
-        <div className="mb-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.5 }}
-            className="rounded-xl border border-border bg-card p-6"
-          >
-            <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-primary/10">
-              <BookOpen className="size-5 text-primary" />
+        {/* Stats Grid */}
+        <div className="mb-8 grid grid-cols-2 gap-4 md:grid-cols-4">
+          {overviewStats.map((stat, i) => (
+            <div key={i} className="rounded-xl border bg-card p-4 text-center">
+              <div className="text-sm text-muted-foreground">{stat.label}</div>
+              <div className="text-2xl font-bold">{stat.value}</div>
             </div>
-            <p className="text-sm text-muted-foreground">Total Duration</p>
-            <p className="mt-1 text-3xl tracking-tight">17-23w</p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15, duration: 0.5 }}
-            className="rounded-xl border border-border bg-card p-6"
-          >
-            <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-green-500/10">
-              <CheckCircle2 className="size-5 text-green-500" />
-            </div>
-            <p className="text-sm text-muted-foreground">Completed</p>
-            <p className="mt-1 text-3xl tracking-tight">2/11</p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            className="rounded-xl border border-border bg-card p-6"
-          >
-            <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-cyan-500/10">
-              <PlayCircle className="size-5 text-cyan-500" />
-            </div>
-            <p className="text-sm text-muted-foreground">In Progress</p>
-            <p className="mt-1 text-3xl tracking-tight">1</p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25, duration: 0.5 }}
-            className="rounded-xl border border-border bg-card p-6"
-          >
-            <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-purple-500/10">
-              <Award className="size-5 text-purple-500" />
-            </div>
-            <p className="text-sm text-muted-foreground">Certifications</p>
-            <p className="mt-1 text-3xl tracking-tight">1</p>
-          </motion.div>
-        </div>
-
-        {/* Overall Progress */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-          className="mb-8 rounded-xl border border-border bg-card p-6"
-        >
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-xl">Overall Progress</h2>
-            <span className="text-2xl">18%</span>
-          </div>
-          <div className="h-4 overflow-hidden rounded-full bg-secondary">
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: "18%" }}
-              transition={{ delay: 0.5, duration: 1, ease: "easeOut" }}
-              className="h-full bg-gradient-to-r from-primary to-purple-500"
-            />
-          </div>
-        </motion.div>
-
-        {/* Roadmap Phases */}
-        <div className="space-y-6">
-          {roadmap.map((phase, phaseIndex) => (
-            <motion.div
-              key={phase.phase}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 + phaseIndex * 0.1, duration: 0.5 }}
-              className="overflow-hidden rounded-xl border border-border bg-card"
-            >
-              {/* Phase Header */}
-              <button
-                onClick={() => setActivePhase(activePhase === phaseIndex ? null : phaseIndex)}
-                className="flex w-full items-center justify-between p-6 text-left transition-colors hover:bg-accent/50"
-              >
-                <div className="flex items-center gap-4">
-                  <div
-                    className={`flex size-12 items-center justify-center rounded-lg ${
-                      phase.status === "in-progress"
-                        ? "bg-primary/10"
-                        : phase.status === "completed"
-                        ? "bg-green-500/10"
-                        : "bg-muted"
-                    }`}
-                  >
-                    {phase.status === "completed" ? (
-                      <CheckCircle2 className="size-6 text-green-500" />
-                    ) : (
-                      <span
-                        className={`text-lg ${
-                          phase.status === "in-progress" ? "text-primary" : "text-muted-foreground"
-                        }`}
-                      >
-                        {phaseIndex + 1}
-                      </span>
-                    )}
-                  </div>
-
-                  <div>
-                    <div className="mb-1 flex items-center gap-3">
-                      <h3 className="text-lg">{phase.title}</h3>
-                      {phase.status === "in-progress" && (
-                        <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs text-primary">
-                          In Progress
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <Clock className="size-4" />
-                        <span>{phase.duration}</span>
-                      </div>
-                      <div className="flex gap-2">
-                        {phase.skills.map((skill) => (
-                          <span key={skill} className="rounded-md bg-secondary px-2 py-0.5 text-xs">
-                            {skill}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4">
-                  {phase.progress > 0 && (
-                    <div className="flex items-center gap-2">
-                      <div className="h-2 w-24 overflow-hidden rounded-full bg-secondary">
-                        <div
-                          className="h-full bg-primary"
-                          style={{ width: `${phase.progress}%` }}
-                        />
-                      </div>
-                      <span className="text-sm text-muted-foreground">{phase.progress}%</span>
-                    </div>
-                  )}
-                  <ChevronRight
-                    className={`size-5 text-muted-foreground transition-transform ${
-                      activePhase === phaseIndex ? "rotate-90" : ""
-                    }`}
-                  />
-                </div>
-              </button>
-
-              {/* Phase Content */}
-              {activePhase === phaseIndex && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="border-t border-border bg-muted/30 p-6"
-                >
-                  <div className="space-y-6">
-                    {phase.milestones.map((milestone, milestoneIndex) => {
-                      const MilestoneIcon = getMilestoneIcon(milestone.type);
-                      return (
-                        <div
-                          key={milestoneIndex}
-                          className="rounded-lg border border-border bg-card p-6"
-                        >
-                          <div className="mb-4 flex items-start justify-between">
-                            <div className="flex items-start gap-3">
-                              <div
-                                className={`mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-lg ${
-                                  milestone.completed ? "bg-green-500/10" : "bg-primary/10"
-                                }`}
-                              >
-                                {milestone.completed ? (
-                                  <CheckCircle2 className="size-5 text-green-500" />
-                                ) : (
-                                  <MilestoneIcon className="size-5 text-primary" />
-                                )}
-                              </div>
-                              <div>
-                                <h4 className="mb-1">{milestone.title}</h4>
-                                <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                                  <span className="capitalize">{milestone.type}</span>
-                                  <span>•</span>
-                                  <span>{milestone.duration}</span>
-                                </div>
-                              </div>
-                            </div>
-                            {milestone.completed && (
-                              <span className="rounded-full bg-green-500/10 px-3 py-1 text-sm text-green-500">
-                                Completed
-                              </span>
-                            )}
-                          </div>
-
-                          {/* Resources */}
-                          <div className="space-y-2">
-                            <p className="text-sm text-muted-foreground">Recommended Resources:</p>
-                            {milestone.resources.map((resource, resourceIndex) => {
-                              const ResourceIcon = getResourceIcon(resource.type);
-                              return (
-                                <a
-                                  key={resourceIndex}
-                                  href={resource.link}
-                                  className="flex items-center justify-between rounded-lg bg-secondary/50 p-3 transition-colors hover:bg-secondary"
-                                >
-                                  <div className="flex items-center gap-3">
-                                    <ResourceIcon className="size-4 text-muted-foreground" />
-                                    <div>
-                                      <p className="text-sm">{resource.title}</p>
-                                      <p className="text-xs text-muted-foreground">
-                                        {resource.platform}
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <ExternalLink className="size-4 text-muted-foreground" />
-                                </a>
-                              );
-                            })}
-                          </div>
-
-                          {!milestone.completed && (
-                            <button className="mt-4 w-full rounded-lg bg-primary py-2 text-sm text-primary-foreground transition-all hover:bg-primary/90">
-                              Start Learning
-                            </button>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </motion.div>
-              )}
-            </motion.div>
           ))}
         </div>
 
-        {/* Tips Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.5 }}
-          className="mt-8 rounded-xl border border-primary/20 bg-gradient-to-br from-primary/10 to-purple-500/10 p-6"
-        >
-          <h3 className="mb-3">💡 Learning Tips</h3>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li>• Focus on one phase at a time for better retention</li>
-            <li>• Build projects to apply what you learn</li>
-            <li>• Join communities for support and networking</li>
-            <li>• Track your progress and celebrate small wins</li>
-          </ul>
-        </motion.div>
+        {/* Timeline */}
+        <div className="space-y-6">
+          {roadmap.map((phase, idx) => (
+            <div key={idx} className="relative flex gap-6">
+              {/* Timeline Line */}
+              <div className="flex flex-col items-center">
+                <div className={`flex size-8 items-center justify-center rounded-full border-2 ${
+                  phase.status === 'completed' ? 'border-primary bg-primary text-primary-foreground' :
+                  phase.status === 'in-progress' ? 'border-primary bg-background text-primary' :
+                  'border-muted bg-background text-muted-foreground'
+                }`}>
+                  {phase.status === 'completed' ? <CheckCircle2 size={16} /> : <Flag size={16} />}
+                </div>
+                {idx !== roadmap.length - 1 && <div className="w-0.5 flex-1 bg-border/50" />}
+              </div>
+
+              {/* Card */}
+              <div className={`flex-1 rounded-xl border p-6 transition-colors ${
+                phase.status === 'in-progress' ? 'border-primary/50 bg-primary/5' : 'bg-card'
+              }`}>
+                <div className="mb-4 flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
+                  <div>
+                    <span className="mb-1 inline-block rounded-full bg-background px-2 py-0.5 text-xs font-medium text-muted-foreground border shadow-sm">
+                      {phase.phase} • {phase.duration}
+                    </span>
+                    <h3 className="text-xl font-semibold">{phase.title}</h3>
+                  </div>
+                  {phase.status === 'in-progress' && (
+                     <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
+                       <Loader2 className="size-3 animate-spin" /> In Progress
+                     </span>
+                  )}
+                </div>
+
+                <div className="mb-4 space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Phase Completion</span>
+                    <span className="font-medium">{phase.progress}%</span>
+                  </div>
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
+                    <div className="h-full bg-primary transition-all" style={{ width: `${phase.progress}%` }} />
+                  </div>
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div>
+                    <h4 className="mb-2 flex items-center gap-2 text-sm font-medium">
+                      <BookOpen className="size-4 text-blue-500" /> Focus Skills
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {phase.skills.map(skill => (
+                        <span key={skill} className="rounded-md border bg-background px-2 py-1 text-xs font-medium">
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <h4 className="mb-2 flex items-center gap-2 text-sm font-medium">
+                      <Milestone className="size-4 text-amber-500" /> Key Milestones
+                    </h4>
+                    <ul className="list-inside list-disc text-sm text-muted-foreground">
+                      {phase.milestones.length > 0 ? phase.milestones.map((m, i) => <li key={i}>{m}</li>) : <li>Complete core modules</li>}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
       </motion.div>
     </div>
   );
