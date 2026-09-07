@@ -1,7 +1,7 @@
 from __future__ import annotations
 import io
 from typing import List, Tuple
-from PyPDF2 import PdfReader
+from pypdf import PdfReader
 from docx import Document
 
 KNOWN_SKILLS = [
@@ -17,10 +17,7 @@ def parse_resume(file_bytes: bytes, content_type: str) -> str:
     if "word" in content_type or "officedocument" in content_type:
         document = Document(io.BytesIO(file_bytes))
         return "\n".join(p.text for p in document.paragraphs)
-    try:
-        return file_bytes.decode("utf-8", errors="ignore")
-    except:
-        return ""
+    raise ValueError("Unsupported resume content type.")
 
 def extract_skills(text: str) -> Tuple[List[str], List[str]]:
     lower = text.lower()

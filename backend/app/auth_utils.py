@@ -1,39 +1,42 @@
 import os
+from dataclasses import dataclass
+
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 
-# Supabase JWT Secret
-SUPABASE_JWT_SECRET = os.getenv("SUPABASE_JWT_SECRET", "your-supabase-jwt-secret")
-ALGORITHM = "HS256"
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-class MockUser:
-    def __init__(self, id: str):
-        self.id = id
+@dataclass(frozen=True)
+class AuthenticatedUser:
+    id: str
+    email: str | None = None
 
-def get_current_user(token: str = Depends(oauth2_scheme)):
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-    )
-    
-    try:
-        # Supabase uses HS256 to sign its tokens
-        # The audience is usually "authenticated"
-        payload = jwt.decode(
-            token, 
-            SUPABASE_JWT_SECRET, 
-            algorithms=[ALGORITHM],
-            options={"verify_aud": False} # We can disable aud verification or set it to 'authenticated'
+
+def get_current_user(token: str = Depends(oauth2_scheme)) -> AuthenticatedUser:
+    secret = os.getenv("SUPABASE_JWT_SECRET")
+    if not secret:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Authentication is not configured.",
         )
-        user_id: str = payload.get("sub")
-        if user_id is None:
-            raise credentials_exception
-            
-    except JWTError as e:
-        print(f"JWT Verification failed: {e}")
-        raise credentials_exception
-        
-    return MockUser(id=user_id)
+
+    try:
+        payload = jwt.decode(
+            token,
+            secret,
+            algorithms=["HS256"],
+            audience=os.getenv("SUPABASE_JWT_AUDIENCE", "authenticated"),
+        )
+        user_id = payload.get("sub")
+        if not isinstance(user_id, str) or not user_id:
+            raise JWTError("Token is missing a subject.")
+        email = payload.get("email")
+        return AuthenticatedUser(id=user_id, email=email if isinstance(email, str) else None)
+    except JWTError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials.",
+            headers={"WWW-Authenticate": "Bearer"},
+        ) from exc

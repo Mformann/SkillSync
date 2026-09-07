@@ -27,11 +27,7 @@ export function LoginPage() {
 
       if (signInError) throw signInError;
 
-      // 2. Success! Save the token
-      localStorage.setItem("token", data.session?.access_token || "");
-      console.log("Login successful, token saved");
-
-      // 3. Redirect to Dashboard
+      // Supabase securely persists the session for the application.
       navigate("/dashboard");
 
     } catch (err: any) {

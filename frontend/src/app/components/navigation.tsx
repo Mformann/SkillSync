@@ -1,8 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
-import { Moon, Sun, LayoutDashboard, Upload, TrendingUp, BookOpen, BarChart3, Menu, X } from "lucide-react";
+import { Moon, Sun, LayoutDashboard, BriefcaseBusiness, TrendingUp, BookOpen, Compass, Menu, X, LogOut, User } from "lucide-react";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "motion/react";
 import { useState } from "react";
+import { useAuth } from "../auth-provider";
+import { supabase } from "../../lib/supabase";
 
 // Reusable NavLink Component
 function NavLink({ to, label, icon: Icon, isActive }: { to: string; label: string; icon: any; isActive: boolean }) {
@@ -53,18 +55,19 @@ function ThemeToggle({ theme, toggleTheme }: { theme: string | undefined; toggle
 }
 
 export function Navigation() {
+  const { session } = useAuth();
   const { theme, setTheme } = useTheme();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const isLoggedIn = !["/", "/login", "/signup"].includes(location.pathname);
+  const isLoggedIn = Boolean(session);
 
   const navLinks = [
     { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { to: "/upload", label: "Upload", icon: Upload },
+    { to: "/workspaces", label: "Target Jobs", icon: BriefcaseBusiness },
     { to: "/analysis", label: "Analysis", icon: TrendingUp },
-    { to: "/gap-report", label: "Gap Report", icon: BarChart3 },
     { to: "/roadmap", label: "Roadmap", icon: BookOpen },
+    { to: "/career", label: "Career Hub", icon: Compass },
   ];
 
   const toggleTheme = () => {
@@ -96,7 +99,7 @@ export function Navigation() {
                   to={link.to}
                   label={link.label}
                   icon={link.icon}
-                  isActive={location.pathname === link.to}
+                  isActive={location.pathname === link.to || location.pathname.startsWith(`${link.to}/`)}
                 />
               ))}
             </div>
@@ -123,6 +126,20 @@ export function Navigation() {
                   </Link>
                 </motion.div>
               </div>
+            )}
+
+            {isLoggedIn && (
+              <button
+                onClick={async () => {
+                  await supabase.auth.signOut();
+                  window.location.href = "/login";
+                }}
+                className="hidden items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-destructive sm:inline-flex"
+                title="Sign out"
+              >
+                <LogOut className="size-3.5" />
+                <span>Log out</span>
+              </button>
             )}
 
             {/* Mobile menu button */}
@@ -155,9 +172,19 @@ export function Navigation() {
                   to={link.to}
                   label={link.label}
                   icon={link.icon}
-                  isActive={location.pathname === link.to}
+                  isActive={location.pathname === link.to || location.pathname.startsWith(`${link.to}/`)}
                 />
               ))}
+              <button
+                onClick={async () => {
+                  await supabase.auth.signOut();
+                  window.location.href = "/login";
+                }}
+                className="flex w-full items-center gap-2 px-4 py-2 text-sm text-destructive hover:bg-accent"
+              >
+                <LogOut className="size-4" />
+                <span>Log out</span>
+              </button>
             </div>
           </motion.div>
         )}

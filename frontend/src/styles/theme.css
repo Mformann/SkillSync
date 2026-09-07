@@ -41,6 +41,18 @@
   --sidebar-ring: #6366f1;
 }
 
+@media print {
+  body { background: white !important; }
+  nav, .resume-studio-controls { display: none !important; }
+  .resume-print-sheet {
+    min-height: 0 !important;
+    width: 100% !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+  }
+  @page { size: A4; margin: 14mm; }
+}
+
 .dark {
   --background: #0f172a;
   --foreground: #f1f5f9;

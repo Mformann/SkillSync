@@ -1,205 +1,300 @@
-import React from "react";
+import axios from "axios";
+import {
+  AlertCircle,
+  BriefcaseBusiness,
+  Building2,
+  CheckCircle2,
+  FileText,
+  Loader2,
+  Upload,
+  X,
+} from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
+import { useRef, useState, type ChangeEvent, type DragEvent, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "motion/react";
-import { Upload, FileText, CheckCircle2, AlertCircle, X, Loader2 } from "lucide-react";
-import { useState, useRef } from "react";
-import axios, { AxiosProgressEvent } from "axios";
-import { supabase } from "../../lib/supabase";
+import { api } from "../../lib/api";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+const MAX_FILE_BYTES = 10 * 1024 * 1024;
+const VALID_TYPES = [
+  "application/pdf",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+];
 
 export function UploadPage() {
   const navigate = useNavigate();
-  const [dragActive, setDragActive] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
-  const [uploading, setUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
+  const reduceMotion = useReducedMotion();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [file, setFile] = useState<File | null>(null);
+  const [dragActive, setDragActive] = useState(false);
+  const [title, setTitle] = useState("");
+  const [company, setCompany] = useState("");
+  const [description, setDescription] = useState("");
+  const [aiConsent, setAiConsent] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [error, setError] = useState("");
 
-  const handleDrag = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true);
-    } else if (e.type === "dragleave") {
-      setDragActive(false);
-    }
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      handleFile(e.dataTransfer.files[0]);
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    if (e.target.files && e.target.files[0]) {
-      handleFile(e.target.files[0]);
-    }
-  };
-
-  const handleFile = (selectedFile: File) => {
-    const validTypes = ["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"];
-    if (!validTypes.includes(selectedFile.type)) {
-      alert("Please upload a PDF or Word document");
+  const validateFile = (selectedFile: File) => {
+    setError("");
+    const extension = selectedFile.name.toLowerCase().split(".").pop();
+    if (!VALID_TYPES.includes(selectedFile.type) || !["pdf", "docx"].includes(extension || "")) {
+      setError("Choose a valid PDF or DOCX resume.");
       return;
     }
-    if (selectedFile.size > 10 * 1024 * 1024) {
-      alert("File size must be less than 10MB");
+    if (selectedFile.size > MAX_FILE_BYTES) {
+      setError("Your resume must be 10 MB or smaller.");
       return;
     }
     setFile(selectedFile);
   };
 
-  // ✅ INTEGRATED AUTH LOGIC
-  // src/app/components/ui/upload-page.tsx
+  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setDragActive(false);
+    const selectedFile = event.dataTransfer.files[0];
+    if (selectedFile) validateFile(selectedFile);
+  };
 
-const handleUpload = async () => {
-  if (!file) return;
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files?.[0];
+    if (selectedFile) validateFile(selectedFile);
+  };
 
-  const { data: { session } } = await supabase.auth.getSession();
-  const token = session?.access_token || localStorage.getItem("token");
-  if (!token) {
-    alert("Please log in first.");
-    navigate("/login");
-    return;
-  }
-
-  setUploading(true);
-  const formData = new FormData();
-  
-  // Attach the actual file object
-  formData.append("file", file); 
-  formData.append("job_role", "Software Developer");
-
-  try {
-    const response = await axios.post(`${API_BASE_URL}/resume/upload`, formData, {
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        // Do NOT manually set 'Content-Type': 'multipart/form-data' 
-        // Axios/Browser adds the necessary boundary automatically.
-      },
-      onUploadProgress: (progressEvent) => {
-        if (progressEvent.total) {
-          setUploadProgress(Math.round((progressEvent.loaded * 100) / progressEvent.total));
-        }
-      },
-    });
-
-    console.log("Success:", response.data);
-    navigate(`/analysis/${response.data.analysis_id}`);
-
-  } catch (error: any) {
-    // Check if the error is a 422 validation error
-    if (error.response?.status === 422) {
-      console.error("Validation Error Details:", error.response.data.detail);
-      alert("The server didn't recognize the file format. Please try a different PDF.");
-    } else {
-      alert(error.response?.data?.detail || "Upload failed.");
-    }
-  } finally {
-    setUploading(false);
-  }
-};
   const removeFile = () => {
     setFile(null);
-    setUploadProgress(0);
+    setProgress(0);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    setError("");
+    if (!file) {
+      setError("Add your resume before creating the workspace.");
+      return;
+    }
+    if (description.trim().length < 50) {
+      setError("Paste a job description of at least 50 characters.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("job_role", title.trim());
+    formData.append("company", company.trim());
+    formData.append("job_description", description.trim());
+    formData.append("ai_consent", String(aiConsent));
+
+    try {
+      setUploading(true);
+      setProgress(0);
+      const response = await api.post("/resume/upload", formData, {
+        onUploadProgress: (event) => {
+          if (event.total) setProgress(Math.round((event.loaded * 100) / event.total));
+        },
+      });
+      navigate(`/analysis/${response.data.analysis_id}`);
+    } catch (requestError) {
+      if (axios.isAxiosError(requestError)) {
+        const detail = requestError.response?.data?.detail;
+        setError(typeof detail === "string" ? detail : "We could not create this workspace.");
+      } else {
+        setError("We could not create this workspace.");
+      }
+    } finally {
+      setUploading(false);
+    }
+  };
+
   return (
-    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-        <div className="mb-8 text-center">
-          <h1 className="mb-2 text-4xl tracking-tight">Upload Your Resume</h1>
-          <p className="text-lg text-muted-foreground">Upload your resume to get started with AI-powered analysis</p>
+    <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+      <motion.div
+        initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25 }}
+      >
+        <div className="mb-8 max-w-3xl">
+          <p className="mb-2 text-sm font-medium text-primary">New target workspace</p>
+          <h1 className="text-3xl tracking-tight sm:text-4xl">Match your resume to a real opportunity</h1>
+          <p className="mt-3 text-muted-foreground">
+            Add the job description and the resume you plan to use. SkillSync will
+            verify resume evidence and calculate an explainable match.
+          </p>
         </div>
 
-        <div className="rounded-2xl border border-border bg-card p-8 shadow-lg">
-          {!file ? (
-            <div
-              onDragEnter={handleDrag} onDragLeave={handleDrag} onDragOver={handleDrag} onDrop={handleDrop}
-              className={`relative cursor-pointer rounded-xl border-2 border-dashed p-12 text-center transition-all ${
-                dragActive ? "border-primary bg-primary/5" : "border-border hover:border-primary/50 hover:bg-accent/50"
-              }`}
-              onClick={() => fileInputRef.current?.click()}
-            >
-              <input ref={fileInputRef} type="file" className="hidden" accept=".pdf,.doc,.docx" onChange={handleChange} title="Upload your resume file" />
-              <div className="mx-auto mb-4 flex size-16 items-center justify-center rounded-full bg-primary/10">
-                <Upload className="size-8 text-primary" />
+        <form onSubmit={handleSubmit} className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+          <section className="rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-8">
+            <div className="mb-6 flex items-start gap-3">
+              <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                <BriefcaseBusiness className="size-5 text-primary" aria-hidden="true" />
               </div>
-              <h3 className="mb-2 text-xl">Drop your resume here</h3>
-              <p className="mb-4 text-muted-foreground">or click to browse files</p>
-              <button type="button" className="rounded-lg bg-primary px-6 py-2 text-sm text-primary-foreground">Choose File</button>
-              <p className="mt-6 text-sm text-muted-foreground">Supported formats: PDF, DOC, DOCX (Max 10MB)</p>
+              <div>
+                <h2 className="text-xl">Target job</h2>
+                <p className="text-sm text-muted-foreground">Tell us which role you are preparing for.</p>
+              </div>
             </div>
-          ) : (
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3 }}>
-              <div className="mb-6 rounded-xl border border-border bg-muted/50 p-6">
-                <div className="flex items-start gap-4">
-                  <div className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                    <FileText className="size-6 text-primary" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="min-w-0 flex-1">
-                        <h4 className="truncate">{file.name}</h4>
-                        <p className="text-sm text-muted-foreground">{(file.size / 1024).toFixed(2)} KB</p>
-                      </div>
-                      <button onClick={removeFile} disabled={uploading} className="flex size-8 shrink-0 items-center justify-center rounded-lg hover:bg-destructive/10 hover:text-destructive disabled:opacity-50">
-                        <X className="size-4" />
-                      </button>
-                    </div>
-                    {uploading && (
-                      <div className="mt-4">
-                        <div className="mb-2 flex items-center justify-between text-sm">
-                          <span className="text-muted-foreground">Uploading...</span>
-                          <span className="text-primary">{uploadProgress}%</span>
-                        </div>
-                        <div className="h-2 overflow-hidden rounded-full bg-secondary">
-                          <motion.div initial={{ width: 0 }} animate={{ width: `${uploadProgress}%` }} className="h-full bg-primary" />
-                        </div>
-                      </div>
-                    )}
-                  </div>
+
+            <div className="grid gap-5 sm:grid-cols-2">
+              <div>
+                <label htmlFor="job-title" className="mb-2 block text-sm">Job title</label>
+                <input
+                  id="job-title"
+                  value={title}
+                  onChange={(event) => setTitle(event.target.value)}
+                  required
+                  maxLength={160}
+                  placeholder="Frontend Engineer"
+                  className="min-h-11 w-full rounded-lg border border-input bg-input-background px-3 focus:outline-none focus:ring-2 focus:ring-ring"
+                />
+              </div>
+              <div>
+                <label htmlFor="company" className="mb-2 block text-sm">Company <span className="font-normal text-muted-foreground">(optional)</span></label>
+                <div className="relative">
+                  <Building2 className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+                  <input
+                    id="company"
+                    value={company}
+                    onChange={(event) => setCompany(event.target.value)}
+                    maxLength={160}
+                    placeholder="Acme"
+                    className="min-h-11 w-full rounded-lg border border-input bg-input-background pl-10 pr-3 focus:outline-none focus:ring-2 focus:ring-ring"
+                  />
                 </div>
               </div>
-              {!uploading && (
-                <button
-                  onClick={handleUpload}
-                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-3 text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg shadow-primary/25"
+            </div>
+
+            <div className="mt-5">
+              <div className="mb-2 flex items-center justify-between gap-4">
+                <label htmlFor="job-description" className="text-sm">Job description</label>
+                <span className="text-xs text-muted-foreground">{description.length.toLocaleString()} / 50,000</span>
+              </div>
+              <textarea
+                id="job-description"
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
+                required
+                minLength={50}
+                maxLength={50_000}
+                rows={15}
+                placeholder="Paste the complete job description, including responsibilities and requirements…"
+                aria-describedby="job-description-help"
+                className="w-full resize-y rounded-lg border border-input bg-input-background p-3 leading-relaxed focus:outline-none focus:ring-2 focus:ring-ring"
+              />
+              <p id="job-description-help" className="mt-2 text-sm text-muted-foreground">
+                Include the complete description so future analysis can distinguish required and preferred skills.
+              </p>
+            </div>
+          </section>
+
+          <section className="rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-8">
+            <div className="mb-6 flex items-start gap-3">
+              <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                <FileText className="size-5 text-primary" aria-hidden="true" />
+              </div>
+              <div>
+                <h2 className="text-xl">Resume</h2>
+                <p className="text-sm text-muted-foreground">PDF or DOCX, up to 10 MB.</p>
+              </div>
+            </div>
+
+            {!file ? (
+              <div
+                onDragEnter={(event) => { event.preventDefault(); setDragActive(true); }}
+                onDragOver={(event) => event.preventDefault()}
+                onDragLeave={() => setDragActive(false)}
+                onDrop={handleDrop}
+                className={`rounded-xl border-2 border-dashed p-8 text-center transition-colors ${
+                  dragActive ? "border-primary bg-primary/5" : "border-border"
+                }`}
+              >
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".pdf,.docx"
+                  onChange={handleChange}
+                  className="sr-only"
+                  id="resume-file"
+                />
+                <Upload className="mx-auto size-8 text-primary" aria-hidden="true" />
+                <p className="mt-4 font-medium">Drop your resume here</p>
+                <p className="mt-1 text-sm text-muted-foreground">or choose a file from your device</p>
+                <label
+                  htmlFor="resume-file"
+                  className="mt-5 inline-flex min-h-11 cursor-pointer items-center rounded-lg bg-primary px-5 text-sm text-primary-foreground transition-colors hover:bg-primary/90"
                 >
-                  <Upload className="size-4" />
-                  <span>Analyze Resume</span>
-                </button>
-              )}
-            </motion.div>
-          )}
-        </div>
+                  Choose resume
+                </label>
+              </div>
+            ) : (
+              <div className="rounded-xl border border-border bg-muted/40 p-5">
+                <div className="flex items-start gap-3">
+                  <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-green-600" aria-hidden="true" />
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate font-medium">{file.name}</p>
+                    <p className="text-sm text-muted-foreground">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={removeFile}
+                    className="flex size-11 items-center justify-center rounded-lg hover:bg-accent"
+                    aria-label="Remove selected resume"
+                  >
+                    <X className="size-4" />
+                  </button>
+                </div>
+              </div>
+            )}
 
-        {/* Info Cards & Tips preserved... */}
-        <div className="mt-8 grid gap-6 md:grid-cols-3">
-            <Card title="Secure Upload" desc="Your data is encrypted and secure" />
-            <Card title="Fast Analysis" desc="Get results in seconds with AI" />
-            <Card title="Actionable Insights" desc="Detailed recommendations to improve" />
-        </div>
+            {error && (
+              <div className="mt-5 flex gap-3 rounded-lg border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive" role="alert">
+                <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+                <span>{error}</span>
+              </div>
+            )}
+
+            <label className="mt-5 flex cursor-pointer items-start gap-3 rounded-xl border border-border p-4">
+              <input
+                type="checkbox"
+                checked={aiConsent}
+                onChange={(event) => setAiConsent(event.target.checked)}
+                className="mt-1 size-4 accent-primary"
+              />
+              <span>
+                <span className="block text-sm font-medium">Enable AI-assisted analysis</span>
+                <span className="mt-1 block text-xs leading-relaxed text-muted-foreground">
+                  Allows SkillSync to send the job description and extracted resume text to the configured Groq model.
+                  Leave this off to use the limited on-server comparison.
+                </span>
+              </span>
+            </label>
+
+            {uploading && (
+              <div className="mt-5" role="status">
+                <div className="mb-2 flex justify-between text-sm">
+                  <span>Creating workspace</span>
+                  <span>{progress}%</span>
+                </div>
+                <div className="h-2 overflow-hidden rounded-full bg-secondary">
+                  <div className="h-full bg-primary transition-[width]" style={{ width: `${progress}%` }} />
+                </div>
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={uploading}
+              className="mt-6 flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-primary px-5 text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {uploading && <Loader2 className="size-4 animate-spin" aria-hidden="true" />}
+              {uploading ? "Creating workspace…" : "Create workspace"}
+            </button>
+
+            <p className="mt-4 text-center text-xs leading-relaxed text-muted-foreground">
+              Your original file is processed in memory. Extracted text is saved in your workspace and sent externally only with the consent above.
+            </p>
+          </section>
+        </form>
       </motion.div>
-    </div>
-  );
-}
-
-function Card({ title, desc }: { title: string; desc: string }) {
-  return (
-    <div className="rounded-xl border border-border bg-card p-6">
-      <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-primary/10">
-        <CheckCircle2 className="size-5 text-primary" />
-      </div>
-      <h4 className="mb-1">{title}</h4>
-      <p className="text-sm text-muted-foreground">{desc}</p>
-    </div>
+    </main>
   );
 }

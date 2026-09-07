@@ -42,5 +42,8 @@ ENV/
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?backend/test.db
+*.sw?
+backend/test.db
+backend/phase*_verification.db
+backend/phase*_migration_test.db
 backend/uploads/

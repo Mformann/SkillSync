@@ -3,11 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import { 
   TrendingUp, Upload, Target, BookOpen, ArrowRight, BarChart3, 
-  CheckCircle2, AlertCircle, Calendar, LogOut, Loader2 
+  CheckCircle2, AlertCircle, Calendar, LogOut, Loader2,
+  Sparkles, Check, ChevronRight, Briefcase
 } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import axios from "axios";
 import { supabase } from "../../lib/supabase";
+import { api } from "../../lib/api";
 
 // --- Types ---
 interface UserProfile {
@@ -30,6 +32,16 @@ interface Goal {
   progress: number;
 }
 
+interface GrowthSkill {
+  name: string;
+  status: "possessed" | "in_progress" | "gap" | "completed";
+  progress: number;
+  category?: string;
+  priority?: string;
+  estimatedHours?: number;
+  taskId?: number;
+}
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 export function DashboardPage() {
@@ -42,6 +54,12 @@ export function DashboardPage() {
   const [goals, setGoals] = useState<Goal[]>([]); // For Weekly Goals
   const [loading, setLoading] = useState(true);
 
+  // Skill Growth Tracker State
+  const [targetJobRole, setTargetJobRole] = useState<string>("");
+  const [targetCompany, setTargetCompany] = useState<string>("");
+  const [growthSkills, setGrowthSkills] = useState<GrowthSkill[]>([]);
+  const [growthFilter, setGrowthFilter] = useState<"all" | "in_progress" | "gaps" | "possessed">("all");
+
   // --- Computed Stats (Default 0) ---
   const [stats, setStats] = useState([
     { label: "Latest Score", value: "0", icon: Target, color: "text-primary", bgColor: "bg-primary/10", trend: "N/A" },
@@ -53,15 +71,13 @@ export function DashboardPage() {
   // --- Logic ---
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) { navigate("/login"); return; }
-
       try {
         setLoading(true);
 
         // 1. Fetch User from Supabase
         const { data: { session } } = await supabase.auth.getSession();
-        const activeToken = session?.access_token || token;
+        if (!session) { navigate("/login"); return; }
+        const activeToken = session.access_token;
         const { data: { user: supabaseUser } } = await supabase.auth.getUser();
         
         if (supabaseUser) {
@@ -124,15 +140,80 @@ export function DashboardPage() {
                     }));
                 setGoals(newGoals);
             }
-        } catch (gapErr) {
-            // If no gap report exists, show a default goal
+        } catch {
             setGoals([{ id: "default", text: "Upload resume to generate goals", completed: false, progress: 0 }]);
+        }
+
+        // 5. Fetch Skill Growth Tracker Data (Latest Explainable Analysis & Learning Plan)
+        try {
+          const [explainableRes, planRes] = await Promise.allSettled([
+            api.get("/resume/analysis/latest/explainable"),
+            api.get("/learning/plans/latest")
+          ]);
+
+          const taskMap = new Map<string, { progress: number; status: string; estimatedHours: number; taskId: number }>();
+          if (planRes.status === "fulfilled" && planRes.value.data?.tasks) {
+            for (const task of planRes.value.data.tasks) {
+              taskMap.set(task.skill.toLowerCase(), {
+                progress: task.progress || 0,
+                status: task.status,
+                estimatedHours: task.estimated_hours,
+                taskId: task.id,
+              });
+            }
+          }
+
+          if (explainableRes.status === "fulfilled" && explainableRes.value.data?.result) {
+            const exp = explainableRes.value.data;
+            setTargetJobRole(exp.context?.job_title || exp.result.summary || "Target Role");
+            setTargetCompany(exp.context?.company || "");
+
+            const requirements = new Map<string, { category?: string; priority?: string }>(
+              exp.result.requirements.map((r: any) => [r.name.toLowerCase(), r])
+            );
+            const skillList: GrowthSkill[] = [];
+
+            for (const match of exp.result.matches) {
+              const req = requirements.get(match.requirement_name.toLowerCase());
+              const skillLower = match.requirement_name.toLowerCase();
+              const planTask = taskMap.get(skillLower);
+
+              const isPossessed = ["strong_match", "partial_match", "transferable"].includes(match.status);
+
+              let status: GrowthSkill["status"] = isPossessed ? "possessed" : "gap";
+              let progress = isPossessed ? 100 : 0;
+
+              if (planTask) {
+                if (planTask.progress === 100 || planTask.status === "completed") {
+                  status = "completed";
+                  progress = 100;
+                } else if (planTask.progress > 0) {
+                  status = "in_progress";
+                  progress = planTask.progress;
+                }
+              }
+
+              skillList.push({
+                name: match.requirement_name,
+                status,
+                progress,
+                category: req?.category || "technical_skill",
+                priority: req?.priority || "required",
+                estimatedHours: planTask?.estimatedHours,
+                taskId: planTask?.taskId,
+              });
+            }
+
+            setGrowthSkills(skillList);
+          }
+        } catch (growthErr) {
+          console.error("Skill Growth Tracker Load Error:", growthErr);
         }
 
       } catch (error) {
         console.error("Dashboard Error:", error);
         if (axios.isAxiosError(error) && error.response?.status === 401) {
-            localStorage.removeItem("token");
+            await supabase.auth.signOut();
             navigate("/login");
         }
       } finally {
@@ -145,7 +226,6 @@ export function DashboardPage() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    localStorage.removeItem("token");
     navigate("/login");
   };
 
@@ -157,8 +237,8 @@ export function DashboardPage() {
 
   const quickActions = [
     { title: "Upload New Resume", description: "Analyze your latest resume", icon: Upload, to: "/upload", color: "primary" },
-    { title: "View Analysis", description: "Check your skill breakdown", icon: TrendingUp, to: "/analysis/latest", color: "cyan" },
-    { title: "Learning Roadmap", description: "Follow your personalized path", icon: BookOpen, to: "/roadmap/latest", color: "purple" },
+    { title: "View Analysis", description: "Check your skill breakdown", icon: TrendingUp, to: "/analysis", color: "cyan" },
+    { title: "Learning Roadmap", description: "Follow your personalized path", icon: BookOpen, to: "/roadmap", color: "purple" },
   ];
 
   if (loading) return <div className="flex h-screen items-center justify-center"><Loader2 className="size-8 animate-spin text-primary" /></div>;
@@ -166,17 +246,29 @@ export function DashboardPage() {
   // Empty State
   if (resumes.length === 0) {
       return (
-        <div className="flex h-[80vh] flex-col items-center justify-center text-center">
+        <div className="flex h-[80vh] flex-col items-center justify-center text-center px-4">
             <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}>
-                <h1 className="mb-4 text-3xl font-bold">Welcome, {user?.name}!</h1>
-                <p className="mb-8 text-muted-foreground">You haven't uploaded a resume yet.</p>
-                <Link to="/upload" className="rounded-lg bg-primary px-6 py-3 text-white shadow-lg hover:bg-primary/90">
+                <h1 className="mb-4 text-3xl font-bold tracking-tight">Welcome, {user?.name}!</h1>
+                <p className="mb-8 text-muted-foreground">Upload your first resume and target job description to activate SkillSync.</p>
+                <Link to="/upload" className="rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground shadow-lg hover:bg-primary/90">
                     Upload Your First Resume
                 </Link>
             </motion.div>
         </div>
       );
   }
+
+  const possessedCount = growthSkills.filter(s => s.status === "possessed" || s.status === "completed").length;
+  const inProgressCount = growthSkills.filter(s => s.status === "in_progress").length;
+  const gapCount = growthSkills.filter(s => s.status === "gap").length;
+  const totalSkillsCount = growthSkills.length;
+
+  const filteredGrowthSkills = growthSkills.filter(skill => {
+    if (growthFilter === "in_progress") return skill.status === "in_progress";
+    if (growthFilter === "gaps") return skill.status === "gap";
+    if (growthFilter === "possessed") return skill.status === "possessed" || skill.status === "completed";
+    return true;
+  });
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -185,10 +277,10 @@ export function DashboardPage() {
         {/* Header */}
         <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
           <div>
-            <h1 className="mb-2 text-3xl tracking-tight">Welcome back, {user?.name.split(" ")[0]}!</h1>
-            <p className="text-muted-foreground">Here's an overview of your career progress</p>
+            <h1 className="mb-2 text-3xl font-bold tracking-tight">Welcome back, {user?.name.split(" ")[0]}!</h1>
+            <p className="text-muted-foreground">Track your skill growth and career readiness</p>
           </div>
-          <button onClick={handleLogout} className="group flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-red-500">
+          <button onClick={handleLogout} className="group flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-destructive">
             <LogOut className="size-4" />
             <span>Log out</span>
           </button>
@@ -207,7 +299,7 @@ export function DashboardPage() {
               <div className="flex items-start justify-between">
                 <div>
                   <p className="text-sm text-muted-foreground">{stat.label}</p>
-                  <p className="mt-2 text-3xl tracking-tight">{stat.value}</p>
+                  <p className="mt-2 text-3xl font-bold tracking-tight tabular-nums">{stat.value}</p>
                   <div className="mt-2 flex items-center gap-1 text-sm text-green-500">
                     <TrendingUp className="size-3" />
                     <span>{stat.trend}</span>
@@ -225,14 +317,153 @@ export function DashboardPage() {
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
             
-            {/* ✅ REAL Progress Chart */}
+            {/* 🚀 SKILL GROWTH TRACKER (Main Feature) */}
+            {growthSkills.length > 0 && (
+              <motion.section
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+                className="rounded-2xl border border-border bg-card p-6 shadow-sm"
+              >
+                <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <div className="flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                        <Sparkles className="size-4" />
+                      </div>
+                      <h2 className="text-xl font-bold tracking-tight">Skill Growth Tracker</h2>
+                    </div>
+                    {targetJobRole && (
+                      <p className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
+                        <Briefcase className="size-3" />
+                        <span>Target: <strong>{targetJobRole}</strong> {targetCompany ? `at ${targetCompany}` : ""}</span>
+                      </p>
+                    )}
+                  </div>
+
+                  <Link
+                    to="/roadmap"
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
+                  >
+                    Open Learning Roadmap <ChevronRight className="size-3" />
+                  </Link>
+                </div>
+
+                {/* Skill Counts Bar */}
+                <div className="mt-6 grid grid-cols-3 gap-3 rounded-xl bg-muted/40 p-3 text-center">
+                  <div className="rounded-lg bg-card p-2 shadow-xs">
+                    <p className="text-[11px] font-medium text-muted-foreground">Possessed</p>
+                    <p className="text-lg font-bold text-green-600 dark:text-green-400 tabular-nums">
+                      {possessedCount} <span className="text-xs font-normal text-muted-foreground">/ {totalSkillsCount}</span>
+                    </p>
+                  </div>
+                  <div className="rounded-lg bg-card p-2 shadow-xs">
+                    <p className="text-[11px] font-medium text-muted-foreground">In Learning</p>
+                    <p className="text-lg font-bold text-blue-600 dark:text-blue-400 tabular-nums">{inProgressCount}</p>
+                  </div>
+                  <div className="rounded-lg bg-card p-2 shadow-xs">
+                    <p className="text-[11px] font-medium text-muted-foreground">Gaps Left</p>
+                    <p className="text-lg font-bold text-amber-600 dark:text-amber-400 tabular-nums">{gapCount}</p>
+                  </div>
+                </div>
+
+                {/* Filter Tabs */}
+                <div className="mt-6 flex flex-wrap gap-2 border-b border-border pb-3 text-xs">
+                  <button
+                    onClick={() => setGrowthFilter("all")}
+                    className={`rounded-lg px-3 py-1.5 font-medium transition-colors ${growthFilter === "all" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+                  >
+                    All Skills ({totalSkillsCount})
+                  </button>
+                  <button
+                    onClick={() => setGrowthFilter("in_progress")}
+                    className={`rounded-lg px-3 py-1.5 font-medium transition-colors ${growthFilter === "in_progress" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+                  >
+                    In Progress ({inProgressCount})
+                  </button>
+                  <button
+                    onClick={() => setGrowthFilter("gaps")}
+                    className={`rounded-lg px-3 py-1.5 font-medium transition-colors ${growthFilter === "gaps" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+                  >
+                    Remaining Gaps ({gapCount})
+                  </button>
+                  <button
+                    onClick={() => setGrowthFilter("possessed")}
+                    className={`rounded-lg px-3 py-1.5 font-medium transition-colors ${growthFilter === "possessed" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+                  >
+                    Possessed ({possessedCount})
+                  </button>
+                </div>
+
+                {/* Skill List */}
+                <div className="mt-4 space-y-2.5">
+                  {filteredGrowthSkills.map((skill) => {
+                    const isDone = skill.status === "possessed" || skill.status === "completed";
+                    const isInProgress = skill.status === "in_progress";
+
+                    return (
+                      <div
+                        key={skill.name}
+                        className="flex flex-col gap-2 rounded-xl border border-border bg-card/60 p-3 transition-all hover:bg-card sm:flex-row sm:items-center sm:justify-between"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className={`flex size-8 shrink-0 items-center justify-center rounded-lg ${isDone ? "bg-green-500/10 text-green-600 dark:text-green-400" : isInProgress ? "bg-blue-500/10 text-blue-600 dark:text-blue-400" : "bg-amber-500/10 text-amber-600 dark:text-amber-400"}`}>
+                            {isDone ? <Check className="size-4" /> : <Target className="size-4" />}
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="font-medium text-sm text-foreground">{skill.name}</span>
+                              {skill.priority === "required" && (
+                                <span className="rounded bg-destructive/10 px-1.5 py-0.5 text-[10px] font-medium text-destructive">
+                                  Required
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-[11px] text-muted-foreground capitalize">
+                              {skill.category ? skill.category.replace("_", " ") : "Skill"}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-3 self-end sm:self-center">
+                          {isInProgress ? (
+                            <div className="w-28 text-right">
+                              <div className="mb-1 flex items-center justify-between text-[11px] text-muted-foreground">
+                                <span>Mastery</span>
+                                <span className="font-semibold text-primary">{skill.progress}%</span>
+                              </div>
+                              <div className="h-1.5 overflow-hidden rounded-full bg-secondary">
+                                <div className="h-full bg-primary" style={{ width: `${skill.progress}%` }} />
+                              </div>
+                            </div>
+                          ) : isDone ? (
+                            <span className="inline-flex items-center gap-1 rounded-md bg-green-500/10 px-2 py-1 text-xs font-medium text-green-700 dark:text-green-300">
+                              <CheckCircle2 className="size-3.5" /> Verified
+                            </span>
+                          ) : (
+                            <Link
+                              to="/roadmap"
+                              className="rounded-lg border border-border bg-secondary/60 px-2.5 py-1 text-xs font-medium text-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
+                            >
+                              Start Task
+                            </Link>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </motion.section>
+            )}
+
+            {/* ✅ Progress Chart */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.5 }}
               className="rounded-xl border border-border bg-card p-6"
             >
-              <h2 className="mb-6 text-xl">Progress Over Time</h2>
+              <h2 className="mb-6 text-xl font-bold tracking-tight">Score History</h2>
               <ResponsiveContainer width="100%" height={250}>
                 <LineChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="currentColor" opacity={0.1} />
@@ -252,18 +483,18 @@ export function DashboardPage() {
 
             {/* Quick Actions */}
             <div>
-              <h2 className="mb-4 text-xl">Quick Actions</h2>
+              <h2 className="mb-4 text-xl font-bold tracking-tight">Quick Actions</h2>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {quickActions.map((action, index) => (
+                {quickActions.map((action) => (
                   <Link
                     key={action.title}
                     to={action.to}
                     className="group block rounded-xl border border-border bg-card p-6 transition-all hover:border-primary/50 hover:shadow-md"
                   >
-                    <div className={`mb-4 inline-flex size-12 items-center justify-center rounded-lg bg-${action.color}-500/10 transition-transform group-hover:scale-110`}>
-                      <action.icon className={`size-6 text-${action.color}-500`} />
+                    <div className="mb-4 inline-flex size-12 items-center justify-center rounded-lg bg-primary/10 transition-transform group-hover:scale-110">
+                      <action.icon className="size-6 text-primary" />
                     </div>
-                    <h3 className="mb-1">{action.title}</h3>
+                    <h3 className="mb-1 font-semibold">{action.title}</h3>
                     <p className="text-sm text-muted-foreground">{action.description}</p>
                     <div className="mt-4 flex items-center gap-1 text-sm text-primary">
                       Get started <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
@@ -272,32 +503,13 @@ export function DashboardPage() {
                 ))}
               </div>
             </div>
-            
-            {/* Latest Skill Match Bar */}
-            <div className="rounded-xl border border-border bg-card p-6">
-                <h2 className="mb-4 text-xl">Latest Skill Match</h2>
-                <div>
-                    <div className="mb-2 flex items-center justify-between text-sm">
-                    <span>Overall Skill Match</span>
-                    <span className="text-primary">{stats[0].value}%</span>
-                    </div>
-                    <div className="h-3 overflow-hidden rounded-full bg-secondary">
-                    <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${stats[0].value}%` }}
-                        transition={{ delay: 0.5, duration: 1, ease: "easeOut" }}
-                        className="h-full bg-gradient-to-r from-primary to-primary/80"
-                    />
-                    </div>
-                </div>
-            </div>
 
           </div>
 
           {/* Sidebar */}
           <div className="space-y-6">
             
-            {/* ✅ REAL Weekly Goals (From Gap Report) */}
+            {/* Weekly Goals */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -305,15 +517,15 @@ export function DashboardPage() {
               className="rounded-xl border border-border bg-card p-6"
             >
               <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-xl">Weekly Goals</h2>
+                <h2 className="text-xl font-bold tracking-tight">Weekly Focus Goals</h2>
                 <Calendar className="size-5 text-muted-foreground" />
               </div>
               
               <div className="space-y-4">
-                {goals.map((goal, index) => (
+                {goals.map((goal) => (
                   <div key={goal.id} onClick={() => toggleGoal(goal.id)} className="cursor-pointer space-y-2">
                     <div className="flex items-center justify-between text-sm">
-                      <span className={goal.completed ? "line-through text-muted-foreground" : ""}>
+                      <span className={goal.completed ? "line-through text-muted-foreground" : "text-foreground font-medium"}>
                         {goal.text}
                       </span>
                       {goal.completed && <CheckCircle2 className="size-4 text-green-500" />}
@@ -331,18 +543,18 @@ export function DashboardPage() {
               </div>
             </motion.div>
 
-            {/* Recent Activity */}
+            {/* Recent Uploaded Resumes */}
             <div className="rounded-xl border border-border bg-card p-6">
-              <h2 className="mb-4 text-xl">Recent Activity</h2>
+              <h2 className="mb-4 text-xl font-bold tracking-tight">Resume Activity</h2>
               <div className="space-y-4">
                 {resumes.length > 0 ? resumes.slice(0, 5).map((activity, index) => (
                   <div key={activity.id} className="flex items-start gap-3 border-b border-border pb-4 last:border-0 last:pb-0">
                     <div className="mt-0.5 size-2 shrink-0 rounded-full bg-green-500" />
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-medium">{activity.filename}</p>
+                      <p className="text-sm font-medium truncate">{activity.filename}</p>
                       <p className="text-xs text-muted-foreground">{new Date(activity.created_at).toLocaleDateString()}</p>
                     </div>
-                    {index === 0 && <span className="shrink-0 rounded-full bg-primary/10 px-2 py-0.5 text-xs text-primary">Latest</span>}
+                    {index === 0 && <span className="shrink-0 rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">Latest</span>}
                   </div>
                 )) : <p className="text-sm text-muted-foreground">No recent activity.</p>}
               </div>

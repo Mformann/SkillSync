@@ -1,0 +1,1 @@
+import{a as e}from"./data-client-CYtMmKb4.js";import{s}from"./index-BGR3H93R.js";const o="http://localhost:8000",r=e.create({baseURL:o,timeout:3e4});r.interceptors.request.use(async a=>{const{data:{session:t}}=await s.auth.getSession();return t!=null&&t.access_token&&(a.headers.Authorization=`Bearer ${t.access_token}`),a});export{r as a};

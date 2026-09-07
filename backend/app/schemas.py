@@ -1,28 +1,6 @@
-from datetime import datetime
-from typing import List, Optional, Any, Dict
-from pydantic import BaseModel, EmailStr
+from typing import Any, Dict, List
 
-# --- Auth Schemas ---
-class UserCreate(BaseModel):
-    name: str
-    email: EmailStr
-    password: str
-
-class UserOut(BaseModel):
-    id: int
-    name: str
-    email: EmailStr
-    created_at: datetime
-    class Config:
-        from_attributes = True
-
-class Token(BaseModel):
-    access_token: str
-    token_type: str = "bearer"
-
-class LoginRequest(BaseModel):
-    email: EmailStr
-    password: str
+from pydantic import BaseModel
 
 # --- Dashboard Schemas ---
 class DashboardSummary(BaseModel):
@@ -56,4 +34,6 @@ class RoadmapResponse(BaseModel):
 
 class ResumeUploadResponse(BaseModel):
     analysis_id: int
+    workspace_id: int
+    resume_id: int
     message: str

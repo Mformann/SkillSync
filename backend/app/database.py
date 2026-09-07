@@ -8,6 +8,8 @@ from typing import Generator
 load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./resume_analyzer.db")
+if DATABASE_URL.startswith("postgresql://"):
+    DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+psycopg://", 1)
 
 
 @as_declarative()
@@ -26,9 +28,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def init_db() -> None:
     from . import models
-    print("Creating database tables...")  # <-- Add this debug line
     Base.metadata.create_all(bind=engine)
-    print("Tables created!")              # <-- Add this debug line
 
 
 # ✅ FIXED DEPENDENCY (FASTAPI COMPATIBLE)
