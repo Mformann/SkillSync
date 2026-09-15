@@ -46,4 +46,5 @@ ENV/
 backend/test.db
 backend/phase*_verification.db
 backend/phase*_migration_test.db
+backend/resume_analyzer.db
 backend/uploads/
