@@ -445,6 +445,7 @@ export function RoadmapPage() {
             <ArrowLeft className="size-4" /> View full analysis
           </Link>
           <h1 className="text-3xl tracking-tight sm:text-4xl font-bold">Learning roadmap</h1>
+          <Link to={`/career/growth?tab=planner&workspace=${plan.workspace_id}`} className="mt-3 inline-flex min-h-11 items-center rounded-lg border border-border px-4 text-sm hover:bg-accent">Open adaptive weekly planner</Link>
           <p className="mt-2 text-muted-foreground">{plan.readiness} · Target {new Date(`${plan.target_date}T00:00:00`).toLocaleDateString()}</p>
         </div>
         <button onClick={() => setPlan(null)} className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-border px-4 text-sm hover:bg-accent">

@@ -13,7 +13,7 @@ import { api } from "../../lib/api";
 
 // --- Types ---
 interface UserProfile {
-  id: number;
+  id: string;
   email: string;
   name: string;
 }
@@ -42,8 +42,6 @@ interface GrowthSkill {
   taskId?: number;
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
-
 export function DashboardPage() {
   const navigate = useNavigate();
   
@@ -53,6 +51,8 @@ export function DashboardPage() {
   const [chartData, setChartData] = useState<any[]>([]); // For the Graph
   const [goals, setGoals] = useState<Goal[]>([]); // For Weekly Goals
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
+  const [retryCount, setRetryCount] = useState(0);
 
   // Skill Growth Tracker State
   const [targetJobRole, setTargetJobRole] = useState<string>("");
@@ -70,28 +70,31 @@ export function DashboardPage() {
 
   // --- Logic ---
   useEffect(() => {
+    let active = true;
+    const controller = new AbortController();
     const fetchData = async () => {
       try {
         setLoading(true);
+        setLoadError("");
 
         // 1. Fetch User from Supabase
         const { data: { session } } = await supabase.auth.getSession();
         if (!session) { navigate("/login"); return; }
-        const activeToken = session.access_token;
-        const { data: { user: supabaseUser } } = await supabase.auth.getUser();
+        const { data: { user: supabaseUser }, error: userError } = await supabase.auth.getUser();
+        if (!active) return;
+        if (userError) throw userError;
         
         if (supabaseUser) {
           setUser({
-            id: supabaseUser.id as any,
+            id: supabaseUser.id,
             email: supabaseUser.email || '',
             name: supabaseUser.user_metadata?.full_name || supabaseUser.email || 'User'
           });
         }
 
         // 2. Fetch Resumes
-        const resumeRes = await axios.get(`${API_BASE_URL}/resume/all`, {
-          headers: { "Authorization": `Bearer ${activeToken}` }
-        });
+        const resumeRes = await api.get("/resume/all", { signal: controller.signal });
+        if (!active) return;
         const resumeList = resumeRes.data || [];
         setResumes(resumeList);
 
@@ -124,9 +127,8 @@ export function DashboardPage() {
 
         // 4. Fetch Goals (From Gap Report)
         try {
-            const gapRes = await axios.get(`${API_BASE_URL}/resume/gap-report/latest`, {
-                headers: { "Authorization": `Bearer ${activeToken}` }
-            });
+            const gapRes = await api.get("/resume/gap-report/latest", { signal: controller.signal });
+            if (!active) return;
             
             // Transform "Critical Gaps" into "Goals"
             if (gapRes.data && gapRes.data.gapAnalysis) {
@@ -141,15 +143,17 @@ export function DashboardPage() {
                 setGoals(newGoals);
             }
         } catch {
+            if (!active) return;
             setGoals([{ id: "default", text: "Upload resume to generate goals", completed: false, progress: 0 }]);
         }
 
         // 5. Fetch Skill Growth Tracker Data (Latest Explainable Analysis & Learning Plan)
         try {
           const [explainableRes, planRes] = await Promise.allSettled([
-            api.get("/resume/analysis/latest/explainable"),
-            api.get("/learning/plans/latest")
+            api.get("/resume/analysis/latest/explainable", { signal: controller.signal }),
+            api.get("/learning/plans/latest", { signal: controller.signal })
           ]);
+          if (!active) return;
 
           const taskMap = new Map<string, { progress: number; status: string; estimatedHours: number; taskId: number }>();
           if (planRes.status === "fulfilled" && planRes.value.data?.tasks) {
@@ -206,27 +210,34 @@ export function DashboardPage() {
 
             setGrowthSkills(skillList);
           }
-        } catch (growthErr) {
-          console.error("Skill Growth Tracker Load Error:", growthErr);
+        } catch {
+          // Core resume data remains usable when optional growth data is unavailable.
         }
 
       } catch (error) {
-        console.error("Dashboard Error:", error);
+        if (!active || axios.isCancel(error)) return;
         if (axios.isAxiosError(error) && error.response?.status === 401) {
-            await supabase.auth.signOut();
-            navigate("/login");
+            setLoadError("Your session couldn't be verified by the API. Retry, or sign in again. If this continues, check the backend Supabase configuration.");
+        } else {
+            setLoadError("We couldn't load your dashboard. Check your connection and that the API is running, then retry.");
         }
       } finally {
-        setLoading(false);
+        if (active) setLoading(false);
       }
     };
 
     fetchData();
-  }, [navigate]);
+    return () => { active = false; controller.abort(); };
+  }, [navigate, retryCount]);
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    navigate("/login");
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      navigate("/login", { replace: true });
+    } catch {
+      setLoadError("We couldn't sign you out. Check your connection and try again.");
+    }
   };
 
   const toggleGoal = (id: string) => {
@@ -238,12 +249,15 @@ export function DashboardPage() {
   const quickActions = [
     { title: "Upload New Resume", description: "Analyze your latest resume", icon: Upload, to: "/upload", color: "primary" },
     { title: "View Analysis", description: "Check your skill breakdown", icon: TrendingUp, to: "/analysis", color: "cyan" },
-    { title: "Learning Roadmap", description: "Follow your personalized path", icon: BookOpen, to: "/roadmap", color: "purple" },
+    { title: "Learning Roadmap", description: "Follow your personalized path", icon: BookOpen, to: "/roadmap", color: "blue" },
   ];
 
   if (loading) return <div className="flex h-screen items-center justify-center"><Loader2 className="size-8 animate-spin text-primary" /></div>;
 
   // Empty State
+  if (loadError) {
+    return <main className="mx-auto max-w-xl px-4 py-12"><section className="rounded-2xl border border-border bg-card p-6"><h1 className="mb-3 text-2xl">Dashboard unavailable</h1><p role="alert" className="text-destructive">{loadError}</p><div className="mt-6 flex flex-wrap gap-3"><button type="button" onClick={() => setRetryCount(count => count + 1)} className="min-h-11 rounded-lg bg-primary px-4 text-primary-foreground focus-visible:ring-2 focus-visible:ring-ring">Retry</button><button type="button" onClick={handleLogout} className="min-h-11 rounded-lg border border-input px-4 hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring">Sign in again</button></div></section></main>;
+  }
   if (resumes.length === 0) {
       return (
         <div className="flex h-[80vh] flex-col items-center justify-center text-center px-4">
@@ -471,12 +485,13 @@ export function DashboardPage() {
                   <YAxis domain={[0, 100]} stroke="currentColor" opacity={0.5} />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: "hsl(var(--card))",
-                      border: "1px solid hsl(var(--border))",
+                      backgroundColor: "var(--card)",
+                      color: "var(--card-foreground)",
+                      border: "1px solid var(--border)",
                       borderRadius: "0.5rem",
                     }}
                   />
-                  <Line type="monotone" dataKey="score" stroke="#6366f1" strokeWidth={3} dot={{ fill: "#6366f1", r: 4 }} activeDot={{ r: 6 }} />
+                  <Line type="monotone" dataKey="score" stroke="var(--primary)" strokeWidth={3} dot={{ fill: "var(--primary)", r: 4 }} activeDot={{ r: 6 }} />
                 </LineChart>
               </ResponsiveContainer>
             </motion.div>

@@ -1,0 +1,9 @@
+backend/
+graphify-out/
+design-system/
+frontend/dist/
+frontend/node_modules/
+*.png
+CAREER_GROWTH.md
+DEPLOYMENT.md
+PROJECT_AUDIT.md

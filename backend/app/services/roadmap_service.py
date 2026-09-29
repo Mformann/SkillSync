@@ -277,16 +277,12 @@ def build_plan_tasks(
 
     # Dependency-sensitive ordering: fewer prerequisites first, then job impact.
     candidates.sort(key=lambda item: (len(item["prerequisites"]), -item["priority_score"]))
-    available_days = max(1, (target_date - start).days)
-    total_hours = sum(item["estimated_hours"] for item in candidates)
-    capacity = max(hours_per_week, .5) * max(available_days / 7, 1 / 7)
-    compression = min(1.0, capacity / total_hours) if total_hours else 1.0
     cumulative_hours = 0.0
     for index, item in enumerate(candidates, start=1):
-        cumulative_hours += item["estimated_hours"] * compression
+        cumulative_hours += item["estimated_hours"]
         days_needed = math.ceil((cumulative_hours / max(hours_per_week, .5)) * 7)
         item["order_index"] = index
-        item["due_date"] = min(target_date, start + timedelta(days=max(1, days_needed)))
+        item["due_date"] = start + timedelta(days=max(1, days_needed))
     return candidates
 
 
@@ -301,6 +297,8 @@ def readiness_label(tasks: list[Any], target_date: date) -> str:
     overdue = sum(1 for task in tasks if task.due_date < date.today() and task.progress < 100)
     if progress >= 80:
         return "Apply now"
+    if any(task.due_date > target_date and task.progress < 100 for task in tasks):
+        return "Deadline exceeds capacity"
     if overdue:
         return "Schedule at risk"
     if (target_date - date.today()).days <= 14:

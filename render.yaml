@@ -1,0 +1,50 @@
+services:
+  - type: web
+    name: skillsync-api
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: backend/Dockerfile
+    dockerContext: backend
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+    buildFilter:
+      paths:
+        - backend/**
+        - render.yaml
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: skillsync-postgres
+          property: connectionString
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_PUBLISHABLE_KEY
+        sync: false
+      - key: SUPABASE_JWT_AUDIENCE
+        value: authenticated
+      - key: CORS_ORIGINS
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: openai/gpt-oss-20b
+      - key: AI_DAILY_ANALYSIS_LIMIT
+        value: "5"
+      - key: MAX_REQUEST_BYTES
+        value: "12582912"
+      - key: ENABLE_API_DOCS
+        value: "false"
+      - key: WEB_CONCURRENCY
+        value: "1"
+
+databases:
+  - name: skillsync-postgres
+    databaseName: skillsync
+    user: skillsync
+    plan: free
+    region: oregon
+    postgresMajorVersion: "16"
+    ipAllowList: []

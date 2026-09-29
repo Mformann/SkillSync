@@ -150,5 +150,7 @@ def delete_workspace(
     current_user: AuthenticatedUser = Depends(get_current_user),
 ):
     workspace = get_owned_workspace(workspace_id, current_user, db)
+    from .growth import delete_workspace_growth_data
+    delete_workspace_growth_data(db, current_user.id, workspace.id)
     db.delete(workspace)
     db.commit()

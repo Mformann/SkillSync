@@ -89,6 +89,7 @@ export function WorkspacesPage() {
       )}
 
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <Link to="/career/growth?tab=jobs" className="flex min-h-44 flex-col justify-center gap-3 rounded-2xl border border-dashed border-primary/40 bg-primary/5 p-6 hover:bg-primary/10"><Plus className="size-6 text-primary" /><span className="text-lg font-medium">Import a job link</span><span className="text-sm text-muted-foreground">Preview and save Greenhouse or Lever jobs, or capture another listing manually.</span></Link>
         {workspaces.map((workspace) => (
           <article key={workspace.id} className="flex flex-col rounded-2xl border border-border bg-card p-6 shadow-sm">
             <div className="flex items-start justify-between gap-4">

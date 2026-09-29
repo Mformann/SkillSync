@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from .. import models
-from ..auth_utils import get_current_user
+from ..auth_utils import AuthenticatedUser, get_current_user
 from ..database import get_session
 from ..schemas import DashboardSummary
 from ..services.analysis_service import build_dashboard_summary, extract_skills
@@ -13,7 +13,7 @@ router = APIRouter()
 @router.get("/summary", response_model=DashboardSummary)
 def get_dashboard_summary(
   db: Session = Depends(get_session),
-  current_user: models.User = Depends(get_current_user),
+  current_user: AuthenticatedUser = Depends(get_current_user),
 ):
   """
   Returns a summary based on the most recent analysis for the user,

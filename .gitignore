@@ -48,3 +48,9 @@ backend/phase*_verification.db
 backend/phase*_migration_test.db
 backend/resume_analyzer.db
 backend/uploads/
+.verification-dist/
+frontend/test-results/
+frontend/playwright-report/
+
+.vercel
+.env*

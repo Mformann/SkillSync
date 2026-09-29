@@ -57,7 +57,7 @@ def readiness_summary(analysis, plan, evidence_count: int, sessions: list, has_r
     practice_scores = [
         value.get("overall", 0)
         for session in sessions for value in (session.scores or {}).values()
-        if isinstance(value, dict)
+        if isinstance(value, dict) and type(value.get("overall")) in (int, float)
     ]
     interview = round(sum(practice_scores) / len(practice_scores)) if practice_scores else 0
     materials = 100 if has_resume else 0

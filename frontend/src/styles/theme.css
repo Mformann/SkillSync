@@ -1,44 +1,58 @@
 @custom-variant dark (&:is(.dark *));
 
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 :root {
+  color-scheme: light;
   --font-size: 16px;
-  --background: #fafbfc;
+  --background: #f8fbff;
   --foreground: #0f172a;
   --card: #ffffff;
   --card-foreground: #0f172a;
   --popover: #ffffff;
   --popover-foreground: #0f172a;
-  --primary: #6366f1;
+  --primary: #2563eb;
   --primary-foreground: #ffffff;
-  --secondary: #f1f5f9;
-  --secondary-foreground: #0f172a;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --accent: #f1f5f9;
+  --secondary: #eaf4ff;
+  --secondary-foreground: #123a63;
+  --muted: #eff6fb;
+  --muted-foreground: #475569;
+  --accent: #dff5fb;
   --accent-foreground: #0f172a;
-  --destructive: #ef4444;
+  --destructive: #b91c1c;
   --destructive-foreground: #ffffff;
-  --border: #e2e8f0;
-  --input: #e2e8f0;
+  --border: #dceaf7;
+  --input: #64748b;
   --input-background: #ffffff;
   --switch-background: #cbd5e1;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: #6366f1;
-  --chart-1: #6366f1;
-  --chart-2: #8b5cf6;
-  --chart-3: #06b6d4;
+  --ring: #2563eb;
+  --chart-1: #2563eb;
+  --chart-2: #0891b2;
+  --chart-3: #0ea5e9;
   --chart-4: #10b981;
   --chart-5: #f59e0b;
   --radius: 0.75rem;
   --sidebar: #ffffff;
   --sidebar-foreground: #0f172a;
-  --sidebar-primary: #6366f1;
+  --sidebar-primary: #2563eb;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f1f5f9;
+  --sidebar-accent: #eaf4ff;
   --sidebar-accent-foreground: #0f172a;
-  --sidebar-border: #e2e8f0;
-  --sidebar-ring: #6366f1;
+  --sidebar-border: #dceaf7;
+  --sidebar-ring: #2563eb;
+  --marketing-accent: #0891b2;
+  --marketing-accent-foreground: #ffffff;
+  --marketing-surface: #eff8ff;
+  --marketing-strong: #0b3b75;
 }
 
 @media print {
@@ -54,40 +68,47 @@
 }
 
 .dark {
-  --background: #0f172a;
+  color-scheme: dark;
+  --background: #07121f;
   --foreground: #f1f5f9;
-  --card: #1e293b;
+  --card: #0d1d2e;
   --card-foreground: #f1f5f9;
-  --popover: #1e293b;
+  --popover: #0d1d2e;
   --popover-foreground: #f1f5f9;
-  --primary: #818cf8;
-  --primary-foreground: #0f172a;
-  --secondary: #1e293b;
-  --secondary-foreground: #f1f5f9;
-  --muted: #334155;
-  --muted-foreground: #94a3b8;
-  --accent: #334155;
+  --primary: #60a5fa;
+  --primary-foreground: #071525;
+  --secondary: #112a43;
+  --secondary-foreground: #dbeafe;
+  --muted: #162c42;
+  --muted-foreground: #aac0d6;
+  --accent: #153653;
   --accent-foreground: #f1f5f9;
-  --destructive: #ef4444;
-  --destructive-foreground: #f1f5f9;
-  --border: #334155;
-  --input: #334155;
-  --ring: #818cf8;
+  --destructive: #fca5a5;
+  --destructive-foreground: #450a0a;
+  --border: #24425e;
+  --input: #64748b;
+  --input-background: #0f172a;
+  --switch-background: #475569;
+  --ring: #60a5fa;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --chart-1: #818cf8;
-  --chart-2: #a78bfa;
-  --chart-3: #22d3ee;
+  --chart-1: #60a5fa;
+  --chart-2: #22d3ee;
+  --chart-3: #38bdf8;
   --chart-4: #34d399;
   --chart-5: #fbbf24;
-  --sidebar: #1e293b;
+  --sidebar: #0d1d2e;
   --sidebar-foreground: #f1f5f9;
-  --sidebar-primary: #818cf8;
-  --sidebar-primary-foreground: #0f172a;
-  --sidebar-accent: #334155;
+  --sidebar-primary: #60a5fa;
+  --sidebar-primary-foreground: #071525;
+  --sidebar-accent: #112a43;
   --sidebar-accent-foreground: #f1f5f9;
-  --sidebar-border: #334155;
-  --sidebar-ring: #818cf8;
+  --sidebar-border: #24425e;
+  --sidebar-ring: #60a5fa;
+  --marketing-accent: #22d3ee;
+  --marketing-accent-foreground: #073344;
+  --marketing-surface: #102840;
+  --marketing-strong: #082b55;
 }
 
 @theme inline {
@@ -129,6 +150,10 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-marketing-accent: var(--marketing-accent);
+  --color-marketing-accent-foreground: var(--marketing-accent-foreground);
+  --color-marketing-surface: var(--marketing-surface);
+  --color-marketing-strong: var(--marketing-strong);
 }
 
 @layer base {
@@ -143,6 +168,16 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  input, textarea, select {
+    color: var(--foreground);
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: var(--muted-foreground);
+    opacity: 1;
   }
 
   /**

@@ -1,11 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
-import { motion } from "motion/react";
-import { Mail, Lock, User, ArrowRight, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
+import { Mail, User, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { supabase } from "../../lib/supabase";
+import { PasswordInput } from "./password-input";
+import { AuthFeedback } from "./auth-feedback";
+import { authErrorMessage } from "../../lib/auth-navigation";
 
 export function SignupPage() {
   const navigate = useNavigate();
+  const reduceMotion = useReducedMotion();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,6 +17,7 @@ export function SignupPage() {
   // New state for API handling
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [confirmationSent, setConfirmationSent] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,24 +27,23 @@ export function SignupPage() {
     try {
       // 1. Send data to Supabase
       const { data, error: signUpError } = await supabase.auth.signUp({
-        email,
+        email: email.trim(),
         password,
         options: {
+          emailRedirectTo: `${window.location.origin}/login`,
           data: {
-            full_name: name,
+            full_name: name.trim(),
           }
         }
       });
 
       if (signUpError) throw signUpError;
 
-      // 2. Success! Redirect to Login
-      // Optional: You could show a toast notification here
-      console.log("Signup successful:", data);
-      navigate("/login");
+      if (data.session) navigate("/dashboard", { replace: true });
+      else setConfirmationSent(true);
 
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(authErrorMessage(err, "We couldn't create your account. Please try again."));
     } finally {
       setIsLoading(false);
     }
@@ -53,11 +57,11 @@ export function SignupPage() {
   ];
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12">
+    <div className="flex min-h-[calc(100dvh-4rem)] items-center justify-center overflow-x-clip px-4 py-12">
       <div className="grid w-full max-w-5xl gap-8 lg:grid-cols-2 lg:gap-12">
         {/* Left side - Benefits */}
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
+          initial={reduceMotion ? false : { opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
           className="hidden flex-col justify-center lg:flex"
@@ -71,7 +75,7 @@ export function SignupPage() {
             {benefits.map((benefit, index) => (
               <motion.div
                 key={benefit}
-                initial={{ opacity: 0, x: -20 }}
+                initial={reduceMotion ? false : { opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.1 + index * 0.05, duration: 0.5 }}
                 className="flex items-start gap-3"
@@ -87,10 +91,10 @@ export function SignupPage() {
 
         {/* Right side - Form */}
         <motion.div
-          initial={{ opacity: 0, x: 20 }}
+          initial={reduceMotion ? false : { opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex flex-col justify-center"
+          className="flex min-w-0 flex-col justify-center"
         >
           <div className="mb-8 text-center lg:text-left">
             <h1 className="mb-2 text-3xl tracking-tight">Create your account</h1>
@@ -99,15 +103,10 @@ export function SignupPage() {
 
           <div className="rounded-2xl border border-border bg-card p-8 shadow-lg">
             
-            {/* Error Message Display */}
-            {error && (
-              <div className="mb-4 flex items-center gap-2 rounded-lg bg-red-500/10 p-3 text-sm text-red-500">
-                <AlertCircle className="size-4" />
-                <span>{error}</span>
-              </div>
-            )}
+            <AuthFeedback message={error} error />
+            <AuthFeedback message={confirmationSent ? "Check your inbox for a confirmation link. If confirmation is required for this email, confirm it before signing in. Check your spam folder too." : ""} />
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            {!confirmationSent && <form onSubmit={handleSubmit} className="space-y-5">
               <div>
                 <label htmlFor="name" className="mb-2 block text-sm">
                   Full Name
@@ -117,6 +116,8 @@ export function SignupPage() {
                   <input
                     id="name"
                     type="text"
+                    name="name"
+                    autoComplete="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="w-full rounded-lg border border-input bg-input-background py-3 pl-11 pr-4 transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
@@ -136,6 +137,8 @@ export function SignupPage() {
                   <input
                     id="email"
                     type="email"
+                    name="email"
+                    autoComplete="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full rounded-lg border border-input bg-input-background py-3 pl-11 pr-4 transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
@@ -150,21 +153,8 @@ export function SignupPage() {
                 <label htmlFor="password" className="mb-2 block text-sm">
                   Password
                 </label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-muted-foreground" />
-                  <input
-                    id="password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full rounded-lg border border-input bg-input-background py-3 pl-11 pr-4 transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                    placeholder="••••••••"
-                    required
-                    minLength={8}
-                    disabled={isLoading}
-                  />
-                </div>
-                <p className="mt-2 text-xs text-muted-foreground">Must be at least 8 characters</p>
+                <PasswordInput id="password" name="password" autoComplete="new-password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={8} disabled={isLoading} aria-describedby="signup-password-help" />
+                <p id="signup-password-help" className="mt-2 text-xs text-muted-foreground">Must be at least 8 characters</p>
               </div>
 
               <button
@@ -184,7 +174,7 @@ export function SignupPage() {
                     </>
                 )}
               </button>
-            </form>
+            </form>}
 
             <div className="mt-6 text-center">
               <p className="text-sm text-muted-foreground">

@@ -3,7 +3,7 @@ import { AlertTriangle, CheckCircle2, Clock, Loader2, TrendingUp, XCircle } from
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { supabase } from "../../lib/supabase";
+import { api } from "../../lib/api";
 
 // ✅ Correct Type for Gap Report
 type GapReportData = {
@@ -16,8 +16,6 @@ type GapReportData = {
   targetRoles?: { title: string; matchScore: number; missingSkills: string[]; timeToReady: string }[];
 };
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
-
 export function GapReportPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -26,32 +24,31 @@ export function GapReportPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    let active = true;
+    const controller = new AbortController();
     const fetchGapReport = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      const token = session?.access_token || localStorage.getItem("token");
-      if (!token) { navigate("/login"); return; }
-      
       try {
         setLoading(true);
+        setError("");
         const endpoint = id 
-          ? `${API_BASE_URL}/resume/gap-report/${id}` 
-          : `${API_BASE_URL}/resume/gap-report/latest`;
+          ? `/resume/gap-report/${id}`
+          : `/resume/gap-report/latest`;
 
-        const response = await axios.get<GapReportData>(endpoint, {
-          headers: { "Authorization": `Bearer ${token}` }
-        });
-        
-        setData(response.data);
-      } catch (err: any) {
-        console.error("Gap Report Fetch Error:", err);
-        setError("Failed to load gap report. Please upload a resume first.");
+        const response = await api.get<GapReportData>(endpoint, { signal: controller.signal });
+        if (active) setData(response.data);
+      } catch (err: unknown) {
+        if (!active || axios.isCancel(err)) return;
+        setError(axios.isAxiosError(err) && err.response?.status === 404
+          ? "No gap report is available yet. Please upload a resume first."
+          : "We couldn't load the gap report. Please try again or check your connection.");
       } finally {
-        setLoading(false);
+        if (active) setLoading(false);
       }
     };
 
-    fetchGapReport();
-  }, [id, navigate]);
+    void fetchGapReport();
+    return () => { active = false; controller.abort(); };
+  }, [id]);
 
   if (loading) return (
     <div className="flex h-[80vh] items-center justify-center">
@@ -106,7 +103,7 @@ export function GapReportPage() {
                   <CartesianGrid strokeDasharray="3 3" opacity={0.1} />
                   <XAxis type="number" domain={[0, 100]} hide />
                   <YAxis dataKey="skill" type="category" width={100} />
-                  <Tooltip cursor={{ fill: 'transparent' }} contentStyle={{ borderRadius: '8px' }} />
+                  <Tooltip cursor={{ fill: 'transparent' }} contentStyle={{ borderRadius: '8px', backgroundColor: 'var(--card)', color: 'var(--card-foreground)', borderColor: 'var(--border)' }} />
                   <Bar dataKey="current" name="Current Level" stackId="a" fill="#94a3b8" radius={[4, 0, 0, 4]} />
                   <Bar dataKey="target" name="Target Level" stackId="a" fill="#ef4444" radius={[0, 4, 4, 0]} />
                 </BarChart>

@@ -1,16 +1,16 @@
-import os
 from logging.config import fileConfig
 
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
-from app.database import Base
+from app.database import Base, DATABASE_URL
 from app import models  # noqa: F401
+from app import growth_models  # noqa: F401
 
 config = context.config
 if config.config_file_name:
     fileConfig(config.config_file_name)
-database_url = os.getenv("DATABASE_URL", config.get_main_option("sqlalchemy.url"))
+database_url = DATABASE_URL
 # Alembic stores this value in ConfigParser, where percent signs otherwise
 # trigger interpolation (including percent-encoded database passwords).
 config.set_main_option("sqlalchemy.url", database_url.replace("%", "%%"))

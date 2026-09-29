@@ -10,8 +10,8 @@ import {
   X,
 } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
-import { useRef, useState, type ChangeEvent, type DragEvent, type FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState, type ChangeEvent, type DragEvent, type FormEvent } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { api } from "../../lib/api";
 
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
@@ -22,6 +22,8 @@ const VALID_TYPES = [
 
 export function UploadPage() {
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const workspaceId = params.get("workspace");
   const reduceMotion = useReducedMotion();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
@@ -33,6 +35,20 @@ export function UploadPage() {
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState("");
+  const [workspaceLoading, setWorkspaceLoading] = useState(Boolean(workspaceId));
+  const [workspaceReady, setWorkspaceReady] = useState(!workspaceId);
+  useEffect(() => {
+    const controller = new AbortController();
+    setWorkspaceLoading(Boolean(workspaceId)); setWorkspaceReady(!workspaceId);
+    if (!workspaceId) return () => controller.abort();
+    api.get(`/workspaces/${encodeURIComponent(workspaceId)}`, { signal: controller.signal }).then(response => {
+      if (controller.signal.aborted) return;
+      setTitle(response.data.title); setCompany(response.data.company || ""); setDescription(response.data.description);
+      setAiConsent(response.data.ai_consent); setWorkspaceReady(true);
+    }).catch(() => { if (!controller.signal.aborted) setError("Could not load this saved job. Return to Target Jobs and choose it again."); })
+      .finally(() => { if (!controller.signal.aborted) setWorkspaceLoading(false); });
+    return () => controller.abort();
+  }, [workspaceId]);
 
   const validateFile = (selectedFile: File) => {
     setError("");
@@ -50,6 +66,7 @@ export function UploadPage() {
 
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
+    if (workspaceLoading || !workspaceReady) return;
     setDragActive(false);
     const selectedFile = event.dataTransfer.files[0];
     if (selectedFile) validateFile(selectedFile);
@@ -84,10 +101,12 @@ export function UploadPage() {
     formData.append("company", company.trim());
     formData.append("job_description", description.trim());
     formData.append("ai_consent", String(aiConsent));
+    if (workspaceId) formData.append("workspace_id", workspaceId);
 
     try {
       setUploading(true);
       setProgress(0);
+      if (workspaceId) await api.patch(`/workspaces/${encodeURIComponent(workspaceId)}`, { title: title.trim(), company: company.trim(), description: description.trim(), ai_consent: aiConsent });
       const response = await api.post("/resume/upload", formData, {
         onUploadProgress: (event) => {
           if (event.total) setProgress(Math.round((event.loaded * 100) / event.total));
@@ -116,6 +135,7 @@ export function UploadPage() {
         <div className="mb-8 max-w-3xl">
           <p className="mb-2 text-sm font-medium text-primary">New target workspace</p>
           <h1 className="text-3xl tracking-tight sm:text-4xl">Match your resume to a real opportunity</h1>
+          {workspaceId && <p role="status" className="mt-3 text-sm text-muted-foreground">{workspaceLoading ? "Loading saved job…" : workspaceReady ? "Using your saved target-job workspace. No duplicate job will be created." : "Saved job could not be loaded."}</p>}
           <p className="mt-3 text-muted-foreground">
             Add the job description and the resume you plan to use. SkillSync will
             verify resume evidence and calculate an explainable match.
@@ -282,11 +302,11 @@ export function UploadPage() {
 
             <button
               type="submit"
-              disabled={uploading}
+              disabled={uploading || workspaceLoading || !workspaceReady}
               className="mt-6 flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-primary px-5 text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {uploading && <Loader2 className="size-4 animate-spin" aria-hidden="true" />}
-              {uploading ? "Creating workspace…" : "Create workspace"}
+              {uploading ? "Saving resume…" : workspaceId ? "Upload resume to saved job" : "Create workspace"}
             </button>
 
             <p className="mt-4 text-center text-xs leading-relaxed text-muted-foreground">

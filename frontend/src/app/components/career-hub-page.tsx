@@ -12,7 +12,7 @@ type Readiness = { overall: number; components: Record<string, number>; next_bes
 type WorkspaceSummary = { workspace_id: number; title: string; company: string | null; analysis_id: number | null; application: Application | null; readiness: Readiness | null };
 type Evidence = { id: number; title: string; evidence_type: string; url: string | null; description: string; skills: string[]; verified: boolean };
 type Question = { id: string; requirement: string; status: string; question: string; focus: string };
-type Score = { overall: number; specificity: number; structure: number; evidence: number; feedback: string[] };
+type Score = { overall?: number | null; mode?: string; specificity?: number; structure?: number; evidence?: number; feedback: string[] };
 type Session = { id: number; questions: Question[]; answers: Record<string, string>; scores: Record<string, Score>; status: string };
 type Detail = WorkspaceSummary & { evidence: Evidence[]; sessions: Session[] };
 type Analytics = { unique_applications: number; screening_rate: number; interview_rate: number; offer_rate: number; note: string };
@@ -114,6 +114,7 @@ export function CareerHubPage() {
         <p className="mt-2 max-w-3xl text-muted-foreground">Track each opportunity, collect verifiable proof, and rehearse answers grounded in the same job analysis.</p>
         <div className="mt-5 flex flex-wrap gap-3">
           <Link to="/career/vault" className="inline-flex min-h-11 items-center gap-2 rounded-lg border bg-card px-4 hover:bg-accent"><FolderCheck className="size-4" /> Career Vault</Link>
+          <Link to={`/career/growth?workspace=${selectedId || ""}`} className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-primary px-4 text-primary-foreground hover:bg-primary/90"><Target className="size-4" /> Career Growth tools</Link>
           <Link to="/privacy" className="inline-flex min-h-11 items-center gap-2 rounded-lg border bg-card px-4 hover:bg-accent"><ShieldCheck className="size-4" /> Privacy controls</Link>
         </div>
       </header>
@@ -172,6 +173,6 @@ function PracticeSession({ session, busy, onSave }: { session: Session; busy: st
   useEffect(() => setDrafts(session.answers), [session]);
   return <div className="mt-6 space-y-4">{session.questions.map((question, index) => {
     const score = session.scores[question.id];
-    return <article key={question.id} className="rounded-xl border p-4"><p className="text-xs font-medium uppercase tracking-wide text-primary">Question {index + 1} · {question.requirement}</p><h3 className="mt-2">{question.question}</h3><p className="mt-2 text-sm text-muted-foreground">{question.focus}</p><label className="mt-4 block text-sm">Your answer<textarea className={`${field} mt-1 min-h-32 py-3`} value={drafts[question.id] || ""} onChange={(event) => setDrafts({ ...drafts, [question.id]: event.target.value })} /></label><div className="mt-3 flex flex-wrap items-center justify-between gap-3"><button onClick={() => onSave(session.id, question.id, drafts[question.id] || "")} disabled={busy === question.id} className="inline-flex min-h-11 items-center gap-2 rounded-lg border px-4 hover:bg-accent disabled:opacity-50">{busy === question.id ? <Loader2 className="size-4 animate-spin" /> : <CheckCircle2 className="size-4" />} Review answer</button>{score && <span className="text-sm font-medium">Practice score: {score.overall}%</span>}</div>{score && <ul className="mt-3 rounded-lg bg-muted/60 p-3 text-sm text-muted-foreground">{score.feedback.map((item) => <li key={item}>• {item}</li>)}</ul>}</article>;
+    return <article key={question.id} className="rounded-xl border p-4"><p className="text-xs font-medium uppercase tracking-wide text-primary">Question {index + 1} · {question.requirement}</p><h3 className="mt-2">{question.question}</h3><p className="mt-2 text-sm text-muted-foreground">{question.focus}</p><label className="mt-4 block text-sm">Your answer<textarea className={`${field} mt-1 min-h-32 py-3`} value={drafts[question.id] || ""} onChange={(event) => setDrafts({ ...drafts, [question.id]: event.target.value })} /></label><div className="mt-3 flex flex-wrap items-center justify-between gap-3"><button onClick={() => onSave(session.id, question.id, drafts[question.id] || "")} disabled={busy === question.id} className="inline-flex min-h-11 items-center gap-2 rounded-lg border px-4 hover:bg-accent disabled:opacity-50">{busy === question.id ? <Loader2 className="size-4 animate-spin" /> : <CheckCircle2 className="size-4" />} Review answer</button>{score && <span className="text-sm font-medium">{typeof score.overall === "number" ? `${score.mode === "ai_coaching" ? "AI coaching estimate" : "Structure practice score"}: ${score.overall}%` : "Guided practice · no semantic score"}</span>}</div>{score && <ul className="mt-3 rounded-lg bg-muted/60 p-3 text-sm text-muted-foreground">{score.feedback.map((item) => <li key={item}>• {item}</li>)}</ul>}</article>;
   })}</div>;
 }

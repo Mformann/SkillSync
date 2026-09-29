@@ -2,9 +2,10 @@ from datetime import date, datetime, timedelta, timezone
 
 import pytest
 from fastapi import HTTPException
-from jose import jwt
+import httpx
+import jwt
 
-from app.auth_utils import get_current_user
+from app.auth_utils import verify_access_token
 from app.services.analysis_service import extract_skills
 from app.services.ai_analysis_service import (
     AIAnalysis,
@@ -26,24 +27,28 @@ def test_extract_skills_is_case_insensitive() -> None:
 
 
 def test_supabase_token_identity(monkeypatch: pytest.MonkeyPatch) -> None:
-    secret = "test-secret-that-is-long-enough"
-    monkeypatch.setenv("SUPABASE_JWT_SECRET", secret)
+    secret = "test-secret-that-is-at-least-32-bytes-long"
+    monkeypatch.setenv("SUPABASE_URL", "https://audit-project.supabase.co")
+    monkeypatch.setenv("SUPABASE_PUBLISHABLE_KEY", "sb_publishable_test")
+    monkeypatch.delenv("SUPABASE_JWT_ISSUER", raising=False)
+    monkeypatch.setattr("app.auth_utils.httpx.get", lambda *args, **kwargs: httpx.Response(200, json={"id": "user-123"}))
     payload = {
         "sub": "user-123",
         "email": "candidate@example.com",
         "aud": "authenticated",
+        "iss": "https://audit-project.supabase.co/auth/v1",
         "exp": datetime.now(timezone.utc) + timedelta(minutes=5),
     }
     token = jwt.encode(payload, secret, algorithm="HS256")
-    user = get_current_user(token)
+    user = verify_access_token(token)
     assert user.id == "user-123"
     assert user.email == "candidate@example.com"
 
 
 def test_invalid_token_is_rejected(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setenv("SUPABASE_JWT_SECRET", "expected-secret")
+    monkeypatch.setenv("SUPABASE_URL", "https://audit-project.supabase.co")
     with pytest.raises(HTTPException) as error:
-        get_current_user("not-a-token")
+        verify_access_token("not-a-token")
     assert error.value.status_code == 401
 
 

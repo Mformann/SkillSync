@@ -191,10 +191,12 @@ def outcome_analytics(db: Session = Depends(get_session), current_user: Authenti
 
 @router.get("/privacy/export")
 def export_user_data(db: Session = Depends(get_session), current_user: AuthenticatedUser = Depends(get_current_user)):
+    from .growth import export_growth_data
     workspaces = db.query(models.TargetJob).filter(models.TargetJob.user_id == current_user.id).all()
     profile = db.query(models.CareerProfile).filter(models.CareerProfile.user_id == current_user.id).first()
     return {
         "exported_at": datetime.now(timezone.utc), "user_id": current_user.id,
+        "career_growth": export_growth_data(db, current_user.id),
         "career_profile": _profile_out(profile) if profile else None,
         "target_jobs": [{
             "id": item.id, "title": item.title, "company": item.company, "description": item.description,
@@ -256,6 +258,8 @@ def delete_app_data(payload: DeleteConfirmation, db: Session = Depends(get_sessi
     if payload.confirmation != "DELETE MY SKILLSYNC DATA":
         raise HTTPException(status_code=422, detail="Confirmation phrase does not match.")
     user_id = current_user.id
+    from .growth import delete_growth_data
+    delete_growth_data(db, user_id)
     plan_ids = [row.id for row in db.query(models.LearningPlan.id).filter(models.LearningPlan.user_id == user_id)]
     if plan_ids:
         db.query(models.LearningTask).filter(models.LearningTask.plan_id.in_(plan_ids)).delete(synchronize_session=False)
