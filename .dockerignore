@@ -1,0 +1,38 @@
+# Only the backend source is needed — exclude everything else.
+
+# Frontend (not needed in backend image)
+frontend/
+
+# Design assets
+design-system/
+guidelines/
+graphify-out/
+
+# Secrets and local env files
+.env
+.env*
+**/.env
+**/.env*
+
+# Python caches
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/.pytest_cache
+
+# Virtual environments
+**/.venv
+**/venv
+
+# SQLite dev databases
+backend/*.db
+
+# Test artefacts and uploads
+backend/tests/
+backend/uploads/
+
+# CI / tooling
+.git/
+.github/
+.vercel/
+*.md

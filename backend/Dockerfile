@@ -11,12 +11,12 @@ WORKDIR /app
 RUN groupadd --system skillsync \
     && useradd --system --gid skillsync --create-home skillsync
 
-COPY requirements.txt ./
+COPY backend/requirements.txt ./
 RUN python -m pip install --no-cache-dir -r requirements.txt
 
-COPY --chown=skillsync:skillsync alembic.ini ./
-COPY --chown=skillsync:skillsync alembic ./alembic
-COPY --chown=skillsync:skillsync app ./app
+COPY --chown=skillsync:skillsync backend/alembic.ini ./
+COPY --chown=skillsync:skillsync backend/alembic ./alembic
+COPY --chown=skillsync:skillsync backend/app ./app
 
 USER skillsync
 EXPOSE 8000

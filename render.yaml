@@ -5,7 +5,7 @@ services:
     plan: free
     region: oregon
     dockerfilePath: backend/Dockerfile
-    dockerContext: backend
+    dockerContext: .
     healthCheckPath: /health
     autoDeployTrigger: commit
     buildFilter:
