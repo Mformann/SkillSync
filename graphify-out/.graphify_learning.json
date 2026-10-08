@@ -1,0 +1,238 @@
+{
+  "generated_at": "2026-09-21T10:08:08.596362+00:00",
+  "nodes": {
+    "backend_requirements_dependencies": {
+      "code_fingerprint": "eaa16cc5a7562ee97374c47ac7599397eaf91ca64cf66b119bc0fc0d6523b933",
+      "label": "Backend Dependency Manifest",
+      "last": "2026-09-21T08:19:02.281130+00:00",
+      "provenance": [
+        {
+          "date": "2026-09-21T08:19:02.281130+00:00",
+          "outcome": "useful",
+          "q": "check the status of the project cause it is not working"
+        }
+      ],
+      "score": 0.99825093,
+      "source_file": "backend/requirements.txt",
+      "status": "tentative",
+      "uses": 1
+    },
+    "backend_tests_test_phase_one": {
+      "code_fingerprint": "22542a159b6d3cec6c059b6179d500ea8584f6b7aa164fb0f73a9068a1700f2b",
+      "label": "test_phase_one.py",
+      "last": "2026-09-21T08:19:02.281130+00:00",
+      "provenance": [
+        {
+          "date": "2026-09-21T08:19:02.281130+00:00",
+          "outcome": "useful",
+          "q": "check the status of the project cause it is not working"
+        }
+      ],
+      "score": 0.99825093,
+      "source_file": "backend/tests/test_phase_one.py",
+      "status": "tentative",
+      "uses": 1
+    },
+    "frontend_index_main_tsx": {
+      "code_fingerprint": "86d4d744f282ba41f7fd43870c0516024af4a726fc8031953f4ba0aaa8ace62e",
+      "label": "Frontend main.tsx Module Entry",
+      "last": "2026-09-21T09:52:17.917953+00:00",
+      "provenance": [
+        {
+          "date": "2026-09-21T09:52:17.917953+00:00",
+          "outcome": "useful",
+          "q": "use this image for logo and icon purpose"
+        },
+        {
+          "date": "2026-09-21T08:19:02.281130+00:00",
+          "outcome": "useful",
+          "q": "check the status of the project cause it is not working"
+        }
+      ],
+      "score": 1.997996733,
+      "source_file": "frontend/index.html",
+      "status": "preferred",
+      "uses": 2
+    },
+    "frontend_package_dependencies": {
+      "code_fingerprint": "41d367012064076a7c4b7f36b0c373aee422ce4d46e1b27c72ab2391698cbf28",
+      "label": "dependencies",
+      "last": "2026-09-21T08:19:02.281130+00:00",
+      "provenance": [
+        {
+          "date": "2026-09-21T08:19:02.281130+00:00",
+          "outcome": "useful",
+          "q": "check the status of the project cause it is not working"
+        }
+      ],
+      "score": 0.99825093,
+      "source_file": "frontend/package.json",
+      "status": "tentative",
+      "uses": 1
+    },
+    "frontend_package_scripts_build": {
+      "code_fingerprint": "41d367012064076a7c4b7f36b0c373aee422ce4d46e1b27c72ab2391698cbf28",
+      "label": "build",
+      "last": "2026-09-21T08:19:02.281130+00:00",
+      "provenance": [
+        {
+          "date": "2026-09-21T08:19:02.281130+00:00",
+          "outcome": "useful",
+          "q": "check the status of the project cause it is not working"
+        }
+      ],
+      "score": 0.99825093,
+      "source_file": "frontend/package.json",
+      "status": "tentative",
+      "uses": 1
+    },
+    "frontend_src_app_app": {
+      "code_fingerprint": "f9f6b5a6609fd430ed2a077a387d6fd5a70e5dc5c24fe98b9334da07a3f7d9b0",
+      "label": "App.tsx",
+      "last": "2026-09-21T09:38:19.847343+00:00",
+      "provenance": [
+        {
+          "date": "2026-09-21T09:38:19.847343+00:00",
+          "outcome": "useful",
+          "q": "add privacy policy and toc"
+        },
+        {
+          "date": "2026-09-21T09:02:02.071426+00:00",
+          "outcome": "useful",
+          "q": "complete the landing page, and improve UI and colours"
+        }
+      ],
+      "score": 1.998461614,
+      "source_file": "frontend/src/app/App.tsx",
+      "status": "preferred",
+      "uses": 2
+    },
+    "frontend_src_app_app_app": {
+      "code_fingerprint": "f9f6b5a6609fd430ed2a077a387d6fd5a70e5dc5c24fe98b9334da07a3f7d9b0",
+      "label": "App()",
+      "last": "2026-09-21T08:19:02.281130+00:00",
+      "provenance": [
+        {
+          "date": "2026-09-21T08:19:02.281130+00:00",
+          "outcome": "useful",
+          "q": "check the status of the project cause it is not working"
+        }
+      ],
+      "score": 0.99825093,
+      "source_file": "frontend/src/app/App.tsx",
+      "status": "tentative",
+      "uses": 1
+    },
+    "frontend_src_app_components_landing_page": {
+      "code_fingerprint": "48cf6c40e27ad1bf14cd85e7a1846a5bcb7055d09b5f54317936ea1a94b43655",
+      "label": "landing-page.tsx",
+      "last": "2026-09-21T10:05:26.609071+00:00",
+      "provenance": [
+        {
+          "date": "2026-09-21T10:05:26.609071+00:00",
+          "outcome": "useful",
+          "q": "change puple to simialr blue,remove the bg box in the heade and footerr, remove sign in from footer"
+        },
+        {
+          "date": "2026-09-21T09:52:17.917953+00:00",
+          "outcome": "useful",
+          "q": "use this image for logo and icon purpose"
+        },
+        {
+          "date": "2026-09-21T09:02:02.071426+00:00",
+          "outcome": "useful",
+          "q": "complete the landing page, and improve UI and colours"
+        }
+      ],
+      "score": 2.998642329,
+      "source_file": "frontend/src/app/components/landing-page.tsx",
+      "status": "preferred",
+      "uses": 3
+    },
+    "frontend_src_app_components_navigation_navigation": {
+      "code_fingerprint": "aa522504a7442949821bc556aba0289d2d6f39bfbd635950c7493c71e42f033b",
+      "label": "Navigation()",
+      "last": "2026-09-21T10:05:26.609071+00:00",
+      "provenance": [
+        {
+          "date": "2026-09-21T10:05:26.609071+00:00",
+          "outcome": "useful",
+          "q": "change puple to simialr blue,remove the bg box in the heade and footerr, remove sign in from footer"
+        },
+        {
+          "date": "2026-09-21T09:52:17.917953+00:00",
+          "outcome": "useful",
+          "q": "use this image for logo and icon purpose"
+        },
+        {
+          "date": "2026-09-21T09:38:19.847343+00:00",
+          "outcome": "useful",
+          "q": "add privacy policy and toc"
+        },
+        {
+          "date": "2026-09-21T09:02:02.071426+00:00",
+          "outcome": "useful",
+          "q": "complete the landing page, and improve UI and colours"
+        }
+      ],
+      "score": 3.9981641,
+      "source_file": "frontend/src/app/components/navigation.tsx",
+      "status": "preferred",
+      "uses": 4
+    },
+    "frontend_src_app_components_privacy_page": {
+      "code_fingerprint": "e3cd3c676bbd29b0874d5e6d4a984a67406e2d62ed61478b3e5405efcfffabdf",
+      "label": "privacy-page.tsx",
+      "last": "2026-09-21T09:38:19.847343+00:00",
+      "provenance": [
+        {
+          "date": "2026-09-21T09:38:19.847343+00:00",
+          "outcome": "useful",
+          "q": "add privacy policy and toc"
+        }
+      ],
+      "score": 0.999521771,
+      "source_file": "frontend/src/app/components/privacy-page.tsx",
+      "status": "tentative",
+      "uses": 1
+    },
+    "frontend_src_app_components_theme_provider_themeprovider": {
+      "code_fingerprint": "490f61e029031dec40b731430a5e7636ed96f3c78ca7e88c79b3c757377e28f0",
+      "label": "ThemeProvider()",
+      "last": "2026-09-21T10:05:26.609071+00:00",
+      "provenance": [
+        {
+          "date": "2026-09-21T10:05:26.609071+00:00",
+          "outcome": "useful",
+          "q": "change puple to simialr blue,remove the bg box in the heade and footerr, remove sign in from footer"
+        },
+        {
+          "date": "2026-09-21T09:02:02.071426+00:00",
+          "outcome": "useful",
+          "q": "complete the landing page, and improve UI and colours"
+        }
+      ],
+      "score": 1.998896525,
+      "source_file": "frontend/src/app/components/theme-provider.tsx",
+      "status": "preferred",
+      "uses": 2
+    },
+    "frontend_src_app_components_ui_button_button": {
+      "code_fingerprint": "bba46e3ec7e64a6e704026ef6d8912fe07c736acccdf9667180e697e2c80e000",
+      "label": "Button()",
+      "last": "2026-09-21T09:02:02.071426+00:00",
+      "provenance": [
+        {
+          "date": "2026-09-21T09:02:02.071426+00:00",
+          "outcome": "useful",
+          "q": "complete the landing page, and improve UI and colours"
+        }
+      ],
+      "score": 0.998939843,
+      "source_file": "frontend/src/app/components/ui/button.tsx",
+      "status": "tentative",
+      "uses": 1
+    }
+  },
+  "version": 1
+}
