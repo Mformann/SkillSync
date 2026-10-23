@@ -159,7 +159,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: docker build -f backend/Dockerfile -t skillsync-beta-qa .
-      - run: docker run -d --name skillsync-qa-postgres -e POSTGRES_DB=skillsync_qa_ci -e POSTGRES_PASSWORD=ci-fixture-only postgres:17-alpine
+      - run: docker network create skillsync-qa-network
+      - run: docker run -d --name skillsync-qa-postgres --network skillsync-qa-network -e POSTGRES_DB=skillsync_qa_ci -e POSTGRES_PASSWORD=ci-fixture-only postgres:17-alpine
       - run: |
           mkdir -p qa/container-output
           chmod 777 qa/container-output
@@ -167,8 +168,8 @@ jobs:
             if docker exec skillsync-qa-postgres pg_isready -U postgres -d skillsync_qa_ci; then break; fi
             sleep 1
           done
-          docker run --rm --network container:skillsync-qa-postgres --memory 512m --cpus 2 \
-            -e DATABASE_URL=postgresql+psycopg://postgres:ci-fixture-only@127.0.0.1:5432/skillsync_qa_ci \
+          docker run --rm --network skillsync-qa-network --add-host auth.fixture.example:127.0.0.1 --memory 512m --cpus 2 \
+            -e DATABASE_URL=postgresql+psycopg://postgres:ci-fixture-only@skillsync-qa-postgres:5432/skillsync_qa_ci \
             -v "$PWD/qa:/qa:ro" -v "$PWD/qa/container-output:/qa-output" \
             skillsync-beta-qa python /qa/production_smoke.py
       - uses: actions/upload-artifact@v4
@@ -177,4 +178,6 @@ jobs:
           name: production-container-evidence
           path: qa/container-output/phase-06-production-smoke.json
       - run: docker rm -f skillsync-qa-postgres
+        if: always()
+      - run: docker network rm skillsync-qa-network
         if: always()

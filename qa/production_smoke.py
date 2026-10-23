@@ -37,6 +37,8 @@ if os.getuid() == 0:
     raise SystemExit("Smoke test must run as the production non-root user.")
 
 checks = []
+AUTH_FIXTURE_HOST = "auth.fixture.example"
+AUTH_FIXTURE_ORIGIN = f"https://{AUTH_FIXTURE_HOST}:8443"
 result = {"scope": "local production container; synthetic identities and documents", "checks": checks}
 output = Path(os.getenv("QA_OUTPUT", "/qa-output/phase-06-production-smoke.json"))
 started = time.monotonic()
@@ -49,12 +51,12 @@ with engine.begin() as db:
 with tempfile.TemporaryDirectory() as temporary:
     folder = Path(temporary)
     key = ec.generate_private_key(ec.SECP256R1())
-    name = x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, "localhost")])
+    name = x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, AUTH_FIXTURE_HOST)])
     now = datetime.now(timezone.utc)
     cert = (x509.CertificateBuilder().subject_name(name).issuer_name(name)
         .public_key(key.public_key()).serial_number(x509.random_serial_number())
         .not_valid_before(now - timedelta(minutes=1)).not_valid_after(now + timedelta(hours=1))
-        .add_extension(x509.SubjectAlternativeName([x509.DNSName("localhost")]), critical=False)
+        .add_extension(x509.SubjectAlternativeName([x509.DNSName(AUTH_FIXTURE_HOST)]), critical=False)
         .add_extension(x509.BasicConstraints(ca=True, path_length=None), critical=True)
         .sign(key, hashes.SHA256()))
     (folder / "cert.pem").write_bytes(cert.public_bytes(serialization.Encoding.PEM))
@@ -76,13 +78,14 @@ with tempfile.TemporaryDirectory() as temporary:
     tls.load_cert_chain(folder / "cert.pem", folder / "key.pem")
     issuer_server.socket = tls.wrap_socket(issuer_server.socket, server_side=True)
     threading.Thread(target=issuer_server.serve_forever, daemon=True).start()
-    environment = dict(os.environ, ENVIRONMENT="production", SUPABASE_URL="https://localhost:8443",
+    environment = dict(os.environ, ENVIRONMENT="production", SUPABASE_URL=AUTH_FIXTURE_ORIGIN,
         SSL_CERT_FILE=str(folder / "cert.pem"), GROQ_API_KEY="", ENABLE_API_DOCS="false",
+        NO_PROXY=f"{AUTH_FIXTURE_HOST},localhost,127.0.0.1",
         CORS_ORIGINS="https://beta.fixture.example", PORT="8000", WEB_CONCURRENCY="1")
     log = (folder / "api.log").open("w", encoding="utf-8")
     process = subprocess.Popen(["sh", "/app/scripts/start.sh"], env=environment, stdout=log, stderr=log)
     def token(subject, **extra):
-        return jwt.encode(dict(sub=subject, aud="authenticated", iss="https://localhost:8443/auth/v1",
+        return jwt.encode(dict(sub=subject, aud="authenticated", iss=f"{AUTH_FIXTURE_ORIGIN}/auth/v1",
             exp=int(time.time()) + 600, **extra), key, algorithm="ES256", headers={"kid": "beta-fixture"})
     owner, other = str(uuid4()), str(uuid4())
     client = httpx.Client(base_url="http://127.0.0.1:8000", timeout=35, trust_env=False)
