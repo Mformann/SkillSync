@@ -6,9 +6,10 @@ import {
 import { FormEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../../lib/api";
+import { usePagedList } from "../../lib/paged-list";
 
 type Application = { status: string; job_url: string | null; next_action: string | null; next_action_date: string | null; notes: string | null };
-type Readiness = { overall: number; components: Record<string, number>; next_best_action: string; formula_version: string };
+type Readiness = { overall: number | null; components: Record<string, number | null>; next_best_action: string; formula_version: string };
 type WorkspaceSummary = { workspace_id: number; title: string; company: string | null; analysis_id: number | null; application: Application | null; readiness: Readiness | null };
 type Evidence = { id: number; title: string; evidence_type: string; url: string | null; description: string; skills: string[]; verified: boolean };
 type Question = { id: string; requirement: string; status: string; question: string; focus: string };
@@ -24,34 +25,28 @@ const statusLabels: Record<string, string> = {
 };
 
 export function CareerHubPage() {
-  const [workspaces, setWorkspaces] = useState<WorkspaceSummary[]>([]);
+  const list = usePagedList<WorkspaceSummary>("/career/workspaces", "workspace_id");
+  const workspaces = list.data || [];
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [detail, setDetail] = useState<Detail | null>(null);
   const [analytics, setAnalytics] = useState<Analytics | null>(null);
-  const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState("");
   const [error, setError] = useState("");
 
-  const loadSummary = async () => {
-    const items = (await api.get<WorkspaceSummary[]>("/career/workspaces")).data;
-    setWorkspaces(items);
-    if (!selectedId && items.length) setSelectedId(items[0].workspace_id);
-    return items;
-  };
   const loadDetail = async (workspaceId: number) => {
     setDetail((await api.get<Detail>(`/career/workspaces/${workspaceId}`)).data);
   };
   useEffect(() => {
-    loadSummary().catch(() => setError("Career Hub could not be loaded.")).finally(() => setLoading(false));
     api.get<Analytics>("/product/analytics").then((response) => setAnalytics(response.data)).catch(() => undefined);
   }, []);
+  useEffect(() => { if (!selectedId && list.data?.length) setSelectedId(list.data[0].workspace_id); }, [selectedId, list.data]);
   useEffect(() => {
     if (selectedId) loadDetail(selectedId).catch(() => setError("This target job could not be loaded."));
   }, [selectedId]);
 
   const refresh = async () => {
     if (!selectedId) return;
-    await Promise.all([loadSummary(), loadDetail(selectedId)]);
+    await loadDetail(selectedId);
   };
   const saveApplication = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -103,7 +98,8 @@ export function CareerHubPage() {
     finally { setBusy(""); }
   };
 
-  if (loading) return <main className="flex min-h-[70vh] items-center justify-center" role="status"><Loader2 className="size-7 animate-spin text-primary" /><span className="sr-only">Loading Career Hub</span></main>;
+  if (list.loading && !list.data) return <main className="flex min-h-[70vh] items-center justify-center" role="status"><Loader2 className="size-7 animate-spin text-primary" /><span className="sr-only">Loading Career Hub</span></main>;
+  if (list.error && !list.data) return <main className="mx-auto max-w-xl p-8"><p role="alert">{list.error}</p><button type="button" className="mt-4 min-h-11 rounded-lg border px-4" onClick={list.reload}>Try again</button></main>;
   if (!workspaces.length) return <main className="mx-auto max-w-xl px-4 py-20 text-center"><Target className="mx-auto size-11 text-primary" /><h1 className="mt-4 text-3xl">Create a target job first</h1><p className="mt-2 text-muted-foreground">Career Hub connects application tracking, proof, and interview practice to a specific opportunity.</p><Link to="/workspaces" className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-lg bg-primary px-5 text-primary-foreground">Create target job <ArrowRight className="size-4" /></Link></main>;
 
   return (
@@ -123,11 +119,13 @@ export function CareerHubPage() {
       <div className="mb-6 flex gap-3 overflow-x-auto pb-2" aria-label="Target jobs">
         {workspaces.map((item) => <button key={item.workspace_id} onClick={() => setSelectedId(item.workspace_id)} className={`min-h-12 shrink-0 rounded-xl border px-4 text-left transition-colors ${selectedId === item.workspace_id ? "border-primary bg-primary/10" : "bg-card hover:bg-accent"}`}><span className="block text-sm font-medium">{item.title}</span><span className="block text-xs text-muted-foreground">{item.company || "Company not specified"}</span></button>)}
       </div>
+      {list.hasMore && <button type="button" disabled={list.loading} onClick={list.loadMore} className="mb-6 min-h-11 rounded-lg border px-4">{list.loading ? "Loading jobs…" : "Load more target jobs"}</button>}
+      {list.error && list.data && <p role="alert">{list.error}</p>}
       {!detail ? <div className="flex min-h-72 items-center justify-center"><Loader2 className="size-6 animate-spin text-primary" /></div> : (
         <div className="space-y-6">
           <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-6" aria-label="Career readiness">
-            <div className="rounded-xl border bg-card p-5 sm:col-span-2 lg:col-span-2"><p className="text-sm text-muted-foreground">Career readiness</p><p className="mt-2 text-4xl font-semibold tabular-nums">{detail.readiness?.overall || 0}%</p><p className="mt-2 text-sm text-muted-foreground">{detail.readiness?.next_best_action || "Run an analysis to calculate readiness."}</p></div>
-            {Object.entries(detail.readiness?.components || {}).map(([key, value]) => <div key={key} className="rounded-xl border bg-card p-4"><p className="text-xs capitalize text-muted-foreground">{key.replace("_", " ")}</p><p className="mt-2 text-2xl font-semibold tabular-nums">{value}%</p></div>)}
+            <div className="rounded-xl border bg-card p-5 sm:col-span-2 lg:col-span-2"><p className="text-sm text-muted-foreground">Preparation progress</p><p className="mt-2 text-4xl font-semibold tabular-nums">{detail.readiness?.overall == null ? "Unavailable" : `${detail.readiness.overall}%`}</p><p className="mt-2 text-sm text-muted-foreground">{detail.readiness?.next_best_action || "Run a current analysis to calculate preparation progress."}</p><p className="mt-2 text-xs text-muted-foreground">An estimate from saved activities and resume evidence; hiring readiness is not assessed.</p></div>
+            {Object.entries(detail.readiness?.components || {}).map(([key, value]) => <div key={key} className="rounded-xl border bg-card p-4"><p className="text-xs capitalize text-muted-foreground">{key.replace("_", " ")}</p><p className="mt-2 text-2xl font-semibold tabular-nums">{value == null ? "Unavailable" : `${value}%`}</p></div>)}
           </section>
 
           <div className="grid gap-6 lg:grid-cols-2">

@@ -63,6 +63,7 @@ type Task = {
 };
 
 type Plan = {
+  stale?: boolean;
   id: number;
   analysis_id: number;
   workspace_id: number;
@@ -156,7 +157,7 @@ function TaskCard({
       {/* YouTube Video Tutorials */}
       {youtubeVideos.length > 0 && (
         <div className="mt-5 rounded-xl border border-red-500/20 bg-red-500/5 p-4">
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-red-600 dark:text-red-400">
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-red-700 dark:text-red-400">
             <Youtube className="size-4" /> Recommended YouTube Tutorials
           </div>
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
@@ -170,7 +171,7 @@ function TaskCard({
               >
                 <div>
                   <div className="flex items-center justify-between gap-2">
-                    <span className="inline-flex items-center gap-1 rounded bg-red-500/10 px-1.5 py-0.5 text-[10px] font-medium text-red-600 dark:text-red-400">
+                    <span className="inline-flex items-center gap-1 rounded bg-red-500/10 px-1.5 py-0.5 text-[10px] font-medium text-red-700 dark:text-red-400">
                       <Play className="size-2.5 fill-current" /> {video.channel}
                     </span>
                     {video.duration && (
@@ -474,6 +475,7 @@ export function RoadmapPage() {
 
       {error && <div className="mt-6 flex gap-2 rounded-xl bg-destructive/10 p-4 text-destructive"><AlertCircle className="size-5" />{error}</div>}
 
+      {plan.stale && <p role="status" className="mt-6 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm">This plan is based on an older analysis. Refresh the analysis, then choose Recalculate plan to update it. Completed tasks and evidence are preserved.</p>}
       <section className="mt-8 space-y-5">
         {plan.tasks.map((task) => <TaskCard key={task.id} task={task} onUpdated={setPlan} />)}
       </section>

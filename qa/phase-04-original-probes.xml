@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="10" time="7.022" timestamp="2026-10-21T18:25:03.030245+05:30" hostname="Mann"><testcase classname="qa.test_qa_audit" name="test_full_candidate_flow_and_ownership" time="0.962" /><testcase classname="qa.test_qa_audit" name="test_zero_match_is_not_replaced_by_sample_score" time="0.589" /><testcase classname="qa.test_qa_audit" name="test_daily_ai_limit_counts_forced_reruns" time="0.782" /><testcase classname="qa.test_qa_audit" name="test_updated_job_invalidates_analysis" time="0.818" /><testcase classname="qa.test_qa_audit" name="test_table_resume_is_readable" time="0.761" /><testcase classname="qa.test_qa_audit" name="test_upload_enforces_workspace_field_limits" time="0.094" /><testcase classname="qa.test_qa_audit" name="test_null_workspace_title_is_validation_error" time="0.120" /><testcase classname="qa.test_qa_audit" name="test_deeply_nested_unsigned_token_is_unauthorized" time="0.012" /><testcase classname="qa.test_qa_audit" name="test_workspace_listing_does_not_query_each_row_separately" time="0.068"><failure message="AssertionError: Listing 20 workspaces executed 41 SELECT queries&#10;assert 41 &lt;= 5&#10; +  where 41 = len(['SELECT target_jobs.id AS target_jobs_id, target_jobs.user_id AS target_jobs_user_id, target_jobs.title AS target_job...breakdown, analyses.analysis_error AS analyses_analysis_error \nFROM analyses \nWHERE ? = analyses.target_job_id', ...])">env = (&lt;starlette.testclient.TestClient object at 0x0000020222558D40&gt;, sessionmaker(class_='Session', bind=Engine(sqlite://), autoflush=True, expire_on_commit=True), {'id': 'qa-user-a'})
+
+    def test_workspace_listing_does_not_query_each_row_separately(env):
+        client, factory, _ = env
+        with factory() as db:
+            db.add_all(models.TargetJob(user_id="qa-user-a", title=f"QA role {i}", description=JD) for i in range(20))
+            db.commit()
+        statements = []
+        engine = factory.kw["bind"]
+        def record(_conn, _cursor, statement, *_):
+            if statement.lstrip().upper().startswith("SELECT"):
+                statements.append(statement)
+        event.listen(engine, "before_cursor_execute", record)
+        try:
+            response = client.get("/workspaces")
+            assert response.status_code == 200
+        finally:
+            event.remove(engine, "before_cursor_execute", record)
+&gt;       assert len(statements) &lt;= 5, f"Listing 20 workspaces executed {len(statements)} SELECT queries"
+E       AssertionError: Listing 20 workspaces executed 41 SELECT queries
+E       assert 41 &lt;= 5
+E        +  where 41 = len(['SELECT target_jobs.id AS target_jobs_id, target_jobs.user_id AS target_jobs_user_id, target_jobs.title AS target_job...breakdown, analyses.analysis_error AS analyses_analysis_error \nFROM analyses \nWHERE ? = analyses.target_job_id', ...])
+
+qa\test_qa_audit.py:182: AssertionError</failure></testcase><testcase classname="qa.test_qa_audit" name="test_gap_report_uses_target_job_requirements" time="0.596" /></testsuite></testsuites>

@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from sqlalchemy import Boolean, Column, Date, DateTime, Float, ForeignKey, Integer, JSON, String, Text
+from sqlalchemy import Boolean, Column, Date, DateTime, Float, ForeignKey, Index, Integer, JSON, String, Text, UniqueConstraint
 from sqlalchemy.orm import relationship
 
 from .database import Base
@@ -12,8 +12,9 @@ def utc_now() -> datetime:
 
 class TargetJob(Base):
     __tablename__ = "target_jobs"
+    __table_args__ = (Index("ix_target_jobs_user_archive_id", "user_id", "is_archived", "id"),)
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True)
     user_id = Column(String, index=True, nullable=False)
     title = Column(String(160), nullable=False)
     company = Column(String(160), nullable=True)
@@ -36,8 +37,9 @@ class TargetJob(Base):
 
 class Resume(Base):
     __tablename__ = "resumes"
+    __table_args__ = (Index("ix_resumes_user_workspace_id", "user_id", "target_job_id", "id"),)
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True)
     user_id = Column(String, index=True, nullable=False)
     target_job_id = Column(Integer, ForeignKey("target_jobs.id", ondelete="CASCADE"), index=True)
     filename = Column(String(255), nullable=False)
@@ -52,8 +54,9 @@ class Resume(Base):
 
 class Analysis(Base):
     __tablename__ = "analyses"
+    __table_args__ = (Index("ix_analyses_user_id_id", "user_id", "id"), Index("ix_analyses_workspace_id_id", "target_job_id", "id"))
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True)
     user_id = Column(String, index=True, nullable=False)
     target_job_id = Column(Integer, ForeignKey("target_jobs.id", ondelete="SET NULL"), index=True)
     resume_id = Column(Integer, ForeignKey("resumes.id", ondelete="SET NULL"), index=True)
@@ -82,10 +85,45 @@ class Analysis(Base):
     resume_versions = relationship("ResumeVersion", back_populates="analysis", cascade="all, delete-orphan")
 
 
+class AIUsageAccount(Base):
+    """A durable per-user mutex; held only during short accounting transactions."""
+    __tablename__ = "ai_usage_accounts"
+    user_id = Column(String, primary_key=True)
+
+
+class AnalysisRun(Base):
+    __tablename__ = "analysis_runs"
+    id = Column(String(36), primary_key=True)
+    user_id = Column(String, nullable=False, index=True)
+    analysis_id = Column(Integer, ForeignKey("analyses.id", ondelete="SET NULL"), nullable=True, index=True)
+    # NULL after settlement; the unique constraint also guards concurrent workers.
+    active_analysis_id = Column(Integer, unique=True, nullable=True)
+    input_hash = Column(String(64), nullable=False)
+    model = Column(String(120), nullable=False)
+    prompt_version = Column(String(40), nullable=False)
+    status = Column(String(40), nullable=False)
+    created_at = Column(DateTime(timezone=True), nullable=False, default=utc_now)
+    lease_expires_at = Column(DateTime(timezone=True), nullable=False)
+    finished_at = Column(DateTime(timezone=True), nullable=True)
+    error_code = Column(String(40), nullable=True)
+
+
+class AIUsage(Base):
+    """A dispatched attempt remains chargeable even if its result fails or expires."""
+    __tablename__ = "ai_usage"
+    run_id = Column(String(36), ForeignKey("analysis_runs.id", ondelete="CASCADE"), primary_key=True)
+    user_id = Column(String, nullable=False, index=True)
+    status = Column(String(20), nullable=False)
+    reserved_at = Column(DateTime(timezone=True), nullable=False)
+    dispatched_at = Column(DateTime(timezone=True), nullable=True, index=True)
+    released_at = Column(DateTime(timezone=True), nullable=True)
+
+
 class LearningPlan(Base):
     __tablename__ = "learning_plans"
+    __table_args__ = (UniqueConstraint("analysis_id"),)
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True)
     user_id = Column(String, index=True, nullable=False)
     target_job_id = Column(Integer, ForeignKey("target_jobs.id", ondelete="CASCADE"), index=True, nullable=False)
     analysis_id = Column(Integer, ForeignKey("analyses.id", ondelete="CASCADE"), unique=True, index=True, nullable=False)
@@ -94,6 +132,7 @@ class LearningPlan(Base):
     experience_level = Column(String(40), nullable=False, default="intermediate")
     status = Column(String(40), nullable=False, default="active")
     total_estimated_hours = Column(Float, nullable=False, default=0)
+    source_input_hash = Column(String(64), nullable=True)
     created_at = Column(DateTime(timezone=True), default=utc_now, nullable=False)
     updated_at = Column(DateTime(timezone=True), default=utc_now, onupdate=utc_now, nullable=False)
 
@@ -110,7 +149,7 @@ class LearningPlan(Base):
 class LearningTask(Base):
     __tablename__ = "learning_tasks"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True)
     plan_id = Column(Integer, ForeignKey("learning_plans.id", ondelete="CASCADE"), index=True, nullable=False)
     skill = Column(String(160), nullable=False)
     title = Column(String(255), nullable=False)
@@ -139,7 +178,7 @@ class LearningTask(Base):
 class ResumeVersion(Base):
     __tablename__ = "resume_versions"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True)
     user_id = Column(String, index=True, nullable=False)
     analysis_id = Column(Integer, ForeignKey("analyses.id", ondelete="CASCADE"), index=True, nullable=False)
     target_job_id = Column(Integer, ForeignKey("target_jobs.id", ondelete="CASCADE"), index=True, nullable=False)
@@ -148,6 +187,7 @@ class ResumeVersion(Base):
     content = Column(JSON, nullable=False, default=dict)
     source_map = Column(JSON, nullable=False, default=dict)
     warnings = Column(JSON, nullable=False, default=list)
+    source_input_hash = Column(String(64), nullable=True)
     created_at = Column(DateTime(timezone=True), default=utc_now, nullable=False)
     updated_at = Column(DateTime(timezone=True), default=utc_now, onupdate=utc_now, nullable=False)
 
@@ -157,8 +197,9 @@ class ResumeVersion(Base):
 
 class JobApplication(Base):
     __tablename__ = "job_applications"
+    __table_args__ = (UniqueConstraint("target_job_id"),)
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True)
     user_id = Column(String, index=True, nullable=False)
     target_job_id = Column(Integer, ForeignKey("target_jobs.id", ondelete="CASCADE"), unique=True, index=True, nullable=False)
     status = Column(String(40), nullable=False, default="preparing")
@@ -176,7 +217,7 @@ class JobApplication(Base):
 class PortfolioEvidence(Base):
     __tablename__ = "portfolio_evidence"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True)
     user_id = Column(String, index=True, nullable=False)
     target_job_id = Column(Integer, ForeignKey("target_jobs.id", ondelete="CASCADE"), index=True, nullable=False)
     title = Column(String(200), nullable=False)
@@ -194,7 +235,7 @@ class PortfolioEvidence(Base):
 class InterviewSession(Base):
     __tablename__ = "interview_sessions"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True)
     user_id = Column(String, index=True, nullable=False)
     target_job_id = Column(Integer, ForeignKey("target_jobs.id", ondelete="CASCADE"), index=True, nullable=False)
     analysis_id = Column(Integer, ForeignKey("analyses.id", ondelete="CASCADE"), index=True, nullable=False)
@@ -210,8 +251,9 @@ class InterviewSession(Base):
 
 class CareerProfile(Base):
     __tablename__ = "career_profiles"
+    __table_args__ = (UniqueConstraint("user_id"),)
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True)
     user_id = Column(String, unique=True, index=True, nullable=False)
     full_name = Column(String(160), nullable=True)
     headline = Column(String(240), nullable=True)
@@ -229,7 +271,7 @@ class CareerProfile(Base):
 class CareerAchievement(Base):
     __tablename__ = "career_achievements"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True)
     profile_id = Column(Integer, ForeignKey("career_profiles.id", ondelete="CASCADE"), index=True, nullable=False)
     user_id = Column(String, index=True, nullable=False)
     title = Column(String(200), nullable=False)
@@ -246,22 +288,26 @@ class CareerAchievement(Base):
 
 class ApplicationPackage(Base):
     __tablename__ = "application_packages"
+    __table_args__ = (UniqueConstraint("target_job_id"),)
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True)
     user_id = Column(String, index=True, nullable=False)
     target_job_id = Column(Integer, ForeignKey("target_jobs.id", ondelete="CASCADE"), unique=True, index=True, nullable=False)
     analysis_id = Column(Integer, ForeignKey("analyses.id", ondelete="CASCADE"), index=True, nullable=False)
     content = Column(JSON, nullable=False, default=dict)
     source_map = Column(JSON, nullable=False, default=dict)
     warnings = Column(JSON, nullable=False, default=list)
+    source_input_hash = Column(String(64), nullable=True)
     created_at = Column(DateTime(timezone=True), default=utc_now, nullable=False)
     updated_at = Column(DateTime(timezone=True), default=utc_now, onupdate=utc_now, nullable=False)
+
+    analysis = relationship("Analysis")
 
 
 class ApplicationEvent(Base):
     __tablename__ = "application_events"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True)
     user_id = Column(String, index=True, nullable=False)
     target_job_id = Column(Integer, ForeignKey("target_jobs.id", ondelete="CASCADE"), index=True, nullable=False)
     status = Column(String(40), nullable=False)

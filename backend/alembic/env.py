@@ -9,7 +9,7 @@ from app import growth_models  # noqa: F401
 
 config = context.config
 if config.config_file_name:
-    fileConfig(config.config_file_name)
+    fileConfig(config.config_file_name, disable_existing_loggers=False)
 database_url = DATABASE_URL
 # Alembic stores this value in ConfigParser, where percent signs otherwise
 # trigger interpolation (including percent-encoded database passwords).
@@ -33,6 +33,9 @@ def run_migrations_online() -> None:
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
+        connect_args={} if database_url.startswith("sqlite") else {
+            "connect_timeout": 10, "prepare_threshold": None,
+        },
     )
     with connectable.connect() as connection:
         context.configure(connection=connection, target_metadata=target_metadata, compare_type=True)

@@ -137,7 +137,7 @@ def verify_access_token(token: str) -> AuthenticatedUser:
         return AuthenticatedUser(id=user_id, email=email if isinstance(email, str) else None)
     except jwt.PyJWKClientConnectionError as exc:
         raise HTTPException(status_code=503, detail="Authentication service is unavailable. Try again.") from exc
-    except (jwt.PyJWTError, ValueError, TypeError, OverflowError) as exc:
+    except (jwt.PyJWTError, ValueError, TypeError, OverflowError, RecursionError) as exc:
         raise _unauthorized() from exc
 
 

@@ -26,6 +26,7 @@ jobs:
           cache: npm
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci
+      - run: npm audit
       - run: npm run typecheck
       - run: npm run lint
       - run: npm test
@@ -42,8 +43,138 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
-          cache-dependency-path: backend/requirements.txt
+          cache-dependency-path: backend/requirements.lock
       - run: python -m pip install --upgrade pip
-      - run: python -m pip install -r requirements.txt
+      - run: python -m pip install --require-hashes -r requirements.lock
+      - run: python -m pip install pip-audit
+      - run: python -m pip_audit -r requirements.lock
       - run: python -m pytest -q
       - run: python -m compileall -q app
+      - run: |
+          python -m alembic upgrade head
+          python -m alembic check
+        env:
+          DATABASE_URL: sqlite:///ci_schema.db
+          ENVIRONMENT: development
+
+  database-security:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: skillsync_security
+          POSTGRES_PASSWORD: ci-fixture-only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d skillsync_security"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    defaults:
+      run:
+        working-directory: backend
+    env:
+      DATABASE_URL: postgresql+psycopg://postgres:ci-fixture-only@127.0.0.1:5432/skillsync_security
+      SECURITY_TEST_DATABASE_URL: postgresql+psycopg://postgres:ci-fixture-only@127.0.0.1:5432/skillsync_security
+      ANALYSIS_TEST_DATABASE_URL: postgresql+psycopg://postgres:ci-fixture-only@127.0.0.1:5432/skillsync_security
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements.lock
+      - run: python -m pip install --require-hashes -r requirements.lock
+      - run: python -m pytest tests/test_database_security.py -q
+      - run: python -m pytest tests/test_analysis_runs.py tests/test_analysis_run_migration.py tests/test_phase_four.py tests/test_phase_five.py -q
+      - run: alembic upgrade head
+      - run: alembic check
+      - run: python scripts/verify_database_security.py
+
+  parser-windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: backend
+    env:
+      DATABASE_URL: sqlite://
+      ENVIRONMENT: development
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements.lock
+      - run: python -m pip install --require-hashes -r requirements.lock
+      - run: python -m pytest tests/test_document_parser.py tests/test_authentication.py::test_deeply_nested_payload_is_unauthorized_before_network tests/test_authentication.py::test_parser_recursion_error_is_never_a_server_error -q
+      - run: python -m pytest tests/test_analysis_runs.py tests/test_analysis_run_migration.py tests/test_phase_four.py tests/test_phase_five.py -q
+
+  browser:
+    runs-on: ubuntu-latest
+    env:
+      VITE_API_BASE_URL: http://127.0.0.1:8011
+      VITE_SUPABASE_URL: https://fixture.supabase.co
+      VITE_SUPABASE_PUBLISHABLE_KEY: sb_publishable_browser_fixture
+      QA_API: http://127.0.0.1:8011
+      QA_DIST: .verification-dist
+      QA_RESULTS: qa/phase-06-browser-results.json
+      E2E_PRODUCTION: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: frontend/.nvmrc
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --require-hashes -r backend/requirements.lock
+      - run: npm --prefix frontend ci
+      - run: npm exec -- playwright install --with-deps chromium
+        working-directory: frontend
+      # Verification mode deliberately allows the isolated loopback fixture.
+      # The deployable build is separately checked using strict beta mode.
+      - run: npm exec -- vite build --outDir .verification-dist
+        working-directory: frontend
+      - run: npm --prefix frontend run test:e2e
+      - run: |
+          python qa/local_qa_server.py --phase5 > /tmp/skillsync-browser.log 2>&1 &
+          python qa/wait_for_api.py
+          node qa/browser-audit.mjs --phase5
+          node qa/browser-audit.mjs --flow --phase3 --phase4
+          cp qa/browser-flow-results.json qa/phase-06-browser-flow.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-evidence
+          path: |
+            qa/phase-06-browser*.json
+            qa/phase-06-resume-print.pdf
+            frontend/playwright-report/
+
+  production-container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -f backend/Dockerfile -t skillsync-beta-qa .
+      - run: docker run -d --name skillsync-qa-postgres -e POSTGRES_DB=skillsync_qa_ci -e POSTGRES_PASSWORD=ci-fixture-only postgres:17-alpine
+      - run: |
+          mkdir -p qa/container-output
+          chmod 777 qa/container-output
+          for attempt in $(seq 1 30); do
+            if docker exec skillsync-qa-postgres pg_isready -U postgres -d skillsync_qa_ci; then break; fi
+            sleep 1
+          done
+          docker run --rm --network container:skillsync-qa-postgres --memory 512m --cpus 2 \
+            -e DATABASE_URL=postgresql+psycopg://postgres:ci-fixture-only@127.0.0.1:5432/skillsync_qa_ci \
+            -v "$PWD/qa:/qa:ro" -v "$PWD/qa/container-output:/qa-output" \
+            skillsync-beta-qa python /qa/production_smoke.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: production-container-evidence
+          path: qa/container-output/phase-06-production-smoke.json
+      - run: docker rm -f skillsync-qa-postgres
+        if: always()

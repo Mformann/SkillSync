@@ -1,0 +1,295 @@
+{
+  "phase": 5,
+  "date": "2026-10-21",
+  "backend": {
+    "source": "phase-05-backend-tests.xml",
+    "counts": {
+      "passed": 291,
+      "skipped": 1,
+      "failed": 1
+    },
+    "remaining": [
+      {
+        "case": "tests.test_authentication::test_all_application_endpoints_require_bearer",
+        "status": "failed"
+      }
+    ]
+  },
+  "focused_backend": {
+    "source": "phase-05-focused-tests.xml",
+    "counts": {
+      "passed": 24
+    },
+    "remaining": []
+  },
+  "linux": {
+    "source": "phase-05-linux-tests.xml",
+    "counts": {
+      "passed": 76,
+      "skipped": 1
+    },
+    "remaining": []
+  },
+  "frontend": {
+    "source": "phase-05-frontend-tests.xml",
+    "counts": {
+      "passed": 123,
+      "failed": 1
+    },
+    "remaining": [
+      {
+        "case": "tests/career-growth.test.tsx::reschedules with selected capacity and shows an impossible-deadline warning",
+        "status": "failed"
+      }
+    ]
+  },
+  "focused_frontend": {
+    "source": "phase-05-frontend-focused-tests.xml",
+    "counts": {
+      "passed": 21
+    },
+    "remaining": []
+  },
+  "original_qa": {
+    "source": "phase-05-original-probes.xml",
+    "counts": {
+      "passed": 10
+    },
+    "remaining": []
+  },
+  "edge_regressions": {
+    "passed": 6
+  },
+  "browser": {
+    "pages": 102,
+    "main_landmark_failures": 0,
+    "overflow": 0,
+    "unlabeled_inputs": 0,
+    "undersized_buttons": 0,
+    "runtime_errors": 0,
+    "server_errors": 0,
+    "html_text_contrast_checks": 5460,
+    "html_text_contrast_failures": 0,
+    "gradient_skips": 0,
+    "source": "phase-05-browser-results.json"
+  },
+  "keyboard": {
+    "light": {
+      "ok": true,
+      "steps": [
+        "Route heading receives focus after data loading",
+        "Tab exposes the skip link; Enter focuses page content",
+        "Mobile menu opens with Enter, exposes links in order, and Escape restores trigger focus",
+        "Keyboard navigation closes the menu and focuses the next page heading",
+        "Native file input remains keyboard accessible with a visible chooser focus indicator",
+        "Keyboard loads the older target-job page without losing the first page",
+        "Resume history loads its older page while dashboard totals remain available"
+      ]
+    },
+    "dark": {
+      "ok": true,
+      "steps": [
+        "Route heading receives focus after data loading",
+        "Tab exposes the skip link; Enter focuses page content",
+        "Mobile menu opens with Enter, exposes links in order, and Escape restores trigger focus",
+        "Keyboard navigation closes the menu and focuses the next page heading",
+        "Native file input remains keyboard accessible with a visible chooser focus indicator",
+        "Keyboard loads the older target-job page without losing the first page",
+        "Resume history loads its older page while dashboard totals remain available"
+      ]
+    }
+  },
+  "candidate_flow": {
+    "ok": true,
+    "analysis_id": "8",
+    "steps": [
+      "Uploaded a DOCX and completed consent-off analysis through the browser",
+      "Generated a persistent learning plan",
+      "Edited and saved a tailored resume",
+      "Downloaded the tailored DOCX",
+      "Verified saved changes after reload",
+      "Edited the job, refreshed analysis explicitly, and verified stale plan/version notices with saved edits preserved",
+      "Read a table-only DOCX through the browser; verified a true zero across gap report and dashboard, then pending/unavailable state after a saved-job upload"
+    ],
+    "errors": [],
+    "responses": [
+      {
+        "path": "/growth/reminders",
+        "status": 200
+      },
+      {
+        "path": "/resume/upload",
+        "status": 200
+      },
+      {
+        "path": "/resume/analysis/8/explainable",
+        "status": 200
+      },
+      {
+        "path": "/resume/analysis/8/run",
+        "status": 200
+      },
+      {
+        "path": "/learning/plans/by-analysis/8",
+        "status": 404
+      },
+      {
+        "path": "/resume/analysis/latest/explainable",
+        "status": 200
+      },
+      {
+        "path": "/learning/plans",
+        "status": 201
+      },
+      {
+        "path": "/resume/analysis/8/explainable",
+        "status": 200
+      },
+      {
+        "path": "/resume-studio/analyses/8/versions",
+        "status": 200
+      },
+      {
+        "path": "/resume-studio/analyses/8/versions",
+        "status": 201
+      },
+      {
+        "path": "/resume-studio/versions/2",
+        "status": 200
+      },
+      {
+        "path": "/resume-studio/versions/2/docx",
+        "status": 200
+      },
+      {
+        "path": "/growth/reminders",
+        "status": 200
+      },
+      {
+        "path": "/resume-studio/analyses/8/versions",
+        "status": 200
+      },
+      {
+        "path": "/growth/reminders",
+        "status": 200
+      },
+      {
+        "path": "/resume/analysis/8/explainable",
+        "status": 200
+      },
+      {
+        "path": "/resume/analysis/8/run",
+        "status": 200
+      },
+      {
+        "path": "/learning/plans/by-analysis/8",
+        "status": 200
+      },
+      {
+        "path": "/growth/reminders",
+        "status": 200
+      },
+      {
+        "path": "/resume-studio/analyses/8/versions",
+        "status": 200
+      },
+      {
+        "path": "/growth/reminders",
+        "status": 200
+      },
+      {
+        "path": "/growth/reminders",
+        "status": 200
+      },
+      {
+        "path": "/resume/gap-report/8",
+        "status": 200
+      },
+      {
+        "path": "/growth/reminders",
+        "status": 200
+      },
+      {
+        "path": "/resume/all",
+        "status": 200
+      },
+      {
+        "path": "/dashboard/summary",
+        "status": 200
+      },
+      {
+        "path": "/resume/analysis/latest/explainable",
+        "status": 200
+      },
+      {
+        "path": "/learning/plans/by-analysis/8",
+        "status": 200
+      },
+      {
+        "path": "/growth/reminders",
+        "status": 200
+      },
+      {
+        "path": "/product/analytics",
+        "status": 200
+      },
+      {
+        "path": "/career/workspaces",
+        "status": 200
+      },
+      {
+        "path": "/career/workspaces/57",
+        "status": 200
+      },
+      {
+        "path": "/resume/all",
+        "status": 200
+      },
+      {
+        "path": "/growth/reminders",
+        "status": 200
+      },
+      {
+        "path": "/dashboard/summary",
+        "status": 200
+      },
+      {
+        "path": "/resume/analysis/latest/explainable",
+        "status": 200
+      },
+      {
+        "path": "/growth/reminders",
+        "status": 200
+      },
+      {
+        "path": "/resume/gap-report/9",
+        "status": 200
+      },
+      {
+        "path": "/product/analytics",
+        "status": 200
+      },
+      {
+        "path": "/career/workspaces",
+        "status": 200
+      },
+      {
+        "path": "/growth/reminders",
+        "status": 200
+      },
+      {
+        "path": "/career/workspaces/57",
+        "status": 200
+      }
+    ],
+    "analysisRunRequests": 1,
+    "totalRunRequests": 2
+  },
+  "workspace_query_evidence": {
+    "old_selects_for_20": 41,
+    "current_selects_for_20_and_50": 3,
+    "source": "test_workspace_summary_is_three_queries_at_any_page_size_and_has_no_document_bodies"
+  },
+  "hosted_activation": "Pending migrations 20261021_08 and 20261021_09 plus matching API/frontend deployment.",
+  "manual_accessibility_limit": "Audible NVDA/Narrator checks were not performed. Edge accessibility-tree, keyboard and rendered HTML-text contrast checks are recorded; no full WCAG certification is claimed."
+}

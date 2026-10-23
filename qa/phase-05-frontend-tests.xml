@@ -1,0 +1,903 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="124" failures="1" errors="0" time="23.4428309">
+    <testsuite name="tests/analysis-runs.test.tsx" timestamp="2026-10-21T16:38:15.467Z" hostname="Mann" tests="10" failures="0" errors="0" skipped="0" time="5.1409976">
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; starts one run without reloading when the numeric ID resolves: /analysis/23" time="0.8955105">
+            <system-err>
+You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+
+            </system-err>
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; starts one run without reloading when the numeric ID resolves: /analysis/latest" time="0.2879441">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; does not duplicate an automatic run during StrictMode effect replay" time="0.1527458">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; polls an active run using GET without sending another run request" time="1.1186434">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; requires explicit action for a stale result" time="0.9173041">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; requires explicit action for a failed result" time="0.3095699">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; polls a duplicate processing response after a deliberate rerun" time="1.3321929">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; does not initiate another run when a request times out" time="0.0217298">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; aborts the active request when navigating away" time="0.0787927">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; stops polling at its total deadline even when a status request never settles" time="0.022118">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/api.test.ts" timestamp="2026-10-21T16:38:15.481Z" hostname="Mann" tests="8" failures="0" errors="0" skipped="0" time="0.1271391">
+        <testcase classname="tests/api.test.ts" name="authenticated API requests &gt; sends the current Supabase access token" time="0.0297587">
+        </testcase>
+        <testcase classname="tests/api.test.ts" name="authenticated API requests &gt; refreshes an expired token and retries once" time="0.0092978">
+        </testcase>
+        <testcase classname="tests/api.test.ts" name="authenticated API requests &gt; does not loop or sign out when the backend still rejects the refreshed token" time="0.0320887">
+        </testcase>
+        <testcase classname="tests/api.test.ts" name="authenticated API requests &gt; shares a refresh across simultaneous failed requests" time="0.0147118">
+        </testcase>
+        <testcase classname="tests/api.test.ts" name="authenticated API requests &gt; does not refresh or log out on status 403" time="0.011602">
+        </testcase>
+        <testcase classname="tests/api.test.ts" name="authenticated API requests &gt; does not refresh or log out on status 404" time="0.0056395">
+        </testcase>
+        <testcase classname="tests/api.test.ts" name="authenticated API requests &gt; does not refresh or log out on status 503" time="0.002673">
+        </testcase>
+        <testcase classname="tests/api.test.ts" name="authenticated API requests &gt; reports the original failure if refreshing fails" time="0.0055509">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/authentication.test.tsx" timestamp="2026-10-21T16:38:15.488Z" hostname="Mann" tests="23" failures="0" errors="0" skipped="0" time="3.4305095">
+        <testcase classname="tests/authentication.test.tsx" name="safe post-login destinations &gt; keeps the intended local path, query, and hash" time="0.027056">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="safe post-login destinations &gt; rejects unsafe or looping destinations: undefined" time="0.0052599">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="safe post-login destinations &gt; rejects unsafe or looping destinations: {}" time="0.0011874">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="safe post-login destinations &gt; rejects unsafe or looping destinations: {&quot;from&quot;:&quot;https://evil.example&quot;}" time="0.0027236">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="safe post-login destinations &gt; rejects unsafe or looping destinations: {&quot;from&quot;:&quot;//evil.example&quot;}" time="0.0011452">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="safe post-login destinations &gt; rejects unsafe or looping destinations: {&quot;from&quot;:&quot;/\\evil.example&quot;}" time="0.0032053">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="safe post-login destinations &gt; rejects unsafe or looping destinations: {&quot;from&quot;:&quot;/login?loop=1&quot;}" time="0.0038736">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="safe post-login destinations &gt; rejects unsafe or looping destinations: {&quot;from&quot;:&quot;/reset-password&quot;}" time="0.0011321">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="safe post-login destinations &gt; rejects unsafe or looping destinations: {&quot;from&quot;:&quot;/x\n&quot;}" time="0.0036011">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="safe post-login destinations &gt; explains unconfirmed email" time="0.0030006">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="session initialization &gt; ends loading and explains a rejected session request" time="0.207839">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="session initialization &gt; does not overwrite a newer auth event with a stale session result" time="0.0299077">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="session initialization &gt; tracks password recovery separately from normal sign-in" time="0.0317717">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="login and signup &gt; announces a login error, focuses it, and re-enables the form" time="1.4494225">
+            <system-err>
+You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+
+            </system-err>
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="login and signup &gt; navigates to the intended route when a session arrives" time="0.1153751">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="login and signup &gt; sends a recovery session to reset-password rather than the dashboard" time="0.0532017">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="login and signup &gt; handles confirmation-required and immediate-session signup (null)" time="0.4461753">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="login and signup &gt; handles confirmation-required and immediate-session signup ({&quot;access_token&quot;:&quot;test-token&quot;,&quot;user&quot;:{&quot;id&quot;:&quot;candidate-id&quot;}})" time="0.3188566">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="login and signup &gt; allows showing and hiding the password without submitting" time="0.248298">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="password recovery &gt; requests a reset link with the correct redirect and neutral confirmation" time="0.1031138">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="password recovery &gt; offers a new reset link when the recovery session is missing" time="0.0532562">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="password recovery &gt; rejects mismatched passwords without changing the account" time="0.1365912">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="password recovery &gt; updates the password and signs out all refresh sessions" time="0.1691032">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/career-growth.test.tsx" timestamp="2026-10-21T16:38:15.503Z" hostname="Mann" tests="23" failures="1" errors="0" skipped="0" time="7.9409854">
+        <testcase classname="tests/career-growth.test.tsx" name="growth helpers &gt; does not link unsafe external URLs: javascript:alert(1)" time="0.0132045">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="growth helpers &gt; does not link unsafe external URLs: data:text/html,bad" time="0.0021053">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="growth helpers &gt; does not link unsafe external URLs: http://example.com" time="0.0010297">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="growth helpers &gt; does not link unsafe external URLs: https://name:secret@example.com" time="0.0033641">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="growth helpers &gt; does not link unsafe external URLs: bad" time="0.0006168">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="growth helpers &gt; allows plain HTTPS links" time="0.0013617">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="growth helpers &gt; normalizes preferences" time="0.0024709">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="growth helpers &gt; provides a recoverable connection error" time="0.0014583">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="grades an assessment using only selected answers, then displays server feedback" time="3.3682624">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="shows a resource error with a retry action instead of a false empty history" time="0.2338153">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="waits for saved study days before allowing planner edits" time="0.4402265">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="reschedules with selected capacity and shows an impossible-deadline warning" time="1.2477939">
+            <failure message="Unable to find an element with the text: Deadline exceeds available study capacity.. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m&lt;body&gt;[39m
+  [36m&lt;div&gt;[39m
+    [36m&lt;div[39m
+      [33mclass[39m=[32m&quot;space-y-6&quot;[39m
+    [36m&gt;[39m
+      [36m&lt;section[39m
+        [33mclass[39m=[32m&quot;min-w-0 rounded-2xl border border-border bg-card p-5 sm:p-6&quot;[39m
+      [36m&gt;[39m
+        [36m&lt;h2[39m
+          [33mclass[39m=[32m&quot;text-xl font-medium&quot;[39m
+        [36m&gt;[39m
+          [0mMake your plan fit your week[0m
+        [36m&lt;/h2&gt;[39m
+        [36m&lt;p[39m
+          [33mclass[39m=[32m&quot;mt-2 max-w-3xl text-sm leading-relaxed text-muted-foreground&quot;[39m
+        [36m&gt;[39m
+          [0mReschedule remaining work using your current progress and available study days. Tight deadlines produce a warning—not artificially shortened learning estimates.[0m
+        [36m&lt;/p&gt;[39m
+        [36m&lt;div[39m
+          [33mclass[39m=[32m&quot;mt-5&quot;[39m
+        [36m&gt;[39m
+          [36m&lt;form[39m
+            [33mclass[39m=[32m&quot;space-y-5&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;div[39m
+              [33mclass[39m=[32m&quot;grid gap-4 sm:grid-cols-2&quot;[39m
+            [36m&gt;[39m
+              [36m&lt;label[39m
+                [33mclass[39m=[32m&quot;text-sm&quot;[39m
+              [36m&gt;[39m
+                [0mHours per week[0m
+                [36m&lt;input[39m
+                  [33mclass[39m=[32m&quot;mt-2 min-h-11 w-full rounded-lg border border-border bg-input-background px-3 py-2 text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring&quot;[39m
+                  [33mmax[39m=[32m&quot;40&quot;[39m
+                  [33mmin[39m=[32m&quot;1&quot;[39m
+                  [33mrequired[39m=[32m&quot;&quot;[39m
+                  [33mstep[39m=[32m&quot;0.5&quot;[39m
+                  [33mtype[39m=[32m&quot;number&quot;[39m
+                  [33mvalue[39m=[32m&quot;1&quot;[39m
+                [36m/&gt;[39m
+              [36m&lt;/label&gt;[39m
+              [36m&lt;label[39m
+                [33mclass[39m=[32m&quot;text-sm&quot;[39m
+              [36m&gt;[39m
+                [0mTarget date[0m
+                [36m&lt;input[39m
+                  [33mclass[39m=[32m&quot;mt-2 min-h-11 w-full rounded-lg border border-border bg-input-background px-3 py-2 text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring&quot;[39m
+                  [33mmin[39m=[32m&quot;2026-10-21&quot;[39m
+                  [33mrequired[39m=[32m&quot;&quot;[39m
+                  [33mtype[39m=[32m&quot;date&quot;[39m
+                  [33mvalue[39m=[32m&quot;2026-10-17&quot;[39m
+                [36m/&gt;[39m
+              [36m&lt;/label&gt;[39m
+            [36m&lt;/div&gt;[39m
+            [36m&lt;fieldset&gt;[39m
+              [36m&lt;legend[39m
+                [33mclass[39m=[32m&quot;text-sm&quot;[39m
+              [36m&gt;[39m
+                [0mStudy days[0m
+              [36m&lt;/legend&gt;[39m
+              [36m&lt;div[39m
+                [33mclass[39m=[32m&quot;mt-3 flex flex-wrap gap-2&quot;[39m
+              [36m&gt;[39m
+                [36m&lt;label[39m
+                  [33mclass[39m=[32m&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-primary bg-primary/10&quot;[39m
+                [36m&gt;[39m
+                  [36m&lt;input[39m
+                    [33mchecked[39m=[32m&quot;&quot;[39m
+                    [33mtype[39m=[32m&quot;checkbox&quot;[39m
+                  [36m/&gt;[39m
+                  [0mMon[0m
+                [36m&lt;/label&gt;[39m
+                [36m&lt;label[39m
+                  [33mclass[39m=[32m&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-border&quot;[39m
+                [36m&gt;[39m
+                  [36m&lt;input[39m
+                    [33mtype[39m=[32m&quot;checkbox&quot;[39m
+                  [36m/&gt;[39m
+                  [0mTue[0m
+                [36m&lt;/label&gt;[39m
+                [36m&lt;label[39m
+                  [33mclass[39m=[32m&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-primary bg-primary/10&quot;[39m
+                [36m&gt;[39m
+                  [36m&lt;input[39m
+                    [33mchecked[39m=[32m&quot;&quot;[39m
+                    [33mtype[39m=[32m&quot;checkbox&quot;[39m
+                  [36m/&gt;[39m
+                  [0mWed[0m
+                [36m&lt;/label&gt;[39m
+                [36m&lt;label[39m
+                  [33mclass[39m=[32m&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-border&quot;[39m
+                [36m&gt;[39m
+                  [36m&lt;input[39m
+                    [33mtype[39m=[32m&quot;checkbox&quot;[39m
+                  [36m/&gt;[39m
+                  [0mThu[0m
+                [36m&lt;/label&gt;[39m
+                [36m&lt;label[39m
+                  [33mclass[39m=[32m&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-primary bg-primary/10&quot;[39m
+                [36m&gt;[39m
+                  [36m&lt;input[39m
+                    [33mchecked[39m=[32m&quot;&quot;[39m
+                    [33mtype[39m=[32m&quot;checkbox&quot;[39m
+                  [36m/&gt;[39m
+                  [0mFri[0m
+                [36m&lt;/label&gt;[39m
+                [36m&lt;label[39m
+                  [33mclass[39m=[32m&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-border&quot;[39m
+                [36m&gt;[39m
+                  [36m&lt;input[39m
+                    [33mtype[39m=[32m&quot;checkbox&quot;[39m
+                  [36m/&gt;[39m
+                  [0mSat[0m
+                [36m&lt;/label&gt;[39m
+                [36m&lt;label[39m
+                  [33mclass[39m=[32m&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-border&quot;[39m
+                [36m&gt;[39m
+                  [36m&lt;input[39m
+                    [33mtype[39m=[32m&quot;checkbox&quot;[39m
+                  [36m/&gt;[39m
+                  [0mSun[0m
+                [36m&lt;/label&gt;[39m
+              [36m&lt;/div&gt;[39m
+            [36m&lt;/fieldset&gt;[39m
+            [36m&lt;div[39m
+              [33mclass[39m=[32m&quot;flex flex-wrap gap-3&quot;[39m
+            [36m&gt;[39m
+              [36m&lt;button[39m
+                [33mclass[39m=[32m&quot;inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50&quot;[39m
+              [36m&gt;[39m
+                [0mReschedule remaining work[0m
+              [36m&lt;/button&gt;[39m
+              [36m&lt;button[39m
+                [33mclass[39m=[32m&quot;inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-border px-4 py-2 text-sm transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50&quot;[39m
+                [33mtype[39m=[32m&quot;button&quot;[39m
+              [36m&gt;[39m
+                [0mExport deadlines to calendar[0m
+              [36m&lt;/button&gt;[39m
+              [36m&lt;a[39m
+                [33mclass[39m=[32m&quot;inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-border px-4 py-2 text-sm transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50&quot;[39m
+                [33mdata-discover[39m=[32m&quot;true&quot;[39m
+                [33mhref[39m=[32m&quot;/roadmap/2&quot;[39m
+              [36m&gt;[39m
+                [0mOpen full roadmap[0m
+              [36m&lt;/a&gt;[39m
+            [36m&lt;/div&gt;[39m
+          [36m&lt;/form&gt;[39m
+        [36m&lt;/div&gt;[39m
+      [36m&lt;/section&gt;[39m
+    [36m&lt;/div&gt;[39m
+  [36m&lt;/div&gt;[39m
+[36m&lt;/body&gt;[39m
+
+Ignored nodes: comments, script, style
+[36m&lt;body&gt;[39m
+  [36m&lt;div&gt;[39m
+    [36m&lt;div[39m
+      [33mclass[39m=[32m&quot;space-y-6&quot;[39m
+    [36m&gt;[39m
+      [36m&lt;section[39m
+        [33mclass[39m=[32m&quot;min-w-0 rounded-2xl border border-border bg-card p-5 sm:p-6&quot;[39m
+      [36m&gt;[39m
+        [36m&lt;h2[39m
+          [33mclass[39m=[32m&quot;text-xl font-medium&quot;[39m
+        [36m&gt;[39m
+          [0mMake your plan fit your week[0m
+        [36m&lt;/h2&gt;[39m
+        [36m&lt;p[39m
+          [33mclass[39m=[32m&quot;mt-2 max-w-3xl text-sm leading-relaxed text-muted-foreground&quot;[39m
+        [36m&gt;[39m
+          [0mReschedule remaining work using your current progress and available study days. Tight deadlines produce a warning—not artificially shortened learning estimates.[0m
+        [36m&lt;/p&gt;[39m
+        [36m&lt;div[39m
+          [33mclass[39m=[32m&quot;mt-5&quot;[39m
+        [36m&gt;[39m
+          [36m&lt;form[39m
+            [33mclass[39m=[32m&quot;space-y-5&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;div[39m
+              [33mclass[39m=[32m&quot;grid gap-4 sm:grid-cols-2&quot;[39m
+            [36m&gt;[39m
+              [36m&lt;label[39m
+                [33mclass[39m=[32m&quot;text-sm&quot;[39m
+              [36m&gt;[39m
+                [0mHours per week[0m
+                [36m&lt;input[39m
+                  [33mclass[39m=[32m&quot;mt-2 min-h-11 w-full rounded-lg border border-border bg-input-background px-3 py-2 text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring&quot;[39m
+                  [33mmax[39m=[32m&quot;40&quot;[39m
+                  [33mmin[39m=[32m&quot;1&quot;[39m
+                  [33mrequired[39m=[32m&quot;&quot;[39m
+                  [33mstep[39m=[32m&quot;0.5&quot;[39m
+                  [33mtype[39m=[32m&quot;number&quot;[39m
+                  [33mvalue[39m=[32m&quot;1&quot;[39m
+                [36m/&gt;[39m
+              [36m&lt;/label&gt;[39m
+              [36m&lt;label[39m
+                [33mclass[39m=[32m&quot;text-sm&quot;[39m
+              [36m&gt;[39m
+                [0mTarget date[0m
+                [36m&lt;input[39m
+                  [33mclass[39m=[32m&quot;mt-2 min-h-11 w-full rounded-lg border border-border bg-input-background px-3 py-2 text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring&quot;[39m
+                  [33mmin[39m=[32m&quot;2026-10-21&quot;[39m
+                  [33mrequired[39m=[32m&quot;&quot;[39m
+                  [33mtype[39m=[32m&quot;date&quot;[39m
+                  [33mvalue[39m=[32m&quot;2026-10-17&quot;[39m
+                [36m/&gt;[39m
+              [36m&lt;/label&gt;[39m
+            [36m&lt;/div&gt;[39m
+            [36m&lt;fieldset&gt;[39m
+              [36m&lt;legend[39m
+                [33mclass[39m=[32m&quot;text-sm&quot;[39m
+              [36m&gt;[39m
+                [0mStudy days[0m
+              [36m&lt;/legend&gt;[39m
+              [36m&lt;div[39m
+                [33mclass[39m=[32m&quot;mt-3 flex flex-wrap gap-2&quot;[39m
+              [36m&gt;[39m
+                [36m&lt;label[39m
+                  [33mclass[39m=[32m&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-primary bg-primary/10&quot;[39m
+                [36m&gt;[39m
+                  [36m&lt;input[39m
+                    [33mchecked[39m=[32m&quot;&quot;[39m
+                    [33mtype[39m=[32m&quot;checkbox&quot;[39m
+                  [36m/&gt;[39m
+                  [0mMon[0m
+                [36m&lt;/label&gt;[39m
+                [36m&lt;label[39m
+                  [33mclass[39m=[32m&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-border&quot;[39m
+                [36m&gt;[39m
+                  [36m&lt;input[39m
+                    [33mtype[39m=[32m&quot;checkbox&quot;[39m
+                  [36m/&gt;[39m
+                  [0mTue[0m
+                [36m&lt;/label&gt;[39m
+                [36m&lt;label[39m
+                  [33mclass[39m=[32m&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-primary bg-primary/10&quot;[39m
+                [36m&gt;[39m
+                  [36m&lt;input[39m
+                    [33mchecked[39m=[32m&quot;&quot;[39m
+                    [33mtype[39m=[32m&quot;checkbox&quot;[39m
+                  [36m/&gt;[39m
+                  [0mWed[0m
+                [36m&lt;/label&gt;[39m
+                [36m&lt;label[39m
+                  [33mclass[39m=[32m&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-border&quot;[39m
+                [36m&gt;[39m
+                  [36m&lt;input[39m
+                    [33mtype[39m=[32m&quot;checkbox&quot;[39m
+                  [36m/&gt;[39m
+                  [0mThu[0m
+                [36m&lt;/label&gt;[39m
+                [36m&lt;label[39m
+                  [33mclass[39m=[32m&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-primary bg-primary/10&quot;[39m
+                [36m&gt;[39m
+                  [36m&lt;input[39m
+                    [33mchecked[39m=[32m&quot;&quot;[39m
+                    [33mtype[39m=[32m&quot;checkbox&quot;[39m
+                  [36m/&gt;[39m
+                  [0mFri[0m
+                [36m&lt;/label&gt;[39m
+                [36m&lt;label[39m
+                  [33mclass[39m=[32m&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-border&quot;[39m
+                [36m&gt;[39m
+                  [36m&lt;input[39m
+                    [33mtype[39m=[32m&quot;checkbox&quot;[39m
+                  [36m/&gt;[39m
+                  [0mSat[0m
+                [36m&lt;/label&gt;[39m
+                [36m&lt;label[39m
+                  [33mclass[39m=[32m&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-border&quot;[39m
+                [36m&gt;[39m
+                  [36m&lt;input[39m
+                    [33mtype[39m=[32m&quot;checkbox&quot;[39m
+                  [36m/&gt;[39m
+                  [0mSun[0m
+                [36m&lt;/label&gt;[39m
+              [36m&lt;/div&gt;[39m
+            [36m&lt;/fieldset&gt;[39m
+            [36m&lt;div[39m
+              [33mclass[39m=[32m&quot;flex flex-wrap gap-3&quot;[39m
+            [36m&gt;[39m
+              [36m&lt;button[39m
+                [33mclass[39m=[32m&quot;inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50&quot;[39m
+              [36m&gt;[39m
+                [0mReschedule remaining work[0m
+              [36m&lt;/button&gt;[39m
+              [36m&lt;button[39m
+                [33mclass[39m=[32m&quot;inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-border px-4 py-2 text-sm transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50&quot;[39m
+                [33mtype[39m=[32m&quot;button&quot;[39m
+              [36m&gt;[39m
+                [0mExport deadlines to calendar[0m
+              [36m&lt;/button&gt;[39m
+              [36m&lt;a[39m
+                [33mclass[39m=[32m&quot;inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-border px-4 py-2 text-sm transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50&quot;[39m
+                [33mdata-discover[39m=[32m&quot;true&quot;[39m
+                [33mhref[39m=[32m&quot;/roadmap/2&quot;[39m
+              [36m&gt;[39m
+                [0mOpen full roadmap[0m
+              [36m&lt;/a&gt;[39m
+            [36m&lt;/div&gt;[39m
+          [36m&lt;/form&gt;[39m
+        [36m&lt;/div&gt;[39m
+      [36m&lt;/section&gt;[39m
+    [36m&lt;/div&gt;[39m
+  [36m&lt;/div&gt;[39m
+[36m&lt;/body&gt;[39m" type="TestingLibraryElementError">
+TestingLibraryElementError: Unable to find an element with the text: Deadline exceeds available study capacity.. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;div
+      class=&quot;space-y-6&quot;
+    &gt;
+      &lt;section
+        class=&quot;min-w-0 rounded-2xl border border-border bg-card p-5 sm:p-6&quot;
+      &gt;
+        &lt;h2
+          class=&quot;text-xl font-medium&quot;
+        &gt;
+          Make your plan fit your week
+        &lt;/h2&gt;
+        &lt;p
+          class=&quot;mt-2 max-w-3xl text-sm leading-relaxed text-muted-foreground&quot;
+        &gt;
+          Reschedule remaining work using your current progress and available study days. Tight deadlines produce a warning—not artificially shortened learning estimates.
+        &lt;/p&gt;
+        &lt;div
+          class=&quot;mt-5&quot;
+        &gt;
+          &lt;form
+            class=&quot;space-y-5&quot;
+          &gt;
+            &lt;div
+              class=&quot;grid gap-4 sm:grid-cols-2&quot;
+            &gt;
+              &lt;label
+                class=&quot;text-sm&quot;
+              &gt;
+                Hours per week
+                &lt;input
+                  class=&quot;mt-2 min-h-11 w-full rounded-lg border border-border bg-input-background px-3 py-2 text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring&quot;
+                  max=&quot;40&quot;
+                  min=&quot;1&quot;
+                  required=&quot;&quot;
+                  step=&quot;0.5&quot;
+                  type=&quot;number&quot;
+                  value=&quot;1&quot;
+                /&gt;
+              &lt;/label&gt;
+              &lt;label
+                class=&quot;text-sm&quot;
+              &gt;
+                Target date
+                &lt;input
+                  class=&quot;mt-2 min-h-11 w-full rounded-lg border border-border bg-input-background px-3 py-2 text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring&quot;
+                  min=&quot;2026-10-21&quot;
+                  required=&quot;&quot;
+                  type=&quot;date&quot;
+                  value=&quot;2026-10-17&quot;
+                /&gt;
+              &lt;/label&gt;
+            &lt;/div&gt;
+            &lt;fieldset&gt;
+              &lt;legend
+                class=&quot;text-sm&quot;
+              &gt;
+                Study days
+              &lt;/legend&gt;
+              &lt;div
+                class=&quot;mt-3 flex flex-wrap gap-2&quot;
+              &gt;
+                &lt;label
+                  class=&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-primary bg-primary/10&quot;
+                &gt;
+                  &lt;input
+                    checked=&quot;&quot;
+                    type=&quot;checkbox&quot;
+                  /&gt;
+                  Mon
+                &lt;/label&gt;
+                &lt;label
+                  class=&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-border&quot;
+                &gt;
+                  &lt;input
+                    type=&quot;checkbox&quot;
+                  /&gt;
+                  Tue
+                &lt;/label&gt;
+                &lt;label
+                  class=&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-primary bg-primary/10&quot;
+                &gt;
+                  &lt;input
+                    checked=&quot;&quot;
+                    type=&quot;checkbox&quot;
+                  /&gt;
+                  Wed
+                &lt;/label&gt;
+                &lt;label
+                  class=&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-border&quot;
+                &gt;
+                  &lt;input
+                    type=&quot;checkbox&quot;
+                  /&gt;
+                  Thu
+                &lt;/label&gt;
+                &lt;label
+                  class=&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-primary bg-primary/10&quot;
+                &gt;
+                  &lt;input
+                    checked=&quot;&quot;
+                    type=&quot;checkbox&quot;
+                  /&gt;
+                  Fri
+                &lt;/label&gt;
+                &lt;label
+                  class=&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-border&quot;
+                &gt;
+                  &lt;input
+                    type=&quot;checkbox&quot;
+                  /&gt;
+                  Sat
+                &lt;/label&gt;
+                &lt;label
+                  class=&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-border&quot;
+                &gt;
+                  &lt;input
+                    type=&quot;checkbox&quot;
+                  /&gt;
+                  Sun
+                &lt;/label&gt;
+              &lt;/div&gt;
+            &lt;/fieldset&gt;
+            &lt;div
+              class=&quot;flex flex-wrap gap-3&quot;
+            &gt;
+              &lt;button
+                class=&quot;inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50&quot;
+              &gt;
+                Reschedule remaining work
+              &lt;/button&gt;
+              &lt;button
+                class=&quot;inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-border px-4 py-2 text-sm transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50&quot;
+                type=&quot;button&quot;
+              &gt;
+                Export deadlines to calendar
+              &lt;/button&gt;
+              &lt;a
+                class=&quot;inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-border px-4 py-2 text-sm transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50&quot;
+                data-discover=&quot;true&quot;
+                href=&quot;/roadmap/2&quot;
+              &gt;
+                Open full roadmap
+              &lt;/a&gt;
+            &lt;/div&gt;
+          &lt;/form&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;div
+      class=&quot;space-y-6&quot;
+    &gt;
+      &lt;section
+        class=&quot;min-w-0 rounded-2xl border border-border bg-card p-5 sm:p-6&quot;
+      &gt;
+        &lt;h2
+          class=&quot;text-xl font-medium&quot;
+        &gt;
+          Make your plan fit your week
+        &lt;/h2&gt;
+        &lt;p
+          class=&quot;mt-2 max-w-3xl text-sm leading-relaxed text-muted-foreground&quot;
+        &gt;
+          Reschedule remaining work using your current progress and available study days. Tight deadlines produce a warning—not artificially shortened learning estimates.
+        &lt;/p&gt;
+        &lt;div
+          class=&quot;mt-5&quot;
+        &gt;
+          &lt;form
+            class=&quot;space-y-5&quot;
+          &gt;
+            &lt;div
+              class=&quot;grid gap-4 sm:grid-cols-2&quot;
+            &gt;
+              &lt;label
+                class=&quot;text-sm&quot;
+              &gt;
+                Hours per week
+                &lt;input
+                  class=&quot;mt-2 min-h-11 w-full rounded-lg border border-border bg-input-background px-3 py-2 text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring&quot;
+                  max=&quot;40&quot;
+                  min=&quot;1&quot;
+                  required=&quot;&quot;
+                  step=&quot;0.5&quot;
+                  type=&quot;number&quot;
+                  value=&quot;1&quot;
+                /&gt;
+              &lt;/label&gt;
+              &lt;label
+                class=&quot;text-sm&quot;
+              &gt;
+                Target date
+                &lt;input
+                  class=&quot;mt-2 min-h-11 w-full rounded-lg border border-border bg-input-background px-3 py-2 text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring&quot;
+                  min=&quot;2026-10-21&quot;
+                  required=&quot;&quot;
+                  type=&quot;date&quot;
+                  value=&quot;2026-10-17&quot;
+                /&gt;
+              &lt;/label&gt;
+            &lt;/div&gt;
+            &lt;fieldset&gt;
+              &lt;legend
+                class=&quot;text-sm&quot;
+              &gt;
+                Study days
+              &lt;/legend&gt;
+              &lt;div
+                class=&quot;mt-3 flex flex-wrap gap-2&quot;
+              &gt;
+                &lt;label
+                  class=&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-primary bg-primary/10&quot;
+                &gt;
+                  &lt;input
+                    checked=&quot;&quot;
+                    type=&quot;checkbox&quot;
+                  /&gt;
+                  Mon
+                &lt;/label&gt;
+                &lt;label
+                  class=&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-border&quot;
+                &gt;
+                  &lt;input
+                    type=&quot;checkbox&quot;
+                  /&gt;
+                  Tue
+                &lt;/label&gt;
+                &lt;label
+                  class=&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-primary bg-primary/10&quot;
+                &gt;
+                  &lt;input
+                    checked=&quot;&quot;
+                    type=&quot;checkbox&quot;
+                  /&gt;
+                  Wed
+                &lt;/label&gt;
+                &lt;label
+                  class=&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-border&quot;
+                &gt;
+                  &lt;input
+                    type=&quot;checkbox&quot;
+                  /&gt;
+                  Thu
+                &lt;/label&gt;
+                &lt;label
+                  class=&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-primary bg-primary/10&quot;
+                &gt;
+                  &lt;input
+                    checked=&quot;&quot;
+                    type=&quot;checkbox&quot;
+                  /&gt;
+                  Fri
+                &lt;/label&gt;
+                &lt;label
+                  class=&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-border&quot;
+                &gt;
+                  &lt;input
+                    type=&quot;checkbox&quot;
+                  /&gt;
+                  Sat
+                &lt;/label&gt;
+                &lt;label
+                  class=&quot;flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 text-sm border-border&quot;
+                &gt;
+                  &lt;input
+                    type=&quot;checkbox&quot;
+                  /&gt;
+                  Sun
+                &lt;/label&gt;
+              &lt;/div&gt;
+            &lt;/fieldset&gt;
+            &lt;div
+              class=&quot;flex flex-wrap gap-3&quot;
+            &gt;
+              &lt;button
+                class=&quot;inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50&quot;
+              &gt;
+                Reschedule remaining work
+              &lt;/button&gt;
+              &lt;button
+                class=&quot;inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-border px-4 py-2 text-sm transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50&quot;
+                type=&quot;button&quot;
+              &gt;
+                Export deadlines to calendar
+              &lt;/button&gt;
+              &lt;a
+                class=&quot;inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-border px-4 py-2 text-sm transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50&quot;
+                data-discover=&quot;true&quot;
+                href=&quot;/roadmap/2&quot;
+              &gt;
+                Open full roadmap
+              &lt;/a&gt;
+            &lt;/div&gt;
+          &lt;/form&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ tests/career-growth.test.tsx:89:23
+            </failure>
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="captures a supported job only after the user reviews and saves it" time="0.5621469">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="states explicitly when live feeds are not configured" time="0.0678503">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="saves job preferences with salary currency and explicit remote filter" time="0.2880277">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="requires selected evidence and sharing consent before creating a passport" time="0.3487416">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="adds private contacts without sending any communication" time="0.1800532">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="adds an in-app reminder and explains its delivery limits" time="0.1959844">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="displays a contextual interview follow-up without fabricating a semantic score" time="0.1595959">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="public passport loads without attaching authentication and sanitizes evidence links" time="0.3509621">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="public passport unavailable state does not show a review form" time="0.0299604">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="routes career growth sections through accessible deep links" time="0.4013196">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="reminder bell counts due items without exposing contact information" time="0.033735">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/deployment-config.test.ts" timestamp="2026-10-21T16:38:15.531Z" hostname="Mann" tests="9" failures="0" errors="0" skipped="0" time="0.0535004">
+        <testcase classname="tests/deployment-config.test.ts" name="API deployment configuration &gt; accepts a safe API origin: https://api.skillsync.example" time="0.0209339">
+        </testcase>
+        <testcase classname="tests/deployment-config.test.ts" name="API deployment configuration &gt; accepts a safe API origin: http://localhost:8000" time="0.0007651">
+        </testcase>
+        <testcase classname="tests/deployment-config.test.ts" name="API deployment configuration &gt; accepts a safe API origin: http://127.0.0.1:8000" time="0.000362">
+        </testcase>
+        <testcase classname="tests/deployment-config.test.ts" name="API deployment configuration &gt; rejects an unsafe API origin: " time="0.0055594">
+        </testcase>
+        <testcase classname="tests/deployment-config.test.ts" name="API deployment configuration &gt; rejects an unsafe API origin: invalid" time="0.0054311">
+        </testcase>
+        <testcase classname="tests/deployment-config.test.ts" name="API deployment configuration &gt; rejects an unsafe API origin: http://api.skillsync.example" time="0.0005768">
+        </testcase>
+        <testcase classname="tests/deployment-config.test.ts" name="API deployment configuration &gt; rejects an unsafe API origin: https://user:password@api.skillsync.example" time="0.0013157">
+        </testcase>
+        <testcase classname="tests/deployment-config.test.ts" name="API deployment configuration &gt; rejects an unsafe API origin: https://api.skillsync.example/v1" time="0.0006411">
+        </testcase>
+        <testcase classname="tests/deployment-config.test.ts" name="API deployment configuration &gt; rejects an unsafe API origin: https://api.skillsync.example?debug=true" time="0.0008118">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/phase-five.test.tsx" timestamp="2026-10-21T16:38:15.538Z" hostname="Mann" tests="6" failures="0" errors="0" skipped="0" time="3.1351">
+        <testcase classname="tests/phase-five.test.tsx" name="appends an older page and shows the actual resume count instead of the preview length" time="1.6166664">
+        </testcase>
+        <testcase classname="tests/phase-five.test.tsx" name="keeps visible jobs on a paging error and retries the same cursor" time="0.6600559">
+        </testcase>
+        <testcase classname="tests/phase-five.test.tsx" name="deduplicates rows and blocks repeated clicks while the next page is loading" time="0.0877446">
+        </testcase>
+        <testcase classname="tests/phase-five.test.tsx" name="aborts a pending page when the component unmounts" time="0.0192958">
+        </testcase>
+        <testcase classname="tests/phase-five.test.tsx" name="opens a linked workspace beyond the initial page instead of using the first job" time="0.4569961">
+        </testcase>
+        <testcase classname="tests/phase-five.test.tsx" name="does not silently fall back to a different job when a linked workspace is unavailable" time="0.285755">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/phase-four.test.tsx" timestamp="2026-10-21T16:38:15.549Z" hostname="Mann" tests="15" failures="0" errors="0" skipped="0" time="3.4845998">
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows an authoritative 0 score without inventing a completion" time="0.5313192">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows an authoritative null score without inventing a completion" time="0.2531212">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; ignores an unrelated or stale learning plan: {&quot;analysis_id&quot;:99,&quot;stale&quot;:false}" time="0.982479">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; ignores an unrelated or stale learning plan: {&quot;analysis_id&quot;:23,&quot;stale&quot;:true}" time="0.2840535">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows a pending gap notice instead of sample scores" time="0.0897165">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows a stale gap notice instead of sample scores" time="0.0563401">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows a legacy gap notice instead of sample scores" time="0.0561928">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows a unavailable gap notice instead of sample scores" time="0.0514122">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; keeps a real zero in the completed gap report" time="0.0322155">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; explains a legacy analysis and waits for an explicit rerun" time="0.0856053">
+            <system-err>
+You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+
+            </system-err>
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; explains a unavailable analysis and waits for an explicit rerun" time="0.0563119">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; keeps the career preparation estimate at 0 without a fabricated zero" time="0.1286033">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; keeps the career preparation estimate at null without a fabricated zero" time="0.1296306">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="shared upload validation &gt; validates trimmed bounds and formats structured field errors" time="0.0013204">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="shared upload validation &gt; submits saved-job edits and resume together, then preserves edits on a failed upload" time="0.7402369">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/supabase-config.test.ts" timestamp="2026-10-21T16:38:15.570Z" hostname="Mann" tests="13" failures="0" errors="0" skipped="0" time="0.0932357">
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; accepts a publishable key" time="0.0276621">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; accepts a legacy public anon key" time="0.0064908">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; rejects secret or invalid keys before bundling" time="0.0015429">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; rejects secret or invalid keys before bundling" time="0.0015201">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; rejects secret or invalid keys before bundling" time="0.0012055">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; rejects secret or invalid keys before bundling" time="0.0013582">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; rejects an invalid project URL: " time="0.0014515">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; rejects an invalid project URL: invalid" time="0.0007694">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; rejects an invalid project URL: http://untrusted.example" time="0.001734">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; rejects an invalid project URL: https://user:password@test.supabase.co" time="0.0059265">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; rejects an invalid project URL: https://test.supabase.co?redirect=1" time="0.0008793">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; rejects an invalid project URL: https://test.supabase.co/auth/v1" time="0.0049602">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; allows local Supabase development" time="0.0014831">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/theme.test.ts" timestamp="2026-10-21T16:38:15.581Z" hostname="Mann" tests="17" failures="0" errors="0" skipped="0" time="0.0367634">
+        <testcase classname="tests/theme.test.ts" name=":root theme &gt; has readable foreground on input-background" time="0.0132357">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=":root theme &gt; has readable muted-foreground on input-background" time="0.0011018">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=":root theme &gt; has readable muted-foreground on card" time="0.0008904">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=":root theme &gt; has readable primary-foreground on primary" time="0.0012375">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=":root theme &gt; has readable primary on card" time="0.0007395">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=":root theme &gt; has readable destructive on card" time="0.000587">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=":root theme &gt; has readable destructive-foreground on destructive" time="0.0005216">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=":root theme &gt; has distinguishable input borders" time="0.0007317">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=".dark theme &gt; has readable foreground on input-background" time="0.0005983">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=".dark theme &gt; has readable muted-foreground on input-background" time="0.0007058">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=".dark theme &gt; has readable muted-foreground on card" time="0.0003091">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=".dark theme &gt; has readable primary-foreground on primary" time="0.0003718">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=".dark theme &gt; has readable primary on card" time="0.0001422">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=".dark theme &gt; has readable destructive on card" time="0.0001374">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=".dark theme &gt; has readable destructive-foreground on destructive" time="0.0002033">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=".dark theme &gt; has distinguishable input borders" time="0.0005067">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name="overrides dark input and switch backgrounds" time="0.0037962">
+        </testcase>
+    </testsuite>
+</testsuites>

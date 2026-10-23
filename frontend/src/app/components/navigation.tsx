@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Moon, Sun, LayoutDashboard, BriefcaseBusiness, TrendingUp, BookOpen, Compass, Menu, X, LogOut } from "lucide-react";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../auth-provider";
 import { supabase } from "../../lib/supabase";
 import { CareerReminderBell } from "./career-reminder-bell";
@@ -63,9 +63,18 @@ export function Navigation() {
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const menuButton = useRef<HTMLButtonElement>(null);
   const [logoutBusy, setLogoutBusy] = useState(false);
   const [logoutError, setLogoutError] = useState("");
   useEffect(() => { setMobileMenuOpen(false); }, [location.pathname]);
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const close = (event: KeyboardEvent) => {
+      if (event.key === "Escape") { event.preventDefault(); setMobileMenuOpen(false); menuButton.current?.focus(); }
+    };
+    document.addEventListener("keydown", close);
+    return () => document.removeEventListener("keydown", close);
+  }, [mobileMenuOpen]);
 
   const logout = async () => {
     setLogoutBusy(true);
@@ -191,6 +200,7 @@ export function Navigation() {
                 aria-label="Toggle menu"
                 aria-expanded={mobileMenuOpen}
                 aria-controls="mobile-navigation"
+                ref={menuButton}
               >
                 {mobileMenuOpen ? <X className="size-4" /> : <Menu className="size-4" />}
               </button>
@@ -210,7 +220,7 @@ export function Navigation() {
             exit={{ opacity: 0, height: 0 }}
             className="border-t border-border bg-card lg:hidden"
           >
-            <div className="space-y-1 px-4 py-3 [&_a]:flex [&_a]:w-full">
+            <div className="space-y-2 px-4 py-3 [&_a]:flex [&_a]:w-full">
               {navLinks.map((link) => (
                 <NavLink
                   key={link.to}

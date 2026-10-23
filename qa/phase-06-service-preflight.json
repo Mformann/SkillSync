@@ -1,0 +1,241 @@
+{
+  "database": {
+    "ok": true,
+    "details": {
+      "select_1": true,
+      "migration_heads": [
+        "20261021_07"
+      ],
+      "missing_model_columns": [
+        "ai_usage_accounts.user_id",
+        "analysis_runs.id",
+        "analysis_runs.user_id",
+        "analysis_runs.analysis_id",
+        "analysis_runs.active_analysis_id",
+        "analysis_runs.input_hash",
+        "analysis_runs.model",
+        "analysis_runs.prompt_version",
+        "analysis_runs.status",
+        "analysis_runs.created_at",
+        "analysis_runs.lease_expires_at",
+        "analysis_runs.finished_at",
+        "analysis_runs.error_code",
+        "application_packages.source_input_hash",
+        "learning_plans.source_input_hash",
+        "resume_versions.source_input_hash",
+        "ai_usage.run_id",
+        "ai_usage.user_id",
+        "ai_usage.status",
+        "ai_usage.reserved_at",
+        "ai_usage.dispatched_at",
+        "ai_usage.released_at"
+      ],
+      "app_table_security": [
+        {
+          "table": "resumes",
+          "rls": true,
+          "anon_select": false,
+          "authenticated_select": false,
+          "anon_insert": false,
+          "anon_update": false,
+          "anon_delete": false
+        },
+        {
+          "table": "target_jobs",
+          "rls": true,
+          "anon_select": false,
+          "authenticated_select": false,
+          "anon_insert": false,
+          "anon_update": false,
+          "anon_delete": false
+        },
+        {
+          "table": "analyses",
+          "rls": true,
+          "anon_select": false,
+          "authenticated_select": false,
+          "anon_insert": false,
+          "anon_update": false,
+          "anon_delete": false
+        },
+        {
+          "table": "learning_plans",
+          "rls": true,
+          "anon_select": false,
+          "authenticated_select": false,
+          "anon_insert": false,
+          "anon_update": false,
+          "anon_delete": false
+        },
+        {
+          "table": "interview_sessions",
+          "rls": true,
+          "anon_select": false,
+          "authenticated_select": false,
+          "anon_insert": false,
+          "anon_update": false,
+          "anon_delete": false
+        },
+        {
+          "table": "job_applications",
+          "rls": true,
+          "anon_select": false,
+          "authenticated_select": false,
+          "anon_insert": false,
+          "anon_update": false,
+          "anon_delete": false
+        },
+        {
+          "table": "application_events",
+          "rls": true,
+          "anon_select": false,
+          "authenticated_select": false,
+          "anon_insert": false,
+          "anon_update": false,
+          "anon_delete": false
+        },
+        {
+          "table": "application_packages",
+          "rls": true,
+          "anon_select": false,
+          "authenticated_select": false,
+          "anon_insert": false,
+          "anon_update": false,
+          "anon_delete": false
+        },
+        {
+          "table": "growth_preferences",
+          "rls": true,
+          "anon_select": false,
+          "authenticated_select": false,
+          "anon_insert": false,
+          "anon_update": false,
+          "anon_delete": false
+        },
+        {
+          "table": "skill_assessments",
+          "rls": true,
+          "anon_select": false,
+          "authenticated_select": false,
+          "anon_insert": false,
+          "anon_update": false,
+          "anon_delete": false
+        },
+        {
+          "table": "career_contacts",
+          "rls": true,
+          "anon_select": false,
+          "authenticated_select": false,
+          "anon_insert": false,
+          "anon_update": false,
+          "anon_delete": false
+        },
+        {
+          "table": "career_reminders",
+          "rls": true,
+          "anon_select": false,
+          "authenticated_select": false,
+          "anon_insert": false,
+          "anon_update": false,
+          "anon_delete": false
+        },
+        {
+          "table": "passport_shares",
+          "rls": true,
+          "anon_select": false,
+          "authenticated_select": false,
+          "anon_insert": false,
+          "anon_update": false,
+          "anon_delete": false
+        },
+        {
+          "table": "career_achievements",
+          "rls": true,
+          "anon_select": false,
+          "authenticated_select": false,
+          "anon_insert": false,
+          "anon_update": false,
+          "anon_delete": false
+        },
+        {
+          "table": "career_profiles",
+          "rls": true,
+          "anon_select": false,
+          "authenticated_select": false,
+          "anon_insert": false,
+          "anon_update": false,
+          "anon_delete": false
+        },
+        {
+          "table": "learning_tasks",
+          "rls": true,
+          "anon_select": false,
+          "authenticated_select": false,
+          "anon_insert": false,
+          "anon_update": false,
+          "anon_delete": false
+        },
+        {
+          "table": "passport_reviews",
+          "rls": true,
+          "anon_select": false,
+          "authenticated_select": false,
+          "anon_insert": false,
+          "anon_update": false,
+          "anon_delete": false
+        },
+        {
+          "table": "portfolio_evidence",
+          "rls": true,
+          "anon_select": false,
+          "authenticated_select": false,
+          "anon_insert": false,
+          "anon_update": false,
+          "anon_delete": false
+        },
+        {
+          "table": "resume_versions",
+          "rls": true,
+          "anon_select": false,
+          "authenticated_select": false,
+          "anon_insert": false,
+          "anon_update": false,
+          "anon_delete": false
+        }
+      ]
+    },
+    "elapsed_ms": 9871
+  },
+  "supabase": {
+    "ok": true,
+    "details": {
+      "auth_health_status": 200,
+      "anonymous_resumes_limit_zero_status": 401
+    },
+    "elapsed_ms": 2495
+  },
+  "groq_synthetic_analysis": {
+    "ok": true,
+    "details": {
+      "provider": "groq",
+      "requirements": 2,
+      "matches": 2,
+      "scores": {
+        "overall": 60,
+        "required": 60,
+        "preferred": 0,
+        "evidence_confidence": 75,
+        "status_counts": {
+          "strong_match": 1,
+          "partial_match": 0,
+          "transferable": 0,
+          "poorly_demonstrated": 0,
+          "missing_evidence": 1,
+          "missing_skill": 0
+        },
+        "formula_version": "weighted-match-v1"
+      }
+    },
+    "elapsed_ms": 4357
+  }
+}

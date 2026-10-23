@@ -36,13 +36,14 @@ def cors_origins() -> list[str]:
         try:
             parts = urlsplit(origin)
         except ValueError as exc:
-            raise RuntimeError(f"Invalid CORS origin: {origin}") from exc
+            raise RuntimeError("Invalid CORS origin. Use a trusted HTTPS origin without credentials or a path.") from exc
         local = parts.hostname in LOCAL_HOSTS
         valid_scheme = parts.scheme == "https" or (
             parts.scheme == "http" and local and not is_production()
         )
         if (
             not parts.hostname
+            or (local and is_production())
             or not valid_scheme
             or parts.username
             or parts.password
@@ -50,7 +51,7 @@ def cors_origins() -> list[str]:
             or parts.query
             or parts.fragment
         ):
-            raise RuntimeError(f"Invalid CORS origin: {origin}")
+            raise RuntimeError("Invalid CORS origin. Use a trusted HTTPS origin without credentials or a path.")
         if origin not in origins:
             origins.append(origin)
 
@@ -64,6 +65,8 @@ def validate_runtime_configuration() -> None:
     # begins accepting requests.
     cors_origins()
     api_docs_enabled()
+    from .services.document_parser_worker import ParserLimits
+    ParserLimits.from_environment()
     try:
         max_request_bytes = int(
             os.getenv("MAX_REQUEST_BYTES", str(12 * 1024 * 1024))
@@ -90,6 +93,7 @@ def validate_runtime_configuration() -> None:
     if (
         parts.scheme != "https"
         or not parts.hostname
+        or parts.hostname in LOCAL_HOSTS
         or parts.username
         or parts.password
         or parts.path

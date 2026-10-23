@@ -1,0 +1,262 @@
+{
+  "phase": 4,
+  "date": "2026-10-21",
+  "method": "Latest recorded result per testcase classname/name and occurrence index for repeated parameterized names; final integration checks supersede earlier failures for the same case. The full backend initially had a local PostgreSQL connection timeout and a corrected interview-practice regression.",
+  "backend": {
+    "counts": {
+      "passed": 267,
+      "skipped": 1,
+      "failed": 1
+    },
+    "total": 269,
+    "remaining": [
+      {
+        "case": "tests.test_authentication::test_all_application_endpoints_require_bearer",
+        "occurrence": 1,
+        "status": "failed",
+        "source": "phase-04-backend-tests.xml"
+      }
+    ],
+    "sources": [
+      "phase-04-backend-tests.xml",
+      "phase-04-final-integration-tests.xml"
+    ]
+  },
+  "frontend": {
+    "counts": {
+      "passed": 117,
+      "failed": 1
+    },
+    "total": 118,
+    "remaining": [
+      {
+        "case": "tests/career-growth.test.tsx::reschedules with selected capacity and shows an impossible-deadline warning",
+        "occurrence": 1,
+        "status": "failed",
+        "source": "phase-04-frontend-tests.xml"
+      }
+    ],
+    "sources": [
+      "phase-04-frontend-tests.xml",
+      "phase-04-frontend-final-tests.xml"
+    ]
+  },
+  "linux_final": {
+    "counts": {
+      "passed": 81
+    },
+    "total": 81,
+    "remaining": [],
+    "sources": [
+      "phase-04-linux-final-tests.xml"
+    ]
+  },
+  "original_qa": {
+    "counts": {
+      "passed": 9,
+      "failed": 1
+    },
+    "total": 10,
+    "remaining": [
+      {
+        "case": "qa.test_qa_audit::test_workspace_listing_does_not_query_each_row_separately",
+        "occurrence": 1,
+        "status": "failed",
+        "source": "phase-04-original-probes.xml"
+      }
+    ],
+    "sources": [
+      "phase-04-original-probes.xml"
+    ]
+  },
+  "edge_regressions": {
+    "passed": 6
+  },
+  "browser": {
+    "ok": true,
+    "analysis_id": "4",
+    "steps": [
+      "Uploaded a DOCX and completed consent-off analysis through the browser",
+      "Generated a persistent learning plan",
+      "Edited and saved a tailored resume",
+      "Downloaded the tailored DOCX",
+      "Verified saved changes after reload",
+      "Edited the job, refreshed analysis explicitly, and verified stale plan/version notices with saved edits preserved",
+      "Read a table-only DOCX through the browser; verified a true zero across gap report and dashboard, then pending/unavailable state after a saved-job upload"
+    ],
+    "errors": [],
+    "responses": [
+      {
+        "path": "/growth/reminders",
+        "status": 200
+      },
+      {
+        "path": "/resume/upload",
+        "status": 200
+      },
+      {
+        "path": "/resume/analysis/4/explainable",
+        "status": 200
+      },
+      {
+        "path": "/resume/analysis/4/run",
+        "status": 200
+      },
+      {
+        "path": "/learning/plans/by-analysis/4",
+        "status": 404
+      },
+      {
+        "path": "/resume/analysis/latest/explainable",
+        "status": 200
+      },
+      {
+        "path": "/learning/plans",
+        "status": 201
+      },
+      {
+        "path": "/resume/analysis/4/explainable",
+        "status": 200
+      },
+      {
+        "path": "/resume-studio/analyses/4/versions",
+        "status": 200
+      },
+      {
+        "path": "/resume-studio/analyses/4/versions",
+        "status": 201
+      },
+      {
+        "path": "/resume-studio/versions/3",
+        "status": 200
+      },
+      {
+        "path": "/resume-studio/versions/3/docx",
+        "status": 200
+      },
+      {
+        "path": "/resume-studio/analyses/4/versions",
+        "status": 200
+      },
+      {
+        "path": "/growth/reminders",
+        "status": 200
+      },
+      {
+        "path": "/resume/analysis/4/explainable",
+        "status": 200
+      },
+      {
+        "path": "/growth/reminders",
+        "status": 200
+      },
+      {
+        "path": "/resume/analysis/4/run",
+        "status": 200
+      },
+      {
+        "path": "/learning/plans/by-analysis/4",
+        "status": 200
+      },
+      {
+        "path": "/growth/reminders",
+        "status": 200
+      },
+      {
+        "path": "/resume-studio/analyses/4/versions",
+        "status": 200
+      },
+      {
+        "path": "/growth/reminders",
+        "status": 200
+      },
+      {
+        "path": "/resume/gap-report/4",
+        "status": 200
+      },
+      {
+        "path": "/growth/reminders",
+        "status": 200
+      },
+      {
+        "path": "/growth/reminders",
+        "status": 200
+      },
+      {
+        "path": "/resume/all",
+        "status": 200
+      },
+      {
+        "path": "/dashboard/summary",
+        "status": 200
+      },
+      {
+        "path": "/resume/analysis/latest/explainable",
+        "status": 200
+      },
+      {
+        "path": "/learning/plans/by-analysis/4",
+        "status": 200
+      },
+      {
+        "path": "/product/analytics",
+        "status": 200
+      },
+      {
+        "path": "/growth/reminders",
+        "status": 200
+      },
+      {
+        "path": "/career/workspaces",
+        "status": 200
+      },
+      {
+        "path": "/career/workspaces/3",
+        "status": 200
+      },
+      {
+        "path": "/growth/reminders",
+        "status": 200
+      },
+      {
+        "path": "/resume/all",
+        "status": 200
+      },
+      {
+        "path": "/dashboard/summary",
+        "status": 200
+      },
+      {
+        "path": "/resume/analysis/latest/explainable",
+        "status": 200
+      },
+      {
+        "path": "/resume/gap-report/5",
+        "status": 200
+      },
+      {
+        "path": "/growth/reminders",
+        "status": 200
+      },
+      {
+        "path": "/product/analytics",
+        "status": 200
+      },
+      {
+        "path": "/growth/reminders",
+        "status": 200
+      },
+      {
+        "path": "/career/workspaces",
+        "status": 200
+      },
+      {
+        "path": "/career/workspaces/3",
+        "status": 200
+      }
+    ],
+    "analysisRunRequests": 1,
+    "totalRunRequests": 2
+  },
+  "hosted_activation": "Pending phase 3 migration 20261021_08 and API/frontend deployment; phase 4 adds no migration."
+}

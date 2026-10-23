@@ -1,0 +1,11 @@
+{
+  "suite": "frontend/e2e/auth-ui.spec.ts",
+  "browser": "Microsoft Edge headless",
+  "build": "local production verification bundle",
+  "passed": 6,
+  "failed": 0,
+  "seconds": 18.842,
+  "covers": ["landing responsive layout", "public legal pages", "simulated sign-in/reload/logout", "auth pages at three viewports"],
+  "hosted_authentication": false,
+  "note": "Clean rerun after Windows suspended network activity during an earlier attempt."
+}

@@ -31,7 +31,8 @@ test("landing page communicates the product clearly across breakpoints", async (
   await expect(page.getByRole("heading", { name: "Everything you need to become a stronger candidate." })).toBeVisible();
   const footerLogo = page.getByRole("contentinfo").getByRole("link", { name: "SkillSync home" }).locator("img");
   await expect(footerLogo).toHaveAttribute("src", "/brand/skillsync-lockup-tagline.png");
-  expect(await footerLogo.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
+  await footerLogo.scrollIntoViewIfNeeded();
+  await expect.poll(() => footerLogo.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
   await expect(page.getByRole("contentinfo").getByRole("link", { name: "Sign in" })).toHaveCount(0);
   expect(errors).toEqual([]);
 });
@@ -77,7 +78,7 @@ test("a simulated sign-in reaches the dashboard and signs out cleanly", async ({
     else if (pathname.endsWith("/user")) await route.fulfill({ json: user });
     else await route.fulfill({ json: { access_token: token, refresh_token: "fixture-refresh-token", token_type: "bearer", expires_in: 3600, user } });
   });
-  await page.route("**/resume/**", route => route.fulfill({ json: route.request().url().endsWith("/all") ? [] : { gapAnalysis: [] } }));
+  await page.route("**/resume/**", route => route.fulfill({ json: new URL(route.request().url()).pathname.endsWith("/all") ? [] : { gapAnalysis: [] } }));
   await page.route("**/learning/plans/latest", route => route.fulfill({ json: { tasks: [] } }));
   await page.goto("/dashboard");
   await expect(page).toHaveURL(/\/login$/);

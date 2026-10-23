@@ -47,9 +47,8 @@ def score_practice_answer(answer: str) -> dict:
     return {"overall": overall, "specificity": specificity, "structure": structure, "evidence": evidence, "feedback": feedback}
 
 
-def readiness_summary(analysis, plan, evidence_count: int, sessions: list, has_resume: bool) -> dict:
-    score_data = analysis.score_breakdown or {}
-    match = int(score_data.get("overall", 0))
+def readiness_summary(current_scores: dict | None, plan, evidence_count: int, sessions: list, has_resume: bool) -> dict:
+    match = current_scores["overall"] if current_scores is not None else None
     learning = 0
     if plan and plan.tasks:
         learning = round(sum(task.progress for task in plan.tasks) / len(plan.tasks))
@@ -61,9 +60,9 @@ def readiness_summary(analysis, plan, evidence_count: int, sessions: list, has_r
     ]
     interview = round(sum(practice_scores) / len(practice_scores)) if practice_scores else 0
     materials = 100 if has_resume else 0
-    total = round(match * 0.35 + learning * 0.25 + portfolio * 0.15 + interview * 0.15 + materials * 0.10)
+    total = round(match * 0.35 + learning * 0.25 + portfolio * 0.15 + interview * 0.15 + materials * 0.10) if match is not None else None
     components = {"job_match": match, "learning": learning, "portfolio": portfolio, "interview": interview, "materials": materials}
-    weakest = min(components, key=components.get)
+    weakest = min((key for key, value in components.items() if value is not None), key=components.get)
     labels = {
         "job_match": "Improve job alignment from the evidence analysis.",
         "learning": "Continue the prioritized learning roadmap.",
@@ -71,4 +70,4 @@ def readiness_summary(analysis, plan, evidence_count: int, sessions: list, has_r
         "interview": "Complete a grounded interview-practice answer.",
         "materials": "Create and review a tailored resume version.",
     }
-    return {"overall": total, "components": components, "next_best_action": labels[weakest], "formula_version": "career-readiness-v1"}
+    return {"overall": total, "components": components, "next_best_action": labels[weakest] if match is not None else "Run a current job analysis to calculate preparation progress.", "formula_version": "career-readiness-v1"}

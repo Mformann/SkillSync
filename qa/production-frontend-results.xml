@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="132" failures="0" errors="0" time="8.0917522">
+    <testsuite name="tests/analysis-runs.test.tsx" timestamp="2026-10-23T16:18:36.393Z" hostname="Mann" tests="10" failures="0" errors="0" skipped="0" time="2.9754183">
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; starts one run without reloading when the numeric ID resolves: /analysis/23" time="0.2228273">
+            <system-err>
+You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+
+            </system-err>
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; starts one run without reloading when the numeric ID resolves: /analysis/latest" time="0.0742662">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; does not duplicate an automatic run during StrictMode effect replay" time="0.0415854">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; polls an active run using GET without sending another run request" time="1.0283426">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; requires explicit action for a stale result" time="0.2975448">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; requires explicit action for a failed result" time="0.0732999">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; polls a duplicate processing response after a deliberate rerun" time="1.1062947">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; does not initiate another run when a request times out" time="0.0219695">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; aborts the active request when navigating away" time="0.0830753">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; stops polling at its total deadline even when a status request never settles" time="0.0214298">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/api.test.ts" timestamp="2026-10-23T16:18:36.401Z" hostname="Mann" tests="8" failures="0" errors="0" skipped="0" time="0.0361996">
+        <testcase classname="tests/api.test.ts" name="authenticated API requests &gt; sends the current Supabase access token" time="0.0053566">
+        </testcase>
+        <testcase classname="tests/api.test.ts" name="authenticated API requests &gt; refreshes an expired token and retries once" time="0.0022409">
+        </testcase>
+        <testcase classname="tests/api.test.ts" name="authenticated API requests &gt; does not loop or sign out when the backend still rejects the refreshed token" time="0.0053011">
+        </testcase>
+        <testcase classname="tests/api.test.ts" name="authenticated API requests &gt; shares a refresh across simultaneous failed requests" time="0.0151345">
+        </testcase>
+        <testcase classname="tests/api.test.ts" name="authenticated API requests &gt; does not refresh or log out on status 403" time="0.0018398">
+        </testcase>
+        <testcase classname="tests/api.test.ts" name="authenticated API requests &gt; does not refresh or log out on status 404" time="0.001334">
+        </testcase>
+        <testcase classname="tests/api.test.ts" name="authenticated API requests &gt; does not refresh or log out on status 503" time="0.0012953">
+        </testcase>
+        <testcase classname="tests/api.test.ts" name="authenticated API requests &gt; reports the original failure if refreshing fails" time="0.0014191">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/app-error-boundary.test.tsx" timestamp="2026-10-23T16:18:36.403Z" hostname="Mann" tests="2" failures="0" errors="0" skipped="0" time="0.2253734">
+        <testcase classname="tests/app-error-boundary.test.tsx" name="keeps normal application content visible" time="0.1476516">
+        </testcase>
+        <testcase classname="tests/app-error-boundary.test.tsx" name="offers recovery after a render failure without exposing exception details" time="0.0760894">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/authentication.test.tsx" timestamp="2026-10-23T16:18:36.404Z" hostname="Mann" tests="23" failures="0" errors="0" skipped="0" time="1.0177207">
+        <testcase classname="tests/authentication.test.tsx" name="safe post-login destinations &gt; keeps the intended local path, query, and hash" time="0.0082139">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="safe post-login destinations &gt; rejects unsafe or looping destinations: undefined" time="0.0014437">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="safe post-login destinations &gt; rejects unsafe or looping destinations: {}" time="0.0009494">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="safe post-login destinations &gt; rejects unsafe or looping destinations: {&quot;from&quot;:&quot;https://evil.example&quot;}" time="0.0009112">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="safe post-login destinations &gt; rejects unsafe or looping destinations: {&quot;from&quot;:&quot;//evil.example&quot;}" time="0.0006724">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="safe post-login destinations &gt; rejects unsafe or looping destinations: {&quot;from&quot;:&quot;/\\evil.example&quot;}" time="0.0006624">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="safe post-login destinations &gt; rejects unsafe or looping destinations: {&quot;from&quot;:&quot;/login?loop=1&quot;}" time="0.0006402">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="safe post-login destinations &gt; rejects unsafe or looping destinations: {&quot;from&quot;:&quot;/reset-password&quot;}" time="0.0004822">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="safe post-login destinations &gt; rejects unsafe or looping destinations: {&quot;from&quot;:&quot;/x\n&quot;}" time="0.0004089">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="safe post-login destinations &gt; explains unconfirmed email" time="0.0008065">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="session initialization &gt; ends loading and explains a rejected session request" time="0.0850158">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="session initialization &gt; does not overwrite a newer auth event with a stale session result" time="0.0093976">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="session initialization &gt; tracks password recovery separately from normal sign-in" time="0.0069141">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="login and signup &gt; announces a login error, focuses it, and re-enables the form" time="0.3368306">
+            <system-err>
+You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+
+            </system-err>
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="login and signup &gt; navigates to the intended route when a session arrives" time="0.0408578">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="login and signup &gt; sends a recovery session to reset-password rather than the dashboard" time="0.018877">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="login and signup &gt; handles confirmation-required and immediate-session signup (null)" time="0.081342">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="login and signup &gt; handles confirmation-required and immediate-session signup ({&quot;access_token&quot;:&quot;test-token&quot;,&quot;user&quot;:{&quot;id&quot;:&quot;candidate-id&quot;}})" time="0.1036471">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="login and signup &gt; allows showing and hiding the password without submitting" time="0.1311253">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="password recovery &gt; requests a reset link with the correct redirect and neutral confirmation" time="0.0318079">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="password recovery &gt; offers a new reset link when the recovery session is missing" time="0.019496">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="password recovery &gt; rejects mismatched passwords without changing the account" time="0.0675547">
+        </testcase>
+        <testcase classname="tests/authentication.test.tsx" name="password recovery &gt; updates the password and signs out all refresh sessions" time="0.0649836">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/career-growth.test.tsx" timestamp="2026-10-23T16:18:36.413Z" hostname="Mann" tests="23" failures="0" errors="0" skipped="0" time="2.2423217">
+        <testcase classname="tests/career-growth.test.tsx" name="growth helpers &gt; does not link unsafe external URLs: javascript:alert(1)" time="0.0073189">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="growth helpers &gt; does not link unsafe external URLs: data:text/html,bad" time="0.0014708">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="growth helpers &gt; does not link unsafe external URLs: http://example.com" time="0.0010931">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="growth helpers &gt; does not link unsafe external URLs: https://name:secret@example.com" time="0.0009669">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="growth helpers &gt; does not link unsafe external URLs: bad" time="0.0008878">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="growth helpers &gt; allows plain HTTPS links" time="0.0012986">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="growth helpers &gt; normalizes preferences" time="0.0031744">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="growth helpers &gt; provides a recoverable connection error" time="0.0013362">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="grades an assessment using only selected answers, then displays server feedback" time="0.8196952">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="shows a resource error with a retry action instead of a false empty history" time="0.0457139">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="waits for saved study days before allowing planner edits" time="0.1131357">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="reschedules with selected capacity and shows an impossible-deadline warning" time="0.0968001">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="captures a supported job only after the user reviews and saves it" time="0.2360484">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="states explicitly when live feeds are not configured" time="0.021339">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="saves job preferences with salary currency and explicit remote filter" time="0.0939433">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="requires selected evidence and sharing consent before creating a passport" time="0.1771647">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="adds private contacts without sending any communication" time="0.0970899">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="adds an in-app reminder and explains its delivery limits" time="0.0703798">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="displays a contextual interview follow-up without fabricating a semantic score" time="0.127628">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="public passport loads without attaching authentication and sanitizes evidence links" time="0.0706637">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="public passport unavailable state does not show a review form" time="0.015036">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="routes career growth sections through accessible deep links" time="0.2174481">
+        </testcase>
+        <testcase classname="tests/career-growth.test.tsx" name="reminder bell counts due items without exposing contact information" time="0.0182776">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/deployment-config.test.ts" timestamp="2026-10-23T16:18:36.421Z" hostname="Mann" tests="13" failures="0" errors="0" skipped="0" time="0.0109967">
+        <testcase classname="tests/deployment-config.test.ts" name="API deployment configuration &gt; rejects a local API in a deployable beta build: http://localhost:8000" time="0.0032254">
+        </testcase>
+        <testcase classname="tests/deployment-config.test.ts" name="API deployment configuration &gt; rejects a local API in a deployable beta build: https://localhost:8000" time="0.0003928">
+        </testcase>
+        <testcase classname="tests/deployment-config.test.ts" name="API deployment configuration &gt; rejects a local API in a deployable beta build: http://127.0.0.1:8000" time="0.0002475">
+        </testcase>
+        <testcase classname="tests/deployment-config.test.ts" name="API deployment configuration &gt; accepts a deployed HTTPS API in beta builds" time="0.0004555">
+        </testcase>
+        <testcase classname="tests/deployment-config.test.ts" name="API deployment configuration &gt; accepts a safe API origin: https://api.skillsync.example" time="0.0003838">
+        </testcase>
+        <testcase classname="tests/deployment-config.test.ts" name="API deployment configuration &gt; accepts a safe API origin: http://localhost:8000" time="0.0002231">
+        </testcase>
+        <testcase classname="tests/deployment-config.test.ts" name="API deployment configuration &gt; accepts a safe API origin: http://127.0.0.1:8000" time="0.000219">
+        </testcase>
+        <testcase classname="tests/deployment-config.test.ts" name="API deployment configuration &gt; rejects an unsafe API origin: " time="0.0012244">
+        </testcase>
+        <testcase classname="tests/deployment-config.test.ts" name="API deployment configuration &gt; rejects an unsafe API origin: invalid" time="0.0004409">
+        </testcase>
+        <testcase classname="tests/deployment-config.test.ts" name="API deployment configuration &gt; rejects an unsafe API origin: http://api.skillsync.example" time="0.0005103">
+        </testcase>
+        <testcase classname="tests/deployment-config.test.ts" name="API deployment configuration &gt; rejects an unsafe API origin: https://user:password@api.skillsync.example" time="0.0003725">
+        </testcase>
+        <testcase classname="tests/deployment-config.test.ts" name="API deployment configuration &gt; rejects an unsafe API origin: https://api.skillsync.example/v1" time="0.0001398">
+        </testcase>
+        <testcase classname="tests/deployment-config.test.ts" name="API deployment configuration &gt; rejects an unsafe API origin: https://api.skillsync.example?debug=true" time="0.0001279">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/phase-five.test.tsx" timestamp="2026-10-23T16:18:36.427Z" hostname="Mann" tests="6" failures="0" errors="0" skipped="0" time="0.4043523">
+        <testcase classname="tests/phase-five.test.tsx" name="appends an older page and shows the actual resume count instead of the preview length" time="0.2194597">
+        </testcase>
+        <testcase classname="tests/phase-five.test.tsx" name="keeps visible jobs on a paging error and retries the same cursor" time="0.0778992">
+        </testcase>
+        <testcase classname="tests/phase-five.test.tsx" name="deduplicates rows and blocks repeated clicks while the next page is loading" time="0.03081">
+        </testcase>
+        <testcase classname="tests/phase-five.test.tsx" name="aborts a pending page when the component unmounts" time="0.0177977">
+        </testcase>
+        <testcase classname="tests/phase-five.test.tsx" name="opens a linked workspace beyond the initial page instead of using the first job" time="0.0329496">
+        </testcase>
+        <testcase classname="tests/phase-five.test.tsx" name="does not silently fall back to a different job when a linked workspace is unavailable" time="0.0239278">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/phase-four.test.tsx" timestamp="2026-10-23T16:18:36.429Z" hostname="Mann" tests="15" failures="0" errors="0" skipped="0" time="1.1596663">
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows an authoritative 0 score without inventing a completion" time="0.2153636">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows an authoritative null score without inventing a completion" time="0.0536638">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; ignores an unrelated or stale learning plan: {&quot;analysis_id&quot;:99,&quot;stale&quot;:false}" time="0.3336409">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; ignores an unrelated or stale learning plan: {&quot;analysis_id&quot;:23,&quot;stale&quot;:true}" time="0.0911837">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows a pending gap notice instead of sample scores" time="0.0407042">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows a stale gap notice instead of sample scores" time="0.0249833">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows a legacy gap notice instead of sample scores" time="0.0223501">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows a unavailable gap notice instead of sample scores" time="0.0366119">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; keeps a real zero in the completed gap report" time="0.0181823">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; explains a legacy analysis and waits for an explicit rerun" time="0.0471711">
+            <system-err>
+You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+
+            </system-err>
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; explains a unavailable analysis and waits for an explicit rerun" time="0.0254627">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; keeps the career preparation estimate at 0 without a fabricated zero" time="0.0595694">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; keeps the career preparation estimate at null without a fabricated zero" time="0.0427632">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="shared upload validation &gt; validates trimmed bounds and formats structured field errors" time="0.0007643">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="shared upload validation &gt; submits saved-job edits and resume together, then preserves edits on a failed upload" time="0.143958">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/supabase-config.test.ts" timestamp="2026-10-23T16:18:36.435Z" hostname="Mann" tests="15" failures="0" errors="0" skipped="0" time="0.0111049">
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; rejects local Supabase in deployment builds: http://127.0.0.1:54321" time="0.0021187">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; rejects local Supabase in deployment builds: https://localhost:54321" time="0.0002626">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; accepts a publishable key" time="0.0003146">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; accepts a legacy public anon key" time="0.0003691">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; rejects secret or invalid keys before bundling" time="0.0006755">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; rejects secret or invalid keys before bundling" time="0.0004404">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; rejects secret or invalid keys before bundling" time="0.0007583">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; rejects secret or invalid keys before bundling" time="0.0013326">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; rejects an invalid project URL: " time="0.0006637">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; rejects an invalid project URL: invalid" time="0.0003567">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; rejects an invalid project URL: http://untrusted.example" time="0.0001979">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; rejects an invalid project URL: https://user:password@test.supabase.co" time="0.000139">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; rejects an invalid project URL: https://test.supabase.co?redirect=1" time="0.0001405">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; rejects an invalid project URL: https://test.supabase.co/auth/v1" time="0.0001789">
+        </testcase>
+        <testcase classname="tests/supabase-config.test.ts" name="public Supabase configuration &gt; allows local Supabase development" time="0.000179">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/theme.test.ts" timestamp="2026-10-23T16:18:36.442Z" hostname="Mann" tests="17" failures="0" errors="0" skipped="0" time="0.0085983">
+        <testcase classname="tests/theme.test.ts" name=":root theme &gt; has readable foreground on input-background" time="0.0032922">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=":root theme &gt; has readable muted-foreground on input-background" time="0.0003333">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=":root theme &gt; has readable muted-foreground on card" time="0.0001972">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=":root theme &gt; has readable primary-foreground on primary" time="0.0002261">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=":root theme &gt; has readable primary on card" time="0.0002242">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=":root theme &gt; has readable destructive on card" time="0.00014">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=":root theme &gt; has readable destructive-foreground on destructive" time="0.0001133">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=":root theme &gt; has distinguishable input borders" time="0.0001403">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=".dark theme &gt; has readable foreground on input-background" time="0.0001771">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=".dark theme &gt; has readable muted-foreground on input-background" time="0.0002029">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=".dark theme &gt; has readable muted-foreground on card" time="0.0001076">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=".dark theme &gt; has readable primary-foreground on primary" time="0.0001184">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=".dark theme &gt; has readable primary on card" time="0.0000856">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=".dark theme &gt; has readable destructive on card" time="0.0000765">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=".dark theme &gt; has readable destructive-foreground on destructive" time="0.0001168">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name=".dark theme &gt; has distinguishable input borders" time="0.0000633">
+        </testcase>
+        <testcase classname="tests/theme.test.ts" name="overrides dark input and switch backgrounds" time="0.0010182">
+        </testcase>
+    </testsuite>
+</testsuites>

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import asyncio
 import json
 import os
 import re
@@ -13,6 +14,10 @@ from pydantic import BaseModel, Field
 
 PROMPT_VERSION = "job-match-v1"
 DEFAULT_MODEL = "openai/gpt-oss-20b"
+SCORING_VERSION = "weighted-match-v1"
+PROCESSING_POLICY = "job-match-policy-v2"
+PROVIDER_TIMEOUT_SECONDS = 20.0
+MAX_PROVIDER_BYTES = 1_000_000
 
 RequirementCategory = Literal[
     "technical_skill", "soft_skill", "experience", "education",
@@ -157,6 +162,9 @@ class GroqProvider(AnalysisProvider):
         self.model = os.getenv("GROQ_MODEL", DEFAULT_MODEL)
 
     def analyze(self, job_description: str, resume_text: str) -> AIAnalysis:
+        return asyncio.run(self.analyze_async(job_description, resume_text))
+
+    async def analyze_async(self, job_description: str, resume_text: str) -> AIAnalysis:
         if not self.api_key:
             raise ProviderUnavailable("GROQ_API_KEY is not configured.")
         system = (
@@ -180,17 +188,28 @@ class GroqProvider(AnalysisProvider):
             },
         }
         try:
-            with httpx.Client(timeout=60.0) as client:
-                response = client.post(
-                    "https://api.groq.com/openai/v1/chat/completions",
-                    headers={"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/json"},
-                    json=payload,
-                )
-                response.raise_for_status()
-            content = response.json()["choices"][0]["message"]["content"]
+            # A total deadline includes connection, headers and every body chunk.
+            # HTTP read timeouts alone can be extended indefinitely by a trickle.
+            async with asyncio.timeout(PROVIDER_TIMEOUT_SECONDS):
+                async with httpx.AsyncClient(timeout=httpx.Timeout(PROVIDER_TIMEOUT_SECONDS, connect=5.0)) as client:
+                    async with client.stream(
+                        "POST", "https://api.groq.com/openai/v1/chat/completions",
+                        headers={"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/json"},
+                        json=payload,
+                    ) as response:
+                        response.raise_for_status()
+                        body = bytearray()
+                        async for chunk in response.aiter_bytes():
+                            if len(body) + len(chunk) > MAX_PROVIDER_BYTES:
+                                raise ProviderUnavailable("The AI response exceeded processing limits.")
+                            body.extend(chunk)
+            content = json.loads(body)["choices"][0]["message"]["content"]
             return ground_analysis(AIAnalysis.model_validate_json(content), resume_text)
-        except (httpx.HTTPError, KeyError, TypeError, json.JSONDecodeError, ValueError) as exc:
-            raise ProviderUnavailable(f"Groq analysis failed: {exc}") from exc
+        except TimeoutError as exc:
+            raise ProviderUnavailable("The AI provider exceeded its time limit. A local comparison was used.") from exc
+        except (httpx.HTTPError, KeyError, IndexError, TypeError, ValueError, RecursionError) as exc:
+            # Provider errors can contain request data; never persist their raw text.
+            raise ProviderUnavailable("The AI provider could not complete the request. A local comparison was used.") from exc
 
 
 SKILL_TERMS = [
@@ -245,8 +264,8 @@ class RuleBasedProvider(AnalysisProvider):
             requirements=requirements,
             matches=matches,
             strengths=[
-                Strength(title=name, evidence=f"The resume mentions {name}.", why_relevant="It also appears in the job description.")
-                for name in found_names[:5]
+                Strength(title=match.requirement_name, evidence=match.evidence_quotes[0], why_relevant="It also appears in the job description.")
+                for match in matches if match.status == "strong_match" and match.evidence_quotes
             ],
             resume_risks=[],
         )
@@ -289,7 +308,9 @@ def ground_analysis(analysis: AIAnalysis, resume_text: str) -> AIAnalysis:
             "evidence_quotes": verified_quotes,
             "explanation": explanation,
         }))
-    return analysis.model_copy(update={"matches": grounded_matches})
+    strengths = [strength for strength in analysis.strengths
+                 if strength.evidence.strip() and _normalized(strength.evidence) in normalized_resume]
+    return analysis.model_copy(update={"matches": grounded_matches, "strengths": strengths})
 
 
 @dataclass(frozen=True)
@@ -364,14 +385,14 @@ def calculate_scores(analysis: AIAnalysis) -> dict:
         "preferred": percent(preferred_earned, preferred_total),
         "evidence_confidence": round(sum(confidences) / len(confidences) * 100) if confidences else 0,
         "status_counts": status_counts,
-        "formula_version": "weighted-match-v1",
+        "formula_version": SCORING_VERSION,
     }
 
 
-def analysis_input_hash(job_description: str, resume_text: str, model: str = DEFAULT_MODEL) -> str:
+def analysis_input_hash(job_description: str, resume_text: str, model: str = DEFAULT_MODEL, *, policy: str = "default") -> str:
     normalized = "\n".join([
-        PROMPT_VERSION, model,
+        PROMPT_VERSION, SCORING_VERSION, PROCESSING_POLICY, model, policy,
         " ".join(job_description.split()).casefold(),
-        " ".join(resume_text.split()).casefold(),
+        resume_text,
     ])
     return hashlib.sha256(normalized.encode("utf-8")).hexdigest()

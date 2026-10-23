@@ -1,0 +1,11 @@
+{
+  "typecheck": true,
+  "lint": true,
+  "beta_build": true,
+  "build_mode": "beta",
+  "public_configuration": "synthetic HTTPS origins and publishable fixture key",
+  "deployment_bundle": "Rebuild with actual beta API and Supabase public configuration at deployment.",
+  "backend_production_image": "skillsync-beta-qa:latest",
+  "backend_install": "requirements.lock with --require-hashes",
+  "github_ci": "Workflow expanded; checks executed locally. Remote GitHub run awaits push."
+}

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="25" failures="0" errors="0" time="6.9078109">
+    <testsuite name="tests/analysis-runs.test.tsx" timestamp="2026-10-21T13:00:21.279Z" hostname="Mann" tests="10" failures="0" errors="0" skipped="0" time="4.1543574">
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; starts one run without reloading when the numeric ID resolves: /analysis/23" time="0.4171765">
+            <system-err>
+You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+
+            </system-err>
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; starts one run without reloading when the numeric ID resolves: /analysis/latest" time="0.1344191">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; does not duplicate an automatic run during StrictMode effect replay" time="0.0971522">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; polls an active run using GET without sending another run request" time="1.0735969">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; requires explicit action for a stale result" time="0.785492">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; requires explicit action for a failed result" time="0.17646">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; polls a duplicate processing response after a deliberate rerun" time="1.2625858">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; does not initiate another run when a request times out" time="0.0595199">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; aborts the active request when navigating away" time="0.0943162">
+        </testcase>
+        <testcase classname="tests/analysis-runs.test.tsx" name="analysis run lifecycle &gt; stops polling at its total deadline even when a status request never settles" time="0.0436012">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/phase-four.test.tsx" timestamp="2026-10-21T13:00:21.301Z" hostname="Mann" tests="15" failures="0" errors="0" skipped="0" time="2.7534535">
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows an authoritative 0 score without inventing a completion" time="0.4640366">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows an authoritative null score without inventing a completion" time="0.1099045">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; ignores an unrelated or stale learning plan: {&quot;analysis_id&quot;:99,&quot;stale&quot;:false}" time="0.7082487">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; ignores an unrelated or stale learning plan: {&quot;analysis_id&quot;:23,&quot;stale&quot;:true}" time="0.1965128">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows a pending gap notice instead of sample scores" time="0.0952014">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows a stale gap notice instead of sample scores" time="0.09245">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows a legacy gap notice instead of sample scores" time="0.0407056">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows a unavailable gap notice instead of sample scores" time="0.0496496">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; keeps a real zero in the completed gap report" time="0.0494862">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; explains a legacy analysis and waits for an explicit rerun" time="0.0873725">
+            <system-err>
+You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+
+            </system-err>
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; explains a unavailable analysis and waits for an explicit rerun" time="0.076103">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; keeps the career preparation estimate at 0 without a fabricated zero" time="0.227459">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; keeps the career preparation estimate at null without a fabricated zero" time="0.1419765">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="shared upload validation &gt; validates trimmed bounds and formats structured field errors" time="0.0023692">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="shared upload validation &gt; submits saved-job edits and resume together, then preserves edits on a failed upload" time="0.4028313">
+        </testcase>
+    </testsuite>
+</testsuites>

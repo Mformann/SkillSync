@@ -1,10 +1,11 @@
 const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1", "[::1]"]);
 
-export function apiBaseUrlConfigurationError(value: string): string | null {
+export function apiBaseUrlConfigurationError(value: string, allowLocal = true): string | null {
   if (!value.trim()) return "Set VITE_API_BASE_URL to the deployed SkillSync API origin.";
   try {
     const parsed = new URL(value);
     const local = LOCAL_HOSTS.has(parsed.hostname);
+    if (local && !allowLocal) return "Beta builds require a deployed HTTPS API origin.";
     if (
       parsed.username ||
       parsed.password ||

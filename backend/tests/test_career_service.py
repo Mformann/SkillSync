@@ -40,11 +40,11 @@ def test_practice_score_rewards_star_structure_and_evidence() -> None:
 
 
 def test_readiness_is_deterministic_and_explainable() -> None:
-    analysis = SimpleNamespace(score_breakdown={"overall": 80})
+    scores = {"overall": 80}
     tasks = [SimpleNamespace(progress=100), SimpleNamespace(progress=50)]
     plan = SimpleNamespace(tasks=tasks)
     session = SimpleNamespace(scores={"q-1": {"overall": 70}})
-    result = readiness_summary(analysis, plan, 2, [session], True)
+    result = readiness_summary(scores, plan, 2, [session], True)
     assert result["components"] == {
         "job_match": 80, "learning": 75, "portfolio": 50, "interview": 70, "materials": 100,
     }

@@ -54,3 +54,10 @@ frontend/playwright-report/
 
 .vercel
 .env*
+qa/.production-temp/
+qa/.production-pytest*/
+frontend/.production-dist/
+frontend/dist/
+qa/production-schema-check.db*
+qa/browser-*.db*
+qa/.local-runtime/

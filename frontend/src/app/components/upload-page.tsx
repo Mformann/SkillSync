@@ -13,6 +13,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState, type ChangeEvent, type DragEvent, type FormEvent } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { api } from "../../lib/api";
+import { validationDetail, workspaceInputError, workspaceLimits } from "../../lib/workspace-validation";
 
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
 const VALID_TYPES = [
@@ -90,8 +91,9 @@ export function UploadPage() {
       setError("Add your resume before creating the workspace.");
       return;
     }
-    if (description.trim().length < 50) {
-      setError("Paste a job description of at least 50 characters.");
+    const fieldError = workspaceInputError(title, company, description);
+    if (fieldError) {
+      setError(fieldError);
       return;
     }
 
@@ -106,7 +108,6 @@ export function UploadPage() {
     try {
       setUploading(true);
       setProgress(0);
-      if (workspaceId) await api.patch(`/workspaces/${encodeURIComponent(workspaceId)}`, { title: title.trim(), company: company.trim(), description: description.trim(), ai_consent: aiConsent });
       const response = await api.post("/resume/upload", formData, {
         onUploadProgress: (event) => {
           if (event.total) setProgress(Math.round((event.loaded * 100) / event.total));
@@ -116,7 +117,7 @@ export function UploadPage() {
     } catch (requestError) {
       if (axios.isAxiosError(requestError)) {
         const detail = requestError.response?.data?.detail;
-        setError(typeof detail === "string" ? detail : "We could not create this workspace.");
+        setError(validationDetail(detail, "We could not save this resume and target job."));
       } else {
         setError("We could not create this workspace.");
       }
@@ -162,7 +163,8 @@ export function UploadPage() {
                   value={title}
                   onChange={(event) => setTitle(event.target.value)}
                   required
-                  maxLength={160}
+                  minLength={workspaceLimits.titleMin}
+                  maxLength={workspaceLimits.titleMax}
                   placeholder="Frontend Engineer"
                   className="min-h-11 w-full rounded-lg border border-input bg-input-background px-3 focus:outline-none focus:ring-2 focus:ring-ring"
                 />
@@ -175,7 +177,7 @@ export function UploadPage() {
                     id="company"
                     value={company}
                     onChange={(event) => setCompany(event.target.value)}
-                    maxLength={160}
+                    maxLength={workspaceLimits.companyMax}
                     placeholder="Acme"
                     className="min-h-11 w-full rounded-lg border border-input bg-input-background pl-10 pr-3 focus:outline-none focus:ring-2 focus:ring-ring"
                   />
@@ -193,8 +195,8 @@ export function UploadPage() {
                 value={description}
                 onChange={(event) => setDescription(event.target.value)}
                 required
-                minLength={50}
-                maxLength={50_000}
+                minLength={workspaceLimits.descriptionMin}
+                maxLength={workspaceLimits.descriptionMax}
                 rows={15}
                 placeholder="Paste the complete job description, including responsibilities and requirements…"
                 aria-describedby="job-description-help"
@@ -213,7 +215,7 @@ export function UploadPage() {
               </div>
               <div>
                 <h2 className="text-xl">Resume</h2>
-                <p className="text-sm text-muted-foreground">PDF or DOCX, up to 10 MB.</p>
+                <p className="text-sm text-muted-foreground">PDF or DOCX, up to 10 MB. Use selectable text. Images and embedded files are not read.</p>
               </div>
             </div>
 
@@ -232,7 +234,7 @@ export function UploadPage() {
                   type="file"
                   accept=".pdf,.docx"
                   onChange={handleChange}
-                  className="sr-only"
+                  className="peer sr-only"
                   id="resume-file"
                 />
                 <Upload className="mx-auto size-8 text-primary" aria-hidden="true" />
@@ -240,7 +242,7 @@ export function UploadPage() {
                 <p className="mt-1 text-sm text-muted-foreground">or choose a file from your device</p>
                 <label
                   htmlFor="resume-file"
-                  className="mt-5 inline-flex min-h-11 cursor-pointer items-center rounded-lg bg-primary px-5 text-sm text-primary-foreground transition-colors hover:bg-primary/90"
+                  className="mt-5 inline-flex min-h-11 cursor-pointer items-center rounded-lg bg-primary px-5 text-sm text-primary-foreground transition-colors hover:bg-primary/90 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-4 peer-focus-visible:outline-ring"
                 >
                   Choose resume
                 </label>

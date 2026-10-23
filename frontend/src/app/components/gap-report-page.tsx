@@ -1,19 +1,20 @@
 import axios from "axios";
-import { AlertTriangle, CheckCircle2, Clock, Loader2, TrendingUp, XCircle } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Loader2, TrendingUp, XCircle } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { api } from "../../lib/api";
 
 // ✅ Correct Type for Gap Report
 type GapReportData = {
-  summaryCards?: { label: string; value: string | number }[];
+  analysis_id?: number; status?: string; notice?: string | null;
+  summaryCards?: { label: string; value: string | number | null }[];
   gapAnalysis?: { skill: string; current: number; target: number; priority: string }[];
   strengthsVsGaps?: {
-    strengths?: { skill: string; level: string; years: string }[];
-    gaps?: { skill: string; impact: string; demandTrend: string }[];
+    strengths?: { skill: string; level: string; evidence: string[] }[];
+    gaps?: { skill: string; impact: string; action: string }[];
   };
-  targetRoles?: { title: string; matchScore: number; missingSkills: string[]; timeToReady: string }[];
+  targetRoles?: { title: string; matchScore: number; missingSkills: string[] }[];
 };
 
 export function GapReportPage() {
@@ -51,20 +52,27 @@ export function GapReportPage() {
   }, [id]);
 
   if (loading) return (
-    <div className="flex h-[80vh] items-center justify-center">
+    <main className="flex h-[80vh] items-center justify-center" role="status" aria-label="Loading gap report">
       <Loader2 className="size-10 animate-spin text-primary" />
-    </div>
+    </main>
   );
 
   if (error || !data) return (
-    <div className="flex h-[80vh] flex-col items-center justify-center gap-4 text-center">
+    <main className="flex h-[80vh] flex-col items-center justify-center gap-4 text-center">
       <AlertTriangle className="size-12 text-amber-500" />
-      <h2 className="text-2xl font-semibold">No Gap Report Found</h2>
+      <h1 className="text-2xl font-semibold">No Gap Report Found</h1>
       <p className="text-muted-foreground">{error}</p>
       <button onClick={() => navigate("/upload")} className="mt-4 rounded-lg bg-primary px-6 py-2 text-primary-foreground">
         Upload Resume
       </button>
-    </div>
+    </main>
+  );
+
+  if (data.status && !data.status.startsWith("completed")) return (
+    <main className="mx-auto max-w-xl px-4 py-16 text-center"><h1 className="text-3xl">Skill Gap Report</h1>
+      <p role="status" className="mt-4 text-muted-foreground">{data.notice || "Run a current job analysis to see its requirements and gaps."}</p>
+      <Link to={`/analysis/${data.analysis_id || id || "latest"}`} className="mt-6 inline-flex min-h-11 items-center rounded-lg border px-5">Open analysis</Link>
+    </main>
   );
 
   // Safety Defaults
@@ -75,7 +83,7 @@ export function GapReportPage() {
   const targetRoles = data.targetRoles || [];
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
         
         <div className="mb-8">
@@ -88,7 +96,7 @@ export function GapReportPage() {
           {summaryCards.map((card, idx) => (
             <div key={idx} className="rounded-xl border border-border bg-card p-6 shadow-sm">
               <p className="text-sm font-medium text-muted-foreground">{card.label}</p>
-              <p className="mt-2 text-3xl font-bold tracking-tight">{card.value}</p>
+              <p className="mt-2 text-3xl font-bold tracking-tight">{card.value ?? "Unavailable"}</p>
             </div>
           ))}
         </div>
@@ -96,16 +104,16 @@ export function GapReportPage() {
         {/* Gap Analysis Chart */}
         <div className="grid gap-6 lg:grid-cols-3 mb-8">
           <div className="lg:col-span-2 rounded-xl border border-border bg-card p-6">
-            <h2 className="mb-6 text-xl font-semibold">Priority Gap Analysis</h2>
+            <h2 className="mb-6 text-xl font-semibold">Priority Gap Analysis</h2><p className="mb-4 text-sm text-muted-foreground">Bars show evidence classifications for this job, not measured skill proficiency. Required items appear first.</p>
             <div className="h-[300px] w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={gapAnalysis} layout="vertical" margin={{ left: 20 }}>
                   <CartesianGrid strokeDasharray="3 3" opacity={0.1} />
                   <XAxis type="number" domain={[0, 100]} hide />
-                  <YAxis dataKey="skill" type="category" width={100} />
+                  <YAxis dataKey="skill" type="category" width={100} tick={{ fill: "var(--muted-foreground)" }} />
                   <Tooltip cursor={{ fill: 'transparent' }} contentStyle={{ borderRadius: '8px', backgroundColor: 'var(--card)', color: 'var(--card-foreground)', borderColor: 'var(--border)' }} />
-                  <Bar dataKey="current" name="Current Level" stackId="a" fill="#94a3b8" radius={[4, 0, 0, 4]} />
-                  <Bar dataKey="target" name="Target Level" stackId="a" fill="#ef4444" radius={[0, 4, 4, 0]} />
+                  <Bar dataKey="current" name="Evidence match" stackId="a" fill="var(--chart-2)" radius={[4, 0, 0, 4]} />
+                  <Bar dataKey="target" name="Evidence to improve" stackId="a" fill="var(--destructive)" radius={[0, 4, 4, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -123,13 +131,10 @@ export function GapReportPage() {
                   </div>
                   <div className="space-y-2 text-sm text-muted-foreground">
                     <div className="flex items-start gap-2">
-                      <XCircle className="size-4 text-red-500 shrink-0 mt-0.5" />
+                      <XCircle className="size-4 text-destructive shrink-0 mt-0.5" />
                       <span>Missing: {role.missingSkills?.join(", ") || "None"}</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Clock className="size-4 text-blue-500" />
-                      <span>Est. Time: {role.timeToReady}</span>
-                    </div>
+
                   </div>
                 </div>
               ))}
@@ -142,17 +147,17 @@ export function GapReportPage() {
           {/* Strengths */}
           <div className="rounded-xl border border-border bg-card p-6">
             <div className="flex items-center gap-2 mb-6">
-              <CheckCircle2 className="text-green-500" />
-              <h2 className="text-xl font-semibold">Verified Strengths</h2>
+              <CheckCircle2 className="text-green-700 dark:text-green-300" />
+              <h2 className="text-xl font-semibold">Resume Evidence</h2>
             </div>
             <div className="space-y-4">
               {strengths.map((item, idx) => (
                 <div key={idx} className="flex items-center justify-between border-b border-border pb-4 last:border-0 last:pb-0">
                   <div>
                     <p className="font-medium">{item.skill}</p>
-                    <p className="text-sm text-muted-foreground">{item.years} experience</p>
+                    <p className="text-sm text-muted-foreground">{item.evidence?.join(" · ")}</p>
                   </div>
-                  <span className="rounded-full bg-green-500/10 px-3 py-1 text-sm font-medium text-green-500">
+                  <span className="rounded-full bg-green-500/10 px-3 py-1 text-sm font-medium text-green-700 dark:text-green-300">
                     {item.level}
                   </span>
                 </div>
@@ -163,18 +168,18 @@ export function GapReportPage() {
           {/* Gaps */}
           <div className="rounded-xl border border-border bg-card p-6">
             <div className="flex items-center gap-2 mb-6">
-              <TrendingUp className="text-red-500" />
-              <h2 className="text-xl font-semibold">Critical Gaps</h2>
+              <TrendingUp className="text-destructive" />
+              <h2 className="text-xl font-semibold">Requirements to Improve</h2>
             </div>
             <div className="space-y-4">
               {gaps.map((item, idx) => (
                 <div key={idx} className="flex items-center justify-between border-b border-border pb-4 last:border-0 last:pb-0">
                   <div>
                     <p className="font-medium">{item.skill}</p>
-                    <p className="text-sm text-muted-foreground">Demand: {item.demandTrend}</p>
+                    <p className="text-sm text-muted-foreground">{item.action}</p>
                   </div>
-                  <span className="rounded-full bg-red-500/10 px-3 py-1 text-sm font-medium text-red-500">
-                    {item.impact} Impact
+                  <span className="rounded-full bg-red-500/10 px-3 py-1 text-sm font-medium text-destructive">
+                    {item.impact}
                   </span>
                 </div>
               ))}
@@ -183,6 +188,6 @@ export function GapReportPage() {
         </div>
 
       </div>
-    </div>
+    </main>
   );
 }

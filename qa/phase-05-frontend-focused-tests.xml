@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="21" failures="0" errors="0" time="3.1500299">
+    <testsuite name="tests/phase-five.test.tsx" timestamp="2026-10-21T16:36:09.867Z" hostname="Mann" tests="6" failures="0" errors="0" skipped="0" time="1.2384809">
+        <testcase classname="tests/phase-five.test.tsx" name="appends an older page and shows the actual resume count instead of the preview length" time="0.7642314">
+        </testcase>
+        <testcase classname="tests/phase-five.test.tsx" name="keeps visible jobs on a paging error and retries the same cursor" time="0.1952054">
+        </testcase>
+        <testcase classname="tests/phase-five.test.tsx" name="deduplicates rows and blocks repeated clicks while the next page is loading" time="0.0367527">
+        </testcase>
+        <testcase classname="tests/phase-five.test.tsx" name="aborts a pending page when the component unmounts" time="0.0164708">
+        </testcase>
+        <testcase classname="tests/phase-five.test.tsx" name="opens a linked workspace beyond the initial page instead of using the first job" time="0.1249323">
+        </testcase>
+        <testcase classname="tests/phase-five.test.tsx" name="does not silently fall back to a different job when a linked workspace is unavailable" time="0.0960317">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/phase-four.test.tsx" timestamp="2026-10-21T16:36:09.877Z" hostname="Mann" tests="15" failures="0" errors="0" skipped="0" time="1.911549">
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows an authoritative 0 score without inventing a completion" time="0.3678387">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows an authoritative null score without inventing a completion" time="0.0840108">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; ignores an unrelated or stale learning plan: {&quot;analysis_id&quot;:99,&quot;stale&quot;:false}" time="0.5239424">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; ignores an unrelated or stale learning plan: {&quot;analysis_id&quot;:23,&quot;stale&quot;:true}" time="0.1489275">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows a pending gap notice instead of sample scores" time="0.0585887">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows a stale gap notice instead of sample scores" time="0.0339287">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows a legacy gap notice instead of sample scores" time="0.0237452">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; shows a unavailable gap notice instead of sample scores" time="0.0383899">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; keeps a real zero in the completed gap report" time="0.0439191">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; explains a legacy analysis and waits for an explicit rerun" time="0.0597033">
+            <system-err>
+You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+
+            </system-err>
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; explains a unavailable analysis and waits for an explicit rerun" time="0.0461728">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; keeps the career preparation estimate at 0 without a fabricated zero" time="0.1261723">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="factual dashboard and gap views &gt; keeps the career preparation estimate at null without a fabricated zero" time="0.0796802">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="shared upload validation &gt; validates trimmed bounds and formats structured field errors" time="0.0014352">
+        </testcase>
+        <testcase classname="tests/phase-four.test.tsx" name="shared upload validation &gt; submits saved-job edits and resume together, then preserves edits on a failed upload" time="0.2676671">
+        </testcase>
+    </testsuite>
+</testsuites>

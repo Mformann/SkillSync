@@ -6,6 +6,7 @@ import { ProtectedRoute } from "./protected-route";
 import { lazy, Suspense, useEffect, type ReactNode } from "react";
 import { MotionConfig } from "motion/react";
 import { Loader2 } from "lucide-react";
+import { RouteFocus } from "./components/route-focus";
 
 const LandingPage = lazy(() => import("./components/landing-page").then((module) => ({ default: module.LandingPage })));
 const LoginPage = lazy(() => import("./components/login-page").then((module) => ({ default: module.LoginPage })));
@@ -46,8 +47,11 @@ export default function App() {
       <AuthProvider>
         <Router>
           <RecoveryRedirect />
+          <RouteFocus />
           <div className="min-h-screen bg-background">
+            <a href="#main-content" onClick={() => document.getElementById("main-content")?.focus()} className="sr-only fixed left-4 top-2 z-[100] rounded-lg bg-primary px-4 py-3 text-primary-foreground focus:not-sr-only">Skip to content</a>
             <Navigation />
+            <div id="main-content" tabIndex={-1}>
             <Suspense fallback={<div className="flex min-h-[70vh] items-center justify-center" role="status"><Loader2 className="size-7 animate-spin text-primary" /><span className="sr-only">Loading page</span></div>}>
               <Routes>
             <Route path="/" element={<LandingPage />} />
@@ -83,6 +87,7 @@ export default function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </Suspense>
+            </div>
           </div>
         </Router>
       </AuthProvider>

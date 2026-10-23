@@ -42,6 +42,7 @@ class CareerReminder(GrowthRecord, Base):
 
 class PassportShare(GrowthRecord, Base):
     __tablename__ = "passport_shares"
+    __table_args__ = (UniqueConstraint("token_hash"),)
     token_hash = Column(String(64), nullable=False, unique=True, index=True)
     snapshot = Column(JSON, nullable=False)
     expires_at = Column(DateTime(timezone=True), nullable=False)

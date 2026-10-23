@@ -1,0 +1,12 @@
+{
+  "ok": true,
+  "steps": [
+    "Route heading receives focus after data loading",
+    "Tab exposes the skip link; Enter focuses page content",
+    "Mobile menu opens with Enter, exposes links in order, and Escape restores trigger focus",
+    "Keyboard navigation closes the menu and focuses the next page heading",
+    "Native file input remains keyboard accessible with a visible chooser focus indicator",
+    "Keyboard loads the older target-job page without losing the first page",
+    "Resume history loads its older page while dashboard totals remain available"
+  ]
+}

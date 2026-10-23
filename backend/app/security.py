@@ -1,8 +1,12 @@
 import os
 import uuid
+import asyncio
+import logging
 from starlette.datastructures import Headers, MutableHeaders
 from starlette.responses import JSONResponse
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
+
+logger = logging.getLogger(__name__)
 
 
 class ProductionSafetyMiddleware:
@@ -20,10 +24,15 @@ class ProductionSafetyMiddleware:
         supplied_id = headers.get("X-Request-ID", "")
         request_id = supplied_id if 0 < len(supplied_id) <= 128 and supplied_id.isprintable() else str(uuid.uuid4())
         max_bytes = max(1, int(os.getenv("MAX_REQUEST_BYTES", str(12 * 1024 * 1024))))
+        response_started = False
 
         async def secured_send(message: Message) -> None:
+            nonlocal response_started
             if message["type"] == "http.response.start":
+                response_started = True
                 response_headers = MutableHeaders(scope=message)
+                # API responses include private resumes, tokens and capability links.
+                response_headers["Cache-Control"] = "no-store"
                 response_headers["X-Request-ID"] = request_id
                 response_headers["X-Content-Type-Options"] = "nosniff"
                 response_headers["X-Frame-Options"] = "DENY"
@@ -52,17 +61,23 @@ class ProductionSafetyMiddleware:
         # endpoint's per-file limit gets a chance to run.
         body = bytearray()
         received_bytes = 0
-        while True:
-            message = await receive()
-            if message["type"] == "http.disconnect":
-                return
-            received_bytes += len(message.get("body", b""))
-            if received_bytes > max_bytes:
-                await reject()
-                return
-            body.extend(message.get("body", b""))
-            if not message.get("more_body", False):
-                break
+        try:
+            # A single total deadline prevents slow uploads occupying memory forever.
+            async with asyncio.timeout(15):
+                while True:
+                    message = await receive()
+                    if message["type"] == "http.disconnect":
+                        return
+                    received_bytes += len(message.get("body", b""))
+                    if received_bytes > max_bytes:
+                        await reject()
+                        return
+                    body.extend(message.get("body", b""))
+                    if not message.get("more_body", False):
+                        break
+        except TimeoutError:
+            await JSONResponse(status_code=408, content={"detail": "Upload timed out. Try again.", "request_id": request_id})(scope, receive, secured_send)
+            return
 
         replayed = False
 
@@ -75,4 +90,14 @@ class ProductionSafetyMiddleware:
             body.clear()
             return message
 
-        await self.app(scope, replay, secured_send)
+        try:
+            await self.app(scope, replay, secured_send)
+        except Exception as exc:
+            # Log only the correlation ID: exception strings can contain SQL values
+            # or provider credentials. Never expose them to browsers or shared logs.
+            logger.error("Unhandled API error (%s); request_id=%s", type(exc).__name__, request_id)
+            if response_started:
+                raise
+            await JSONResponse(status_code=500, content={
+                "detail": "Something went wrong. Please try again.", "request_id": request_id,
+            })(scope, receive, secured_send)

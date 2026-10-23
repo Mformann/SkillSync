@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from .. import models
 from ..auth_utils import AuthenticatedUser, get_current_user
 from ..database import get_session
+from ..services.analysis_runs import derived_is_stale, material_fingerprint, require_current_result
 from ..services.application_package_service import build_application_package, package_warnings
 
 router = APIRouter()
@@ -56,6 +57,7 @@ def _package_out(item) -> dict:
         "id": item.id, "workspace_id": item.target_job_id, "analysis_id": item.analysis_id,
         "content": item.content, "source_map": item.source_map, "warnings": item.warnings,
         "updated_at": item.updated_at,
+        "stale": derived_is_stale(item.analysis, item.source_input_hash),
     }
 
 
@@ -118,6 +120,7 @@ def create_package(workspace_id: int, db: Session = Depends(get_session), curren
     analysis = max(workspace.analyses, key=lambda row: row.id, default=None)
     if not analysis or not analysis.explainable_data:
         raise HTTPException(status_code=409, detail="Complete the explainable analysis first.")
+    require_current_result(analysis)
     profile = db.query(models.CareerProfile).filter(models.CareerProfile.user_id == current_user.id).first()
     content, sources, warnings = build_application_package(
         analysis, profile, list(profile.achievements) if profile else [],
@@ -132,6 +135,7 @@ def create_package(workspace_id: int, db: Session = Depends(get_session), curren
         )
         db.add(item)
     item.analysis_id, item.content, item.source_map, item.warnings = analysis.id, content, sources, warnings
+    item.source_input_hash = material_fingerprint(analysis)
     item.updated_at = datetime.now(timezone.utc)
     db.commit()
     db.refresh(item)
@@ -196,6 +200,13 @@ def export_user_data(db: Session = Depends(get_session), current_user: Authentic
     profile = db.query(models.CareerProfile).filter(models.CareerProfile.user_id == current_user.id).first()
     return {
         "exported_at": datetime.now(timezone.utc), "user_id": current_user.id,
+        "analysis_runs": [{"id": run.id, "analysis_id": run.analysis_id, "input_hash": run.input_hash,
+            "model": run.model, "prompt_version": run.prompt_version, "status": run.status,
+            "created_at": run.created_at, "finished_at": run.finished_at,
+        } for run in db.query(models.AnalysisRun).filter_by(user_id=current_user.id).all()],
+        "ai_usage": [{"run_id": usage.run_id, "status": usage.status,
+            "reserved_at": usage.reserved_at, "dispatched_at": usage.dispatched_at,
+        } for usage in db.query(models.AIUsage).filter_by(user_id=current_user.id).all()],
         "career_growth": export_growth_data(db, current_user.id),
         "career_profile": _profile_out(profile) if profile else None,
         "target_jobs": [{
@@ -264,6 +275,7 @@ def delete_app_data(payload: DeleteConfirmation, db: Session = Depends(get_sessi
     if plan_ids:
         db.query(models.LearningTask).filter(models.LearningTask.plan_id.in_(plan_ids)).delete(synchronize_session=False)
     for model in (
+        models.AIUsage, models.AnalysisRun, models.AIUsageAccount,
         models.ApplicationEvent, models.ApplicationPackage, models.InterviewSession,
         models.PortfolioEvidence, models.JobApplication, models.ResumeVersion,
         models.LearningPlan, models.Analysis, models.Resume, models.TargetJob,

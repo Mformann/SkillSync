@@ -7,3 +7,12 @@ frontend/node_modules/
 CAREER_GROWTH.md
 DEPLOYMENT.md
 PROJECT_AUDIT.md
+PRODUCTION_RELEASE.md
+qa/
+.pytest_cache/
+.env*
+**/.env*
+frontend/.production-dist/
+frontend/.verification-dist/
+frontend/test-results/
+frontend/playwright-report/

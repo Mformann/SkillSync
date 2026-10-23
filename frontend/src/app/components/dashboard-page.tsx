@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import { 
@@ -10,6 +10,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import axios from "axios";
 import { supabase } from "../../lib/supabase";
 import { api } from "../../lib/api";
+import { nextCursor } from "../../lib/paged-list";
 
 // --- Types ---
 interface UserProfile {
@@ -22,7 +23,9 @@ interface ResumeData {
   id: number;
   filename: string;
   created_at: string;
-  score?: number;
+  score: number | null;
+  status: string;
+  completed: boolean;
 }
 
 interface Goal {
@@ -48,9 +51,16 @@ export function DashboardPage() {
   // --- State ---
   const [user, setUser] = useState<UserProfile | null>(null);
   const [resumes, setResumes] = useState<ResumeData[]>([]);
+  const [historyCursor, setHistoryCursor] = useState<number | null>(null);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [historyError, setHistoryError] = useState("");
+  const historyRequest = useRef<AbortController | null>(null);
+  useEffect(() => () => historyRequest.current?.abort(), []);
   const [chartData, setChartData] = useState<any[]>([]); // For the Graph
   const [goals, setGoals] = useState<Goal[]>([]); // For Weekly Goals
   const [loading, setLoading] = useState(true);
+  const [analysisNotice, setAnalysisNotice] = useState("");
+  const [latestAnalysisId, setLatestAnalysisId] = useState<number | null>(null);
   const [loadError, setLoadError] = useState("");
   const [retryCount, setRetryCount] = useState(0);
 
@@ -63,9 +73,9 @@ export function DashboardPage() {
   // --- Computed Stats (Default 0) ---
   const [stats, setStats] = useState([
     { label: "Latest Score", value: "0", icon: Target, color: "text-primary", bgColor: "bg-primary/10", trend: "N/A" },
-    { label: "Total Resumes", value: "0", icon: BarChart3, color: "text-cyan-500", bgColor: "bg-cyan-500/10", trend: "Total" },
-    { label: "Avg Score", value: "0", icon: AlertCircle, color: "text-amber-500", bgColor: "bg-amber-500/10", trend: "Avg" },
-    { label: "Analysis Done", value: "0", icon: CheckCircle2, color: "text-green-500", bgColor: "bg-green-500/10", trend: "Completed" },
+    { label: "Total Resumes", value: "0", icon: BarChart3, color: "text-cyan-700 dark:text-cyan-300", bgColor: "bg-cyan-500/10", trend: "Total" },
+    { label: "Avg Score", value: "0", icon: AlertCircle, color: "text-amber-800 dark:text-amber-300", bgColor: "bg-amber-500/10", trend: "Avg" },
+    { label: "Analysis Done", value: "0", icon: CheckCircle2, color: "text-green-700 dark:text-green-300", bgColor: "bg-green-500/10", trend: "Completed" },
   ]);
 
   // --- Logic ---
@@ -93,71 +103,39 @@ export function DashboardPage() {
         }
 
         // 2. Fetch Resumes
-        const resumeRes = await api.get("/resume/all", { signal: controller.signal });
+        const resumeRes = await api.get("/resume/all", { signal: controller.signal, params: { limit: 5 } });
         if (!active) return;
         const resumeList = resumeRes.data || [];
         setResumes(resumeList);
+        setHistoryCursor(nextCursor(resumeRes.headers));
 
-        // 3. Process Chart Data (Sort Oldest to Newest)
-        if (resumeList.length > 0) {
-            const sortedResumes = [...resumeList].sort((a: any, b: any) => 
-                new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
-            );
-
-            // Map to Chart Format
-            const newChartData = sortedResumes.map((r: any) => ({
-                date: new Date(r.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
-                score: r.score || 0
-            }));
-            setChartData(newChartData);
-
-            // Process Stats
-            const total = resumeList.length;
-            const scores = resumeList.map((r: any) => r.score || 0);
-            const avgScore = Math.round(scores.reduce((a: number, b: number) => a + b, 0) / total);
-            const latestScore = scores[0] || 0; // Since API returns newest first
-
-            setStats([
-                { label: "Latest Score", value: `${latestScore}`, icon: Target, color: "text-primary", bgColor: "bg-primary/10", trend: "New" },
-                { label: "Total Resumes", value: `${total}`, icon: BarChart3, color: "text-cyan-500", bgColor: "bg-cyan-500/10", trend: "Total" },
-                { label: "Avg Score", value: `${avgScore}`, icon: AlertCircle, color: "text-amber-500", bgColor: "bg-amber-500/10", trend: "Avg" },
-                { label: "Analysis Done", value: `${total}`, icon: CheckCircle2, color: "text-green-500", bgColor: "bg-green-500/10", trend: "Completed" },
-            ]);
-        }
-
-        // 4. Fetch Goals (From Gap Report)
-        try {
-            const gapRes = await api.get("/resume/gap-report/latest", { signal: controller.signal });
-            if (!active) return;
-            
-            // Transform "Critical Gaps" into "Goals"
-            if (gapRes.data && gapRes.data.gapAnalysis) {
-                const newGoals = gapRes.data.gapAnalysis
-                    .slice(0, 3) // Take top 3 gaps
-                    .map((gap: any, index: number) => ({
-                        id: `goal-${index}`,
-                        text: `Learn ${gap.skill}`, // e.g., "Learn Docker"
-                        completed: false,
-                        progress: 0
-                    }));
-                setGoals(newGoals);
-            }
-        } catch {
-            if (!active) return;
-            setGoals([{ id: "default", text: "Upload resume to generate goals", completed: false, progress: 0 }]);
-        }
+        setChartData([]); setGoals([]); setGrowthSkills([]); setAnalysisNotice("");
+        if (!resumeList.length) return;
+        const summary = (await api.get("/dashboard/summary", { signal: controller.signal })).data;
+        if (!active) return;
+        setLatestAnalysisId(summary.analysis_id);
+        setAnalysisNotice(summary.notice || "");
+        setStats(previous => previous.map(decoration => {
+          const item = summary.stats.find((stat: { label: string }) => stat.label === decoration.label);
+          return { ...decoration, value: item?.value == null ? "Unavailable" : String(item.value), trend: "" };
+        }));
+        setChartData(summary.progressData.map((point: { date: string; score: number }) => ({
+          date: new Date(point.date).toLocaleDateString(undefined, { month: "short", day: "numeric" }), score: point.score,
+        })));
+        setGoals(summary.weeklyGoals.map((goal: { id: string; goal: string; progress: number; completed: boolean }) => ({
+          id: goal.id, text: goal.goal, progress: goal.progress, completed: goal.completed,
+        })));
 
         // 5. Fetch Skill Growth Tracker Data (Latest Explainable Analysis & Learning Plan)
         try {
-          const [explainableRes, planRes] = await Promise.allSettled([
-            api.get("/resume/analysis/latest/explainable", { signal: controller.signal }),
-            api.get("/learning/plans/latest", { signal: controller.signal })
-          ]);
+          const explainableRes = await api.get("/resume/analysis/latest/explainable", { signal: controller.signal });
           if (!active) return;
-
+          const exp = explainableRes.data;
+          const planRes = exp?.result ? await api.get(`/learning/plans/by-analysis/${exp.analysis_id}`, { signal: controller.signal }).catch(() => null) : null;
+          if (!active) return;
           const taskMap = new Map<string, { progress: number; status: string; estimatedHours: number; taskId: number }>();
-          if (planRes.status === "fulfilled" && planRes.value.data?.tasks) {
-            for (const task of planRes.value.data.tasks) {
+          if (planRes?.data?.tasks && !planRes.data.stale && planRes.data.analysis_id === exp.analysis_id) {
+            for (const task of planRes.data.tasks) {
               taskMap.set(task.skill.toLowerCase(), {
                 progress: task.progress || 0,
                 status: task.status,
@@ -167,8 +145,7 @@ export function DashboardPage() {
             }
           }
 
-          if (explainableRes.status === "fulfilled" && explainableRes.value.data?.result) {
-            const exp = explainableRes.value.data;
+          if (exp?.result && !exp.stale) {
             setTargetJobRole(exp.context?.job_title || exp.result.summary || "Target Role");
             setTargetCompany(exp.context?.company || "");
 
@@ -182,7 +159,7 @@ export function DashboardPage() {
               const skillLower = match.requirement_name.toLowerCase();
               const planTask = taskMap.get(skillLower);
 
-              const isPossessed = ["strong_match", "partial_match", "transferable"].includes(match.status);
+              const isPossessed = match.status === "strong_match";
 
               let status: GrowthSkill["status"] = isPossessed ? "possessed" : "gap";
               let progress = isPossessed ? 100 : 0;
@@ -230,6 +207,19 @@ export function DashboardPage() {
     return () => { active = false; controller.abort(); };
   }, [navigate, retryCount]);
 
+  const loadMoreHistory = async () => {
+    if (!historyCursor || historyLoading) return;
+    const controller = new AbortController(); historyRequest.current = controller;
+    setHistoryLoading(true); setHistoryError("");
+    try {
+      const response = await api.get<ResumeData[]>("/resume/all", { params: { limit: 5, before_id: historyCursor }, signal: controller.signal });
+      if (controller.signal.aborted) return;
+      setResumes(previous => [...previous, ...response.data.filter(item => !previous.some(row => row.id === item.id))]);
+      setHistoryCursor(nextCursor(response.headers));
+    } catch { if (!controller.signal.aborted) setHistoryError("Could not load more resume history. Please try again."); }
+    finally { if (!controller.signal.aborted) setHistoryLoading(false); }
+  };
+
   const handleLogout = async () => {
     try {
       const { error } = await supabase.auth.signOut();
@@ -240,19 +230,13 @@ export function DashboardPage() {
     }
   };
 
-  const toggleGoal = (id: string) => {
-    setGoals(goals.map(g => 
-        g.id === id ? { ...g, completed: !g.completed, progress: !g.completed ? 100 : 0 } : g
-    ));
-  };
-
   const quickActions = [
     { title: "Upload New Resume", description: "Analyze your latest resume", icon: Upload, to: "/upload", color: "primary" },
     { title: "View Analysis", description: "Check your skill breakdown", icon: TrendingUp, to: "/analysis", color: "cyan" },
     { title: "Learning Roadmap", description: "Follow your personalized path", icon: BookOpen, to: "/roadmap", color: "blue" },
   ];
 
-  if (loading) return <div className="flex h-screen items-center justify-center"><Loader2 className="size-8 animate-spin text-primary" /></div>;
+  if (loading) return <main className="flex h-screen items-center justify-center" role="status"><Loader2 className="size-8 animate-spin text-primary" /><span className="sr-only">Loading dashboard</span></main>;
 
   // Empty State
   if (loadError) {
@@ -260,7 +244,7 @@ export function DashboardPage() {
   }
   if (resumes.length === 0) {
       return (
-        <div className="flex h-[80vh] flex-col items-center justify-center text-center px-4">
+        <main className="flex h-[80vh] flex-col items-center justify-center text-center px-4">
             <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}>
                 <h1 className="mb-4 text-3xl font-bold tracking-tight">Welcome, {user?.name}!</h1>
                 <p className="mb-8 text-muted-foreground">Upload your first resume and target job description to activate SkillSync.</p>
@@ -268,7 +252,7 @@ export function DashboardPage() {
                     Upload Your First Resume
                 </Link>
             </motion.div>
-        </div>
+        </main>
       );
   }
 
@@ -285,7 +269,7 @@ export function DashboardPage() {
   });
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
         
         {/* Header */}
@@ -300,6 +284,7 @@ export function DashboardPage() {
           </button>
         </div>
 
+        {analysisNotice && <p role="status" className="mb-6 rounded-xl border border-border bg-card p-4 text-sm">{analysisNotice} {latestAnalysisId && <Link to={`/analysis/${latestAnalysisId}`} className="text-primary underline">Open analysis</Link>}</p>}
         {/* Stats Grid */}
         <div className="mb-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat, index) => (
@@ -314,7 +299,7 @@ export function DashboardPage() {
                 <div>
                   <p className="text-sm text-muted-foreground">{stat.label}</p>
                   <p className="mt-2 text-3xl font-bold tracking-tight tabular-nums">{stat.value}</p>
-                  <div className="mt-2 flex items-center gap-1 text-sm text-green-500">
+                  <div className="mt-2 flex items-center gap-1 text-sm text-green-700 dark:text-green-300">
                     <TrendingUp className="size-3" />
                     <span>{stat.trend}</span>
                   </div>
@@ -367,7 +352,7 @@ export function DashboardPage() {
                 <div className="mt-6 grid grid-cols-3 gap-3 rounded-xl bg-muted/40 p-3 text-center">
                   <div className="rounded-lg bg-card p-2 shadow-xs">
                     <p className="text-[11px] font-medium text-muted-foreground">Possessed</p>
-                    <p className="text-lg font-bold text-green-600 dark:text-green-400 tabular-nums">
+                    <p className="text-lg font-bold text-green-700 dark:text-green-300 tabular-nums">
                       {possessedCount} <span className="text-xs font-normal text-muted-foreground">/ {totalSkillsCount}</span>
                     </p>
                   </div>
@@ -377,32 +362,32 @@ export function DashboardPage() {
                   </div>
                   <div className="rounded-lg bg-card p-2 shadow-xs">
                     <p className="text-[11px] font-medium text-muted-foreground">Gaps Left</p>
-                    <p className="text-lg font-bold text-amber-600 dark:text-amber-400 tabular-nums">{gapCount}</p>
+                    <p className="text-lg font-bold text-amber-800 dark:text-amber-300 tabular-nums">{gapCount}</p>
                   </div>
                 </div>
 
                 {/* Filter Tabs */}
                 <div className="mt-6 flex flex-wrap gap-2 border-b border-border pb-3 text-xs">
                   <button
-                    onClick={() => setGrowthFilter("all")}
+                    aria-pressed={growthFilter === "all"} onClick={() => setGrowthFilter("all")}
                     className={`rounded-lg px-3 py-1.5 font-medium transition-colors ${growthFilter === "all" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
                   >
                     All Skills ({totalSkillsCount})
                   </button>
                   <button
-                    onClick={() => setGrowthFilter("in_progress")}
+                    aria-pressed={growthFilter === "in_progress"} onClick={() => setGrowthFilter("in_progress")}
                     className={`rounded-lg px-3 py-1.5 font-medium transition-colors ${growthFilter === "in_progress" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
                   >
                     In Progress ({inProgressCount})
                   </button>
                   <button
-                    onClick={() => setGrowthFilter("gaps")}
+                    aria-pressed={growthFilter === "gaps"} onClick={() => setGrowthFilter("gaps")}
                     className={`rounded-lg px-3 py-1.5 font-medium transition-colors ${growthFilter === "gaps" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
                   >
                     Remaining Gaps ({gapCount})
                   </button>
                   <button
-                    onClick={() => setGrowthFilter("possessed")}
+                    aria-pressed={growthFilter === "possessed"} onClick={() => setGrowthFilter("possessed")}
                     className={`rounded-lg px-3 py-1.5 font-medium transition-colors ${growthFilter === "possessed" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
                   >
                     Possessed ({possessedCount})
@@ -421,7 +406,7 @@ export function DashboardPage() {
                         className="flex flex-col gap-2 rounded-xl border border-border bg-card/60 p-3 transition-all hover:bg-card sm:flex-row sm:items-center sm:justify-between"
                       >
                         <div className="flex items-center gap-3">
-                          <div className={`flex size-8 shrink-0 items-center justify-center rounded-lg ${isDone ? "bg-green-500/10 text-green-600 dark:text-green-400" : isInProgress ? "bg-blue-500/10 text-blue-600 dark:text-blue-400" : "bg-amber-500/10 text-amber-600 dark:text-amber-400"}`}>
+                          <div className={`flex size-8 shrink-0 items-center justify-center rounded-lg ${isDone ? "bg-green-500/10 text-green-700 dark:text-green-300" : isInProgress ? "bg-blue-500/10 text-blue-600 dark:text-blue-400" : "bg-amber-500/10 text-amber-800 dark:text-amber-300"}`}>
                             {isDone ? <Check className="size-4" /> : <Target className="size-4" />}
                           </div>
                           <div>
@@ -443,7 +428,7 @@ export function DashboardPage() {
                           {isInProgress ? (
                             <div className="w-28 text-right">
                               <div className="mb-1 flex items-center justify-between text-[11px] text-muted-foreground">
-                                <span>Mastery</span>
+                                <span>Task progress</span>
                                 <span className="font-semibold text-primary">{skill.progress}%</span>
                               </div>
                               <div className="h-1.5 overflow-hidden rounded-full bg-secondary">
@@ -452,7 +437,7 @@ export function DashboardPage() {
                             </div>
                           ) : isDone ? (
                             <span className="inline-flex items-center gap-1 rounded-md bg-green-500/10 px-2 py-1 text-xs font-medium text-green-700 dark:text-green-300">
-                              <CheckCircle2 className="size-3.5" /> Verified
+                              <CheckCircle2 className="size-3.5" /> {skill.status === "completed" ? "Learning task complete" : "Resume evidence"}
                             </span>
                           ) : (
                             <Link
@@ -477,12 +462,13 @@ export function DashboardPage() {
               transition={{ delay: 0.4, duration: 0.5 }}
               className="rounded-xl border border-border bg-card p-6"
             >
-              <h2 className="mb-6 text-xl font-bold tracking-tight">Score History</h2>
+              <h2 className="mb-6 text-xl font-bold tracking-tight">Score History</h2><p className="mb-4 text-sm text-muted-foreground">Most recent 50 scored analyses. Totals include all your current completed analyses.</p>
+              {chartData.length === 0 && <p className="text-sm text-muted-foreground">Complete a current job analysis to see scored history.</p>}
               <ResponsiveContainer width="100%" height={250}>
                 <LineChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="currentColor" opacity={0.1} />
-                  <XAxis dataKey="date" stroke="currentColor" opacity={0.5} />
-                  <YAxis domain={[0, 100]} stroke="currentColor" opacity={0.5} />
+                  <XAxis dataKey="date" stroke="var(--muted-foreground)" />
+                  <YAxis domain={[0, 100]} stroke="var(--muted-foreground)" />
                   <Tooltip
                     contentStyle={{
                       backgroundColor: "var(--card)",
@@ -538,12 +524,12 @@ export function DashboardPage() {
               
               <div className="space-y-4">
                 {goals.map((goal) => (
-                  <div key={goal.id} onClick={() => toggleGoal(goal.id)} className="cursor-pointer space-y-2">
+                  <div key={goal.id} className="space-y-2">
                     <div className="flex items-center justify-between text-sm">
                       <span className={goal.completed ? "line-through text-muted-foreground" : "text-foreground font-medium"}>
                         {goal.text}
                       </span>
-                      {goal.completed && <CheckCircle2 className="size-4 text-green-500" />}
+                      {goal.completed && <CheckCircle2 className="size-4 text-green-700 dark:text-green-300" />}
                     </div>
                     <div className="h-2 overflow-hidden rounded-full bg-secondary">
                       <motion.div
@@ -562,7 +548,7 @@ export function DashboardPage() {
             <div className="rounded-xl border border-border bg-card p-6">
               <h2 className="mb-4 text-xl font-bold tracking-tight">Resume Activity</h2>
               <div className="space-y-4">
-                {resumes.length > 0 ? resumes.slice(0, 5).map((activity, index) => (
+                {resumes.length > 0 ? resumes.map((activity, index) => (
                   <div key={activity.id} className="flex items-start gap-3 border-b border-border pb-4 last:border-0 last:pb-0">
                     <div className="mt-0.5 size-2 shrink-0 rounded-full bg-green-500" />
                     <div className="min-w-0 flex-1">
@@ -572,12 +558,15 @@ export function DashboardPage() {
                     {index === 0 && <span className="shrink-0 rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">Latest</span>}
                   </div>
                 )) : <p className="text-sm text-muted-foreground">No recent activity.</p>}
+                {historyError && <p role="alert" className="text-sm text-destructive">{historyError}</p>}
+                {historyCursor && <button type="button" disabled={historyLoading} onClick={loadMoreHistory} className="mt-4 min-h-11 rounded-lg border px-4 text-sm">{historyLoading ? "Loading history…" : "Load more resume history"}</button>}
+                <p role="status" className="sr-only">{resumes.length} resume records loaded.</p>
               </div>
             </div>
 
           </div>
         </div>
       </motion.div>
-    </div>
+    </main>
   );
 }

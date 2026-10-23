@@ -1,0 +1,605 @@
+{
+  "secure": true,
+  "backend_role": "postgres",
+  "private_table_count": 19,
+  "protected_table_count": 20,
+  "issues": [],
+  "tables": [
+    {
+      "table_name": "alembic_version",
+      "rls": true,
+      "backend_crud": true,
+      "backend_owner": true
+    },
+    {
+      "table_name": "analyses",
+      "rls": true,
+      "backend_crud": true,
+      "backend_owner": true
+    },
+    {
+      "table_name": "application_events",
+      "rls": true,
+      "backend_crud": true,
+      "backend_owner": true
+    },
+    {
+      "table_name": "application_packages",
+      "rls": true,
+      "backend_crud": true,
+      "backend_owner": true
+    },
+    {
+      "table_name": "career_achievements",
+      "rls": true,
+      "backend_crud": true,
+      "backend_owner": true
+    },
+    {
+      "table_name": "career_contacts",
+      "rls": true,
+      "backend_crud": true,
+      "backend_owner": true
+    },
+    {
+      "table_name": "career_profiles",
+      "rls": true,
+      "backend_crud": true,
+      "backend_owner": true
+    },
+    {
+      "table_name": "career_reminders",
+      "rls": true,
+      "backend_crud": true,
+      "backend_owner": true
+    },
+    {
+      "table_name": "growth_preferences",
+      "rls": true,
+      "backend_crud": true,
+      "backend_owner": true
+    },
+    {
+      "table_name": "interview_sessions",
+      "rls": true,
+      "backend_crud": true,
+      "backend_owner": true
+    },
+    {
+      "table_name": "job_applications",
+      "rls": true,
+      "backend_crud": true,
+      "backend_owner": true
+    },
+    {
+      "table_name": "learning_plans",
+      "rls": true,
+      "backend_crud": true,
+      "backend_owner": true
+    },
+    {
+      "table_name": "learning_tasks",
+      "rls": true,
+      "backend_crud": true,
+      "backend_owner": true
+    },
+    {
+      "table_name": "passport_reviews",
+      "rls": true,
+      "backend_crud": true,
+      "backend_owner": true
+    },
+    {
+      "table_name": "passport_shares",
+      "rls": true,
+      "backend_crud": true,
+      "backend_owner": true
+    },
+    {
+      "table_name": "portfolio_evidence",
+      "rls": true,
+      "backend_crud": true,
+      "backend_owner": true
+    },
+    {
+      "table_name": "resume_versions",
+      "rls": true,
+      "backend_crud": true,
+      "backend_owner": true
+    },
+    {
+      "table_name": "resumes",
+      "rls": true,
+      "backend_crud": true,
+      "backend_owner": true
+    },
+    {
+      "table_name": "skill_assessments",
+      "rls": true,
+      "backend_crud": true,
+      "backend_owner": true
+    },
+    {
+      "table_name": "target_jobs",
+      "rls": true,
+      "backend_crud": true,
+      "backend_owner": true
+    }
+  ],
+  "public_role_permissions": [
+    {
+      "table_name": "alembic_version",
+      "role": "anon",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "alembic_version",
+      "role": "authenticated",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "analyses",
+      "role": "anon",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "analyses",
+      "role": "authenticated",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "application_events",
+      "role": "anon",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "application_events",
+      "role": "authenticated",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "application_packages",
+      "role": "anon",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "application_packages",
+      "role": "authenticated",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "career_achievements",
+      "role": "anon",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "career_achievements",
+      "role": "authenticated",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "career_contacts",
+      "role": "anon",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "career_contacts",
+      "role": "authenticated",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "career_profiles",
+      "role": "anon",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "career_profiles",
+      "role": "authenticated",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "career_reminders",
+      "role": "anon",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "career_reminders",
+      "role": "authenticated",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "growth_preferences",
+      "role": "anon",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "growth_preferences",
+      "role": "authenticated",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "interview_sessions",
+      "role": "anon",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "interview_sessions",
+      "role": "authenticated",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "job_applications",
+      "role": "anon",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "job_applications",
+      "role": "authenticated",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "learning_plans",
+      "role": "anon",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "learning_plans",
+      "role": "authenticated",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "learning_tasks",
+      "role": "anon",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "learning_tasks",
+      "role": "authenticated",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "passport_reviews",
+      "role": "anon",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "passport_reviews",
+      "role": "authenticated",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "passport_shares",
+      "role": "anon",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "passport_shares",
+      "role": "authenticated",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "portfolio_evidence",
+      "role": "anon",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "portfolio_evidence",
+      "role": "authenticated",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "resume_versions",
+      "role": "anon",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "resume_versions",
+      "role": "authenticated",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "resumes",
+      "role": "anon",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "resumes",
+      "role": "authenticated",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "skill_assessments",
+      "role": "anon",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "skill_assessments",
+      "role": "authenticated",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "target_jobs",
+      "role": "anon",
+      "table_access": false,
+      "column_access": false
+    },
+    {
+      "table_name": "target_jobs",
+      "role": "authenticated",
+      "table_access": false,
+      "column_access": false
+    }
+  ],
+  "sequence_permissions": [
+    {
+      "schema_name": "public",
+      "sequence_name": "analyses_id_seq",
+      "role": "anon",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "analyses_id_seq",
+      "role": "authenticated",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "application_events_id_seq",
+      "role": "anon",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "application_events_id_seq",
+      "role": "authenticated",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "application_packages_id_seq",
+      "role": "anon",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "application_packages_id_seq",
+      "role": "authenticated",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "career_achievements_id_seq",
+      "role": "anon",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "career_achievements_id_seq",
+      "role": "authenticated",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "career_contacts_id_seq",
+      "role": "anon",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "career_contacts_id_seq",
+      "role": "authenticated",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "career_profiles_id_seq",
+      "role": "anon",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "career_profiles_id_seq",
+      "role": "authenticated",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "career_reminders_id_seq",
+      "role": "anon",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "career_reminders_id_seq",
+      "role": "authenticated",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "growth_preferences_id_seq",
+      "role": "anon",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "growth_preferences_id_seq",
+      "role": "authenticated",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "interview_sessions_id_seq",
+      "role": "anon",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "interview_sessions_id_seq",
+      "role": "authenticated",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "job_applications_id_seq",
+      "role": "anon",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "job_applications_id_seq",
+      "role": "authenticated",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "learning_plans_id_seq",
+      "role": "anon",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "learning_plans_id_seq",
+      "role": "authenticated",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "learning_tasks_id_seq",
+      "role": "anon",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "learning_tasks_id_seq",
+      "role": "authenticated",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "passport_reviews_id_seq",
+      "role": "anon",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "passport_reviews_id_seq",
+      "role": "authenticated",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "passport_shares_id_seq",
+      "role": "anon",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "passport_shares_id_seq",
+      "role": "authenticated",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "portfolio_evidence_id_seq",
+      "role": "anon",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "portfolio_evidence_id_seq",
+      "role": "authenticated",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "resume_versions_id_seq",
+      "role": "anon",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "resume_versions_id_seq",
+      "role": "authenticated",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "resumes_id_seq",
+      "role": "anon",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "resumes_id_seq",
+      "role": "authenticated",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "skill_assessments_id_seq",
+      "role": "anon",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "skill_assessments_id_seq",
+      "role": "authenticated",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "target_jobs_id_seq",
+      "role": "anon",
+      "public_access": false
+    },
+    {
+      "schema_name": "public",
+      "sequence_name": "target_jobs_id_seq",
+      "role": "authenticated",
+      "public_access": false
+    }
+  ],
+  "public_default_grants": [],
+  "migration_heads": [
+    "20261021_07"
+  ]
+}

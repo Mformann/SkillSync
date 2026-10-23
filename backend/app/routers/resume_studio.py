@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 from .. import models
 from ..auth_utils import AuthenticatedUser, get_current_user
 from ..database import get_session
+from ..services.analysis_runs import derived_is_stale, material_fingerprint, require_current_result
 from ..services.resume_studio_service import build_grounded_draft, claim_warnings, export_docx
 
 router = APIRouter()
@@ -30,6 +31,7 @@ def _out(version: models.ResumeVersion) -> dict:
         "id": version.id, "analysis_id": version.analysis_id, "workspace_id": version.target_job_id,
         "name": version.name, "template": version.template, "content": version.content,
         "warnings": version.warnings, "created_at": version.created_at, "updated_at": version.updated_at,
+        "stale": derived_is_stale(version.analysis, version.source_input_hash),
     }
 
 
@@ -54,8 +56,9 @@ def create_version(
     ).first()
     if not analysis:
         raise HTTPException(status_code=404, detail="Analysis not found.")
-    if not analysis.explainable_data or not analysis.target_job_id:
+    if not analysis.target_job_id:
         raise HTTPException(status_code=409, detail="Run the explainable analysis before tailoring a resume.")
+    require_current_result(analysis)
     content, source_map = build_grounded_draft(analysis)
     count = db.query(models.ResumeVersion).filter(models.ResumeVersion.analysis_id == analysis.id).count()
     version = models.ResumeVersion(
@@ -63,6 +66,7 @@ def create_version(
         name=payload.name or f"{analysis.target_job.title} resume v{count + 1}",
         template=payload.template, content=content, source_map=source_map,
         warnings=claim_warnings(content, source_map, analysis.ai_provider != "groq"),
+        source_input_hash=material_fingerprint(analysis),
     )
     db.add(version)
     db.commit()

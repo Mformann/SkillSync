@@ -1,0 +1,7 @@
+{
+  "rehearsal_secure": true,
+  "private_table_count": 19,
+  "backend_role": "postgres",
+  "original_permissions_restored": true,
+  "hosted_candidate_rows_modified": false
+}

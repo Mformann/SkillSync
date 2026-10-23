@@ -32,16 +32,17 @@ def create_app() -> FastAPI:
         openapi_url="/openapi.json" if docs_enabled else None,
     )
 
+    app.add_middleware(ProductionSafetyMiddleware)
+    app.add_middleware(GZipMiddleware, minimum_size=1000)
+    # CORS must wrap safety responses too, including rejected uploads and errors.
     app.add_middleware(
         CORSMiddleware,
         allow_origins=cors_origins(),
         allow_credentials=True,
         allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
         allow_headers=["Authorization", "Content-Type", "X-Request-ID"],
-        expose_headers=["X-Request-ID"],
+        expose_headers=["X-Request-ID", "X-Next-Cursor"],
     )
-    app.add_middleware(GZipMiddleware, minimum_size=1000)
-    app.add_middleware(ProductionSafetyMiddleware)
 
     @app.get("/health", tags=["System"])
     def health() -> dict[str, str]:

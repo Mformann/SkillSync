@@ -1,0 +1,1434 @@
+[
+  {
+    "path": "/dashboard",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 1151,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": true,
+    "headings": [
+      "Welcome back, QA!",
+      "Skill Growth Tracker",
+      "Score History",
+      "Quick Actions",
+      "Weekly Focus Goals",
+      "Resume Activity"
+    ],
+    "unlabeled": [],
+    "smallButtons": [
+      {
+        "text": "Log out",
+        "width": 343,
+        "height": 38
+      },
+      {
+        "text": "All Skills (4)",
+        "width": 108,
+        "height": 36
+      },
+      {
+        "text": "In Progress (0)",
+        "width": 129,
+        "height": 36
+      },
+      {
+        "text": "Remaining Gaps (2)",
+        "width": 166,
+        "height": 36
+      },
+      {
+        "text": "Possessed (2)",
+        "width": 121,
+        "height": 36
+      }
+    ],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/upload",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 968,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Match your resume to a real opportunity",
+      "Target job",
+      "Resume"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/workspaces",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 772,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Target jobs",
+      "Backend engineer"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/analysis/1",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 786,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Backend engineer",
+      "Candidate positioning",
+      "Requirement evidence",
+      " Relevant strengths",
+      " Resume risks",
+      " How scoring works"
+    ],
+    "unlabeled": [],
+    "smallButtons": [
+      {
+        "text": "all",
+        "width": 41,
+        "height": 40
+      },
+      {
+        "text": "required",
+        "width": 81,
+        "height": 40
+      },
+      {
+        "text": "gaps",
+        "width": 56,
+        "height": 40
+      }
+    ],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/gap-report/1",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 764,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": true,
+    "headings": [
+      "Skill Gap Report",
+      "Priority Gap Analysis",
+      "Target Roles",
+      "Verified Strengths",
+      "Critical Gaps"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/roadmap/1",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 779,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Learning roadmap"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/resume-studio/1",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 749,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Truth-first Resume Studio",
+      "Evidence bullets",
+      " Claim review",
+      "Synthetic QA Candidate"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 823,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Turn preparation into applications",
+      " Application pipeline",
+      " Portfolio proof",
+      " Grounded interview practice"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/vault",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 868,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Vault",
+      "Career profile",
+      "Add an achievement",
+      "Achievement bank"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/package/1",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 895,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Application package",
+      " Claim review",
+      "Cover letter",
+      "Recruiter outreach",
+      "Follow-up message",
+      "Claim sources"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/privacy",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 726,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Privacy and data controls",
+      "Export data",
+      "Delete SkillSync data"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=assessments",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 749,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Assess your knowledge",
+      "Assessment history"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=planner",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 774,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Make your plan fit your week"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=jobs",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 752,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Capture a job opportunity",
+      "Discover relevant opportunities"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=interview",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 713,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Practise a real conversation",
+      "Resume previous practice"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=passport",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 763,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Publish a selected Skills Passport",
+      "Manage shared snapshots"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=contacts",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 750,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "People connected to this opportunity",
+      "Follow-up and learning inbox"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/dashboard",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 1008,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": true,
+    "headings": [
+      "Welcome back, QA!",
+      "Skill Growth Tracker",
+      "Score History",
+      "Quick Actions",
+      "Weekly Focus Goals",
+      "Resume Activity"
+    ],
+    "unlabeled": [],
+    "smallButtons": [
+      {
+        "text": "Log out",
+        "width": 107,
+        "height": 38
+      },
+      {
+        "text": "All Skills (4)",
+        "width": 108,
+        "height": 36
+      },
+      {
+        "text": "In Progress (0)",
+        "width": 129,
+        "height": 36
+      },
+      {
+        "text": "Remaining Gaps (2)",
+        "width": 166,
+        "height": 36
+      },
+      {
+        "text": "Possessed (2)",
+        "width": 121,
+        "height": 36
+      }
+    ],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/upload",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 844,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Match your resume to a real opportunity",
+      "Target job",
+      "Resume"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/workspaces",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 749,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Target jobs",
+      "Backend engineer"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/analysis/1",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 838,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Backend engineer",
+      "Candidate positioning",
+      "Requirement evidence",
+      " Relevant strengths",
+      " Resume risks",
+      " How scoring works"
+    ],
+    "unlabeled": [],
+    "smallButtons": [
+      {
+        "text": "all",
+        "width": 41,
+        "height": 40
+      },
+      {
+        "text": "required",
+        "width": 81,
+        "height": 40
+      },
+      {
+        "text": "gaps",
+        "width": 56,
+        "height": 40
+      }
+    ],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/gap-report/1",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 1079,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": true,
+    "headings": [
+      "Skill Gap Report",
+      "Priority Gap Analysis",
+      "Target Roles",
+      "Verified Strengths",
+      "Critical Gaps"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/roadmap/1",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 895,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Learning roadmap"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/resume-studio/1",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 802,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Truth-first Resume Studio",
+      "Evidence bullets",
+      " Claim review",
+      "Synthetic QA Candidate"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 794,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Turn preparation into applications",
+      " Application pipeline",
+      " Portfolio proof",
+      " Grounded interview practice"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/vault",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 786,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Vault",
+      "Career profile",
+      "Add an achievement",
+      "Achievement bank"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/package/1",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 783,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Application package",
+      " Claim review",
+      "Cover letter",
+      "Recruiter outreach",
+      "Follow-up message",
+      "Claim sources"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/privacy",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 733,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Privacy and data controls",
+      "Export data",
+      "Delete SkillSync data"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=assessments",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 766,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Assess your knowledge",
+      "Assessment history"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=planner",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 819,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Make your plan fit your week"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=jobs",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 868,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Capture a job opportunity",
+      "Discover relevant opportunities"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=interview",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 830,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Practise a real conversation",
+      "Resume previous practice"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=passport",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 852,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Publish a selected Skills Passport",
+      "Manage shared snapshots"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=contacts",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 898,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "People connected to this opportunity",
+      "Follow-up and learning inbox"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/dashboard",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 969,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": true,
+    "headings": [
+      "Welcome back, QA!",
+      "Skill Growth Tracker",
+      "Score History",
+      "Quick Actions",
+      "Weekly Focus Goals",
+      "Resume Activity"
+    ],
+    "unlabeled": [],
+    "smallButtons": [
+      {
+        "text": "Log out",
+        "width": 343,
+        "height": 38
+      },
+      {
+        "text": "All Skills (4)",
+        "width": 108,
+        "height": 36
+      },
+      {
+        "text": "In Progress (0)",
+        "width": 129,
+        "height": 36
+      },
+      {
+        "text": "Remaining Gaps (2)",
+        "width": 166,
+        "height": 36
+      },
+      {
+        "text": "Possessed (2)",
+        "width": 121,
+        "height": 36
+      }
+    ],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/upload",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 862,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Match your resume to a real opportunity",
+      "Target job",
+      "Resume"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/workspaces",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 801,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Target jobs",
+      "Backend engineer"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/analysis/1",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 849,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Backend engineer",
+      "Candidate positioning",
+      "Requirement evidence",
+      " Relevant strengths",
+      " Resume risks",
+      " How scoring works"
+    ],
+    "unlabeled": [],
+    "smallButtons": [
+      {
+        "text": "all",
+        "width": 41,
+        "height": 40
+      },
+      {
+        "text": "required",
+        "width": 81,
+        "height": 40
+      },
+      {
+        "text": "gaps",
+        "width": 56,
+        "height": 40
+      }
+    ],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/gap-report/1",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 809,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": true,
+    "headings": [
+      "Skill Gap Report",
+      "Priority Gap Analysis",
+      "Target Roles",
+      "Verified Strengths",
+      "Critical Gaps"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/roadmap/1",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 844,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Learning roadmap"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/resume-studio/1",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 1131,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Truth-first Resume Studio",
+      "Evidence bullets",
+      " Claim review",
+      "Synthetic QA Candidate"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 865,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Turn preparation into applications",
+      " Application pipeline",
+      " Portfolio proof",
+      " Grounded interview practice"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/vault",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 770,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Vault",
+      "Career profile",
+      "Add an achievement",
+      "Achievement bank"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/package/1",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 819,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Application package",
+      " Claim review",
+      "Cover letter",
+      "Recruiter outreach",
+      "Follow-up message",
+      "Claim sources"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/privacy",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 783,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Privacy and data controls",
+      "Export data",
+      "Delete SkillSync data"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=assessments",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 826,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Assess your knowledge",
+      "Assessment history"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=planner",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 824,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Make your plan fit your week"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=jobs",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 835,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Capture a job opportunity",
+      "Discover relevant opportunities"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=interview",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 773,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Practise a real conversation",
+      "Resume previous practice"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=passport",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 822,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Publish a selected Skills Passport",
+      "Manage shared snapshots"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=contacts",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 855,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "People connected to this opportunity",
+      "Follow-up and learning inbox"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/dashboard",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 1054,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": true,
+    "headings": [
+      "Welcome back, QA!",
+      "Skill Growth Tracker",
+      "Score History",
+      "Quick Actions",
+      "Weekly Focus Goals",
+      "Resume Activity"
+    ],
+    "unlabeled": [],
+    "smallButtons": [
+      {
+        "text": "Log out",
+        "width": 107,
+        "height": 38
+      },
+      {
+        "text": "All Skills (4)",
+        "width": 108,
+        "height": 36
+      },
+      {
+        "text": "In Progress (0)",
+        "width": 129,
+        "height": 36
+      },
+      {
+        "text": "Remaining Gaps (2)",
+        "width": 166,
+        "height": 36
+      },
+      {
+        "text": "Possessed (2)",
+        "width": 121,
+        "height": 36
+      }
+    ],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/upload",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 871,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Match your resume to a real opportunity",
+      "Target job",
+      "Resume"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/workspaces",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 822,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Target jobs",
+      "Backend engineer"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/analysis/1",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 926,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Backend engineer",
+      "Candidate positioning",
+      "Requirement evidence",
+      " Relevant strengths",
+      " Resume risks",
+      " How scoring works"
+    ],
+    "unlabeled": [],
+    "smallButtons": [
+      {
+        "text": "all",
+        "width": 41,
+        "height": 40
+      },
+      {
+        "text": "required",
+        "width": 81,
+        "height": 40
+      },
+      {
+        "text": "gaps",
+        "width": 56,
+        "height": 40
+      }
+    ],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/gap-report/1",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 842,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": true,
+    "headings": [
+      "Skill Gap Report",
+      "Priority Gap Analysis",
+      "Target Roles",
+      "Verified Strengths",
+      "Critical Gaps"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/roadmap/1",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 944,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Learning roadmap"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/resume-studio/1",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 859,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Truth-first Resume Studio",
+      "Evidence bullets",
+      " Claim review",
+      "Synthetic QA Candidate"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 920,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Turn preparation into applications",
+      " Application pipeline",
+      " Portfolio proof",
+      " Grounded interview practice"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/vault",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 879,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Vault",
+      "Career profile",
+      "Add an achievement",
+      "Achievement bank"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/package/1",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 916,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Application package",
+      " Claim review",
+      "Cover letter",
+      "Recruiter outreach",
+      "Follow-up message",
+      "Claim sources"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/privacy",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 814,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Privacy and data controls",
+      "Export data",
+      "Delete SkillSync data"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=assessments",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 823,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Assess your knowledge",
+      "Assessment history"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=planner",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 920,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Make your plan fit your week"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=jobs",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 928,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Capture a job opportunity",
+      "Discover relevant opportunities"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=interview",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 839,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Practise a real conversation",
+      "Resume previous practice"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=passport",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 864,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Publish a selected Skills Passport",
+      "Manage shared snapshots"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=contacts",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 981,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "People connected to this opportunity",
+      "Follow-up and learning inbox"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "errors": [],
+    "badResponses": []
+  }
+]

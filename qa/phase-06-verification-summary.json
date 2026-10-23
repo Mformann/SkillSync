@@ -1,0 +1,118 @@
+{
+  "phase": 6,
+  "generated_at": "2026-10-21T19:16:59.917916+00:00",
+  "profile": "prepare for first deployment; no hosted writes or deployment authorized",
+  "backend": {
+    "total": 303,
+    "passed": 302,
+    "failed": 0,
+    "skipped": 1
+  },
+  "linux": {
+    "total": 303,
+    "passed": 302,
+    "failed": 0,
+    "skipped": 1
+  },
+  "frontend": {
+    "total": 128,
+    "passed": 128,
+    "failed": 0,
+    "skipped": 0
+  },
+  "linux_authentication_final_fixtures": {
+    "total": 41,
+    "passed": 41,
+    "failed": 0,
+    "skipped": 0
+  },
+  "dependency_vulnerabilities": 0,
+  "configured_credentials_scan": "passed; see phase-06-secret-scan.json for scope",
+  "public_browser": {
+    "suite": "frontend/e2e/auth-ui.spec.ts",
+    "browser": "Microsoft Edge headless",
+    "build": "local production verification bundle",
+    "passed": 6,
+    "failed": 0,
+    "seconds": 18.842,
+    "covers": [
+      "landing responsive layout",
+      "public legal pages",
+      "simulated sign-in/reload/logout",
+      "auth pages at three viewports"
+    ],
+    "hosted_authentication": false,
+    "note": "Clean rerun after Windows suspended network activity during an earlier attempt."
+  },
+  "build_checks": {
+    "typecheck": true,
+    "lint": true,
+    "beta_build": true,
+    "build_mode": "beta",
+    "public_configuration": "synthetic HTTPS origins and publishable fixture key",
+    "deployment_bundle": "Rebuild with actual beta API and Supabase public configuration at deployment.",
+    "backend_production_image": "skillsync-beta-qa:latest",
+    "backend_install": "requirements.lock with --require-hashes",
+    "github_ci": "Workflow expanded; checks executed locally. Remote GitHub run awaits push."
+  },
+  "browser": {
+    "signed_in_page_checks": 102,
+    "html_text_contrast_checks": 5460,
+    "candidate_journey": "passed; one initial run and one deliberate refresh"
+  },
+  "production_container": {
+    "scope": "local production container; synthetic identities and documents",
+    "checks": [
+      "real entrypoint validates configuration, migrates and becomes ready",
+      "real ES256/JWKS authentication succeeds; invalid and missing tokens rejected; docs disabled",
+      "CORS allowlist and production request-size limit enforced",
+      "isolated DOCX worker, persisted analysis/cache and two-user ownership work on PostgreSQL",
+      "tailored resume persists and exports a readable DOCX; privacy export succeeds",
+      "representative PostgreSQL read baseline meets its declared error and p95 limits",
+      "latest migration, metadata parity and private-table role restrictions verified",
+      "owned app-data deletion removes the complete synthetic dataset"
+    ],
+    "startup_seconds": 5.932,
+    "load": {
+      "jobs": 201,
+      "resumes": 401,
+      "requests": 120,
+      "concurrency": 4,
+      "errors": 0,
+      "p50_ms": 57.83,
+      "p95_ms": 698.65,
+      "p95_limit_ms": 1500,
+      "api_rss_kib": 220124,
+      "container_cpu_limit": 2,
+      "load_seconds": 5.809,
+      "api_cpu_seconds": 7.51,
+      "api_cpu_percent_of_two_cores": 64.64,
+      "container_memory_limit_mib": 512,
+      "provider": "disabled; consent-off fixture",
+      "provider_seconds": 0,
+      "claim": "local baseline only; repeat on beta host before increasing access"
+    },
+    "database": {
+      "secure": true,
+      "revision": "20261021_09",
+      "application_tables": 22
+    },
+    "passed": true,
+    "non_root": true,
+    "duration_seconds": 18.78
+  },
+  "print": "one A4 page; rendered and visually reviewed; readable synthetic name/email/evidence",
+  "ready_for_first_deployment": true,
+  "hosted_acceptance": {
+    "status": "pending first deployment",
+    "open_beta_to_testers": false,
+    "checks": [
+      "configure actual origins and auth redirects",
+      "verify deployed migration 09 and private-role denial",
+      "real signup/login/refresh/logout and email reset",
+      "two-account candidate journey and consent-on AI",
+      "deployed load/cold-start measurements",
+      "audible screen-reader smoke"
+    ]
+  }
+}

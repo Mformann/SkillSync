@@ -1,13 +1,16 @@
 from datetime import date, datetime, timezone
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
 from pydantic import BaseModel, Field
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload, load_only
 
 from .. import models
 from ..auth_utils import AuthenticatedUser, get_current_user
 from ..database import get_session
 from ..services.career_service import generate_interview_questions, readiness_summary, score_practice_answer
+from ..services.analysis_views import current_view
+from ..services.analysis_runs import derived_is_stale
+from ..services.list_queries import latest_analyses, page, PAGE_SIZE, MAX_PAGE_SIZE
 
 router = APIRouter()
 APPLICATION_STATUSES = "^(preparing|applied|screening|interviewing|offer|rejected|withdrawn)$"
@@ -65,24 +68,38 @@ def _session_out(item):
     }
 
 
+def _readiness(analysis, workspace):
+    view = current_view(analysis)
+    plan = analysis.learning_plan
+    if plan and derived_is_stale(analysis, plan.source_input_hash):
+        plan = None
+    sessions = [item for item in workspace.interview_sessions if item.analysis_id == analysis.id]
+    return {**readiness_summary(view.scores, plan, len(workspace.portfolio_evidence), sessions, bool(analysis.resume_versions)),
+            **view.metadata(analysis)}
+
+
 @router.get("/workspaces")
-def career_workspaces(db: Session = Depends(get_session), current_user: AuthenticatedUser = Depends(get_current_user)):
-    workspaces = db.query(models.TargetJob).filter(
+def career_workspaces(response: Response, limit: int = Query(default=PAGE_SIZE, ge=1, le=MAX_PAGE_SIZE),
+    before_id: int | None = Query(default=None, gt=0),
+    db: Session = Depends(get_session), current_user: AuthenticatedUser = Depends(get_current_user)):
+    query = db.query(models.TargetJob).filter(
         models.TargetJob.user_id == current_user.id, models.TargetJob.is_archived.is_(False),
-    ).order_by(models.TargetJob.updated_at.desc()).all()
+    ).options(load_only(models.TargetJob.id, models.TargetJob.title, models.TargetJob.company),
+        selectinload(models.TargetJob.application),
+        selectinload(models.TargetJob.portfolio_evidence).load_only(models.PortfolioEvidence.id),
+        selectinload(models.TargetJob.interview_sessions).load_only(models.InterviewSession.id, models.InterviewSession.analysis_id, models.InterviewSession.scores))
+    workspaces = page(query, models.TargetJob, response, limit, before_id)
+    analyses = latest_analyses(db, current_user.id, [item.id for item in workspaces]) if workspaces else {}
     output = []
     for workspace in workspaces:
-        analysis = max(workspace.analyses, key=lambda item: item.id, default=None)
+        analysis = analyses.get(workspace.id)
         if not analysis:
             output.append({"workspace_id": workspace.id, "title": workspace.title, "company": workspace.company, "analysis_id": None, "application": _application_out(workspace.application), "readiness": None})
             continue
         output.append({
             "workspace_id": workspace.id, "title": workspace.title, "company": workspace.company,
             "analysis_id": analysis.id, "application": _application_out(workspace.application),
-            "readiness": readiness_summary(
-                analysis, analysis.learning_plan, len(workspace.portfolio_evidence),
-                workspace.interview_sessions, bool(analysis.resume_versions),
-            ),
+            "readiness": _readiness(analysis, workspace),
         })
     return output
 
@@ -90,13 +107,13 @@ def career_workspaces(db: Session = Depends(get_session), current_user: Authenti
 @router.get("/workspaces/{workspace_id}")
 def career_workspace(workspace_id: int, db: Session = Depends(get_session), current_user: AuthenticatedUser = Depends(get_current_user)):
     workspace = _workspace(workspace_id, current_user, db)
-    analysis = max(workspace.analyses, key=lambda item: item.id, default=None)
+    analysis = latest_analyses(db, current_user.id, [workspace.id]).get(workspace.id)
     return {
         "workspace_id": workspace.id, "title": workspace.title, "company": workspace.company,
         "analysis_id": analysis.id if analysis else None, "application": _application_out(workspace.application),
         "evidence": [_evidence_out(item) for item in workspace.portfolio_evidence],
         "sessions": [_session_out(item) for item in sorted(workspace.interview_sessions, key=lambda row: row.id, reverse=True)],
-        "readiness": readiness_summary(analysis, analysis.learning_plan, len(workspace.portfolio_evidence), workspace.interview_sessions, bool(analysis.resume_versions)) if analysis else None,
+        "readiness": _readiness(analysis, workspace) if analysis else None,
     }
 
 

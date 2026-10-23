@@ -6,7 +6,7 @@ services:
     region: oregon
     dockerfilePath: backend/Dockerfile
     dockerContext: .
-    healthCheckPath: /health
+    healthCheckPath: /health/ready
     autoDeployTrigger: commit
     buildFilter:
       paths:
@@ -37,5 +37,9 @@ services:
         value: "false"
       - key: WEB_CONCURRENCY
         value: "1"
+      - key: RESUME_PARSE_TIMEOUT_SECONDS
+        value: "8"
+      - key: RESUME_PARSE_MEMORY_MB
+        value: "256"
 
 # Database is hosted on Supabase — no Render-managed database needed.

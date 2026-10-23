@@ -38,3 +38,28 @@ def test_production_docs_are_opt_in(monkeypatch):
     assert api_docs_enabled() is False
     monkeypatch.setenv("ENABLE_API_DOCS", "true")
     assert api_docs_enabled() is True
+
+
+@pytest.mark.parametrize("value", ["https://localhost:54321", "https://127.0.0.1:54321", "https://[::1]:54321"])
+def test_production_rejects_local_supabase(monkeypatch, value):
+    monkeypatch.setenv("ENVIRONMENT", "production")
+    monkeypatch.setenv("DATABASE_URL", "postgresql://user:password@db.example.com/skillsync")
+    monkeypatch.setenv("CORS_ORIGINS", "https://app.example.com")
+    monkeypatch.setenv("SUPABASE_URL", value)
+    with pytest.raises(RuntimeError, match="SUPABASE_URL"):
+        validate_runtime_configuration()
+
+
+@pytest.mark.parametrize("value", ["https://localhost:5173", "https://127.0.0.1:5173", "https://[::1]:5173"])
+def test_production_rejects_local_cors(monkeypatch, value):
+    monkeypatch.setenv("ENVIRONMENT", "production")
+    monkeypatch.setenv("CORS_ORIGINS", value)
+    with pytest.raises(RuntimeError, match="Invalid CORS origin"):
+        cors_origins()
+
+
+def test_invalid_cors_does_not_echo_credentials(monkeypatch):
+    monkeypatch.setenv("CORS_ORIGINS", "https://user:synthetic-private-password@app.example.com")
+    with pytest.raises(RuntimeError, match="Invalid CORS origin") as error:
+        cors_origins()
+    assert "synthetic-private-password" not in str(error.value)

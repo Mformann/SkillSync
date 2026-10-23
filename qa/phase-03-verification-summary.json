@@ -1,0 +1,54 @@
+{
+  "backend": {
+    "total": 222,
+    "failed": 1,
+    "errors": 0,
+    "skipped": 1,
+    "passed": 220
+  },
+  "linux_phase3": {
+    "total": 76,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 1,
+    "passed": 75
+  },
+  "frontend": {
+    "total": 103,
+    "failed": 1,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 102
+  },
+  "original_probes": {
+    "total": 3,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 3
+  },
+  "windows_final_deadlines": {
+    "total": 3,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 3
+  },
+  "linux_final_deadlines": {
+    "total": 6,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 6
+  },
+  "browser_flow": {
+    "passed": true,
+    "initial_run_requests": 1,
+    "explicit_refresh_requests": 1,
+    "page_errors": 0
+  },
+  "production_edge_tests": {
+    "passed": 6
+  },
+  "hosted_rollout": "Pending 20261021_08 migration and API/frontend deployment"
+}

@@ -1,34 +1,18 @@
 from datetime import datetime
 
-from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import BaseModel, Field
-from sqlalchemy import desc
+from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
+from pydantic import BaseModel
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from .. import models
 from ..auth_utils import AuthenticatedUser, get_current_user
 from ..database import get_session
+from ..services.analysis_runs import lock_account
+from ..workspace_validation import WorkspaceCreate, WorkspaceUpdate
+from ..services.list_queries import workspace_summaries, PAGE_SIZE, MAX_PAGE_SIZE
 
 router = APIRouter()
-
-
-class WorkspaceCreate(BaseModel):
-    title: str = Field(min_length=2, max_length=160)
-    company: str | None = Field(default=None, max_length=160)
-    description: str = Field(min_length=50, max_length=50_000)
-    location: str | None = Field(default=None, max_length=160)
-    employment_type: str | None = Field(default=None, max_length=80)
-    ai_consent: bool = False
-
-
-class WorkspaceUpdate(BaseModel):
-    title: str | None = Field(default=None, min_length=2, max_length=160)
-    company: str | None = Field(default=None, max_length=160)
-    description: str | None = Field(default=None, min_length=50, max_length=50_000)
-    location: str | None = Field(default=None, max_length=160)
-    employment_type: str | None = Field(default=None, max_length=80)
-    is_archived: bool | None = None
-    ai_consent: bool | None = None
 
 
 class ResumeSummary(BaseModel):
@@ -53,8 +37,14 @@ class WorkspaceOut(BaseModel):
     latest_analysis_id: int | None
 
 
-def serialize_workspace(workspace: models.TargetJob) -> WorkspaceOut:
-    latest_analysis = max(workspace.analyses, key=lambda item: item.id, default=None)
+class WorkspaceListOut(WorkspaceOut):
+    resume_count: int
+
+
+def serialize_workspace(workspace: models.TargetJob, db: Session) -> WorkspaceOut:
+    latest_id = db.query(func.max(models.Analysis.id)).filter_by(target_job_id=workspace.id, user_id=workspace.user_id).scalar()
+    resumes = db.query(models.Resume.id, models.Resume.filename, models.Resume.size_bytes, models.Resume.created_at).filter_by(
+        target_job_id=workspace.id, user_id=workspace.user_id).order_by(models.Resume.id.desc()).all()
     return WorkspaceOut(
         id=workspace.id,
         title=workspace.title,
@@ -73,9 +63,9 @@ def serialize_workspace(workspace: models.TargetJob) -> WorkspaceOut:
                 size_bytes=resume.size_bytes,
                 created_at=resume.created_at,
             )
-            for resume in sorted(workspace.resumes, key=lambda item: item.id, reverse=True)
+            for resume in resumes
         ],
-        latest_analysis_id=latest_analysis.id if latest_analysis else None,
+        latest_analysis_id=latest_id,
     )
 
 
@@ -94,16 +84,16 @@ def get_owned_workspace(
     return workspace
 
 
-@router.get("", response_model=list[WorkspaceOut])
+@router.get("", response_model=list[WorkspaceListOut])
 def list_workspaces(
+    response: Response,
     include_archived: bool = False,
+    limit: int = Query(default=PAGE_SIZE, ge=1, le=MAX_PAGE_SIZE),
+    before_id: int | None = Query(default=None, gt=0),
     db: Session = Depends(get_session),
     current_user: AuthenticatedUser = Depends(get_current_user),
 ):
-    query = db.query(models.TargetJob).filter(models.TargetJob.user_id == current_user.id)
-    if not include_archived:
-        query = query.filter(models.TargetJob.is_archived.is_(False))
-    return [serialize_workspace(item) for item in query.order_by(desc(models.TargetJob.updated_at)).all()]
+    return workspace_summaries(db, current_user.id, response, limit, before_id, include_archived)
 
 
 @router.post("", response_model=WorkspaceOut, status_code=status.HTTP_201_CREATED)
@@ -116,7 +106,7 @@ def create_workspace(
     db.add(workspace)
     db.commit()
     db.refresh(workspace)
-    return serialize_workspace(workspace)
+    return serialize_workspace(workspace, db)
 
 
 @router.get("/{workspace_id}", response_model=WorkspaceOut)
@@ -125,7 +115,7 @@ def get_workspace(
     db: Session = Depends(get_session),
     current_user: AuthenticatedUser = Depends(get_current_user),
 ):
-    return serialize_workspace(get_owned_workspace(workspace_id, current_user, db))
+    return serialize_workspace(get_owned_workspace(workspace_id, current_user, db), db)
 
 
 @router.patch("/{workspace_id}", response_model=WorkspaceOut)
@@ -135,12 +125,13 @@ def update_workspace(
     db: Session = Depends(get_session),
     current_user: AuthenticatedUser = Depends(get_current_user),
 ):
+    lock_account(db, current_user.id)
     workspace = get_owned_workspace(workspace_id, current_user, db)
     for key, value in payload.model_dump(exclude_unset=True).items():
         setattr(workspace, key, value)
     db.commit()
     db.refresh(workspace)
-    return serialize_workspace(workspace)
+    return serialize_workspace(workspace, db)
 
 
 @router.delete("/{workspace_id}", status_code=status.HTTP_204_NO_CONTENT)

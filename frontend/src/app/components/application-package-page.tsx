@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { ArrowLeft, Check, Clipboard, Loader2, RefreshCw, Save, ShieldAlert } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { api } from "../../lib/api";
+import axios from "axios";
 
-type Package = { id: number; content: Record<"cover_letter" | "recruiter_outreach" | "follow_up", string>; source_map: Record<string, { type: string; quote: string; source_note?: string }>; warnings: { severity: string; message: string }[] };
+type Package = { stale?: boolean; id: number; content: Record<"cover_letter" | "recruiter_outreach" | "follow_up", string>; source_map: Record<string, { type: string; quote: string; source_note?: string }>; warnings: { severity: string; message: string }[] };
 const labels = { cover_letter: "Cover letter", recruiter_outreach: "Recruiter outreach", follow_up: "Follow-up message" };
 
 export function ApplicationPackagePage() {
@@ -11,14 +12,24 @@ export function ApplicationPackagePage() {
   const [item, setItem] = useState<Package | null>(null);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState("");
+  const [error, setError] = useState("");
   const [copied, setCopied] = useState("");
   const create = async () => {
     setBusy("generate");
-    const response = await api.post<Package>(`/product/workspaces/${id}/package`);
-    setItem(response.data); setBusy("");
+    setError("");
+    try {
+      const response = await api.post<Package>(`/product/workspaces/${id}/package`);
+      setItem(response.data);
+    } catch (requestError) {
+      const detail = axios.isAxiosError(requestError) ? requestError.response?.data?.detail : null;
+      setError(typeof detail === "string" ? detail : "The package could not be generated.");
+    } finally { setBusy(""); }
   };
   useEffect(() => {
-    api.get<Package>(`/product/workspaces/${id}/package`).then((response) => setItem(response.data)).catch(() => create()).finally(() => setLoading(false));
+    api.get<Package>(`/product/workspaces/${id}/package`).then((response) => setItem(response.data)).catch(async (requestError) => {
+      if (axios.isAxiosError(requestError) && requestError.response?.status === 404) await create();
+      else setError("The package could not be loaded. Your saved work has not been replaced.");
+    }).finally(() => setLoading(false));
   }, [id]);
   const save = async () => {
     if (!item) return;
@@ -30,8 +41,11 @@ export function ApplicationPackagePage() {
     if (!item) return;
     await navigator.clipboard.writeText(item.content[key]); setCopied(key); setTimeout(() => setCopied(""), 1800);
   };
+  if (error && !item) return <main className="mx-auto max-w-xl px-4 py-20 text-center"><h1 className="text-2xl">Application package unavailable</h1><p className="mt-3">{error}</p><Link to="/workspaces" className="mt-6 inline-flex min-h-11 items-center rounded-lg border px-5">Target jobs</Link></main>;
   if (loading || !item) return <main className="flex min-h-[70vh] items-center justify-center" role="status"><Loader2 className="size-7 animate-spin text-primary" /></main>;
   return <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6"><Link to="/career" className="inline-flex min-h-11 items-center gap-2 text-sm text-muted-foreground"><ArrowLeft className="size-4" /> Career Hub</Link><header className="mt-3 flex flex-col justify-between gap-4 md:flex-row md:items-end"><div><p className="text-sm font-medium text-primary">Evidence-first application materials</p><h1 className="mt-2 text-3xl tracking-tight sm:text-4xl">Application package</h1><p className="mt-2 text-muted-foreground">Review every claim before sending. Regeneration always returns to grounded source evidence.</p></div><div className="flex gap-2"><button onClick={create} disabled={Boolean(busy)} className="inline-flex min-h-11 items-center gap-2 rounded-lg border px-4 hover:bg-accent"><RefreshCw className="size-4" /> Regenerate</button><button onClick={save} disabled={Boolean(busy)} className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-primary px-4 text-primary-foreground"><Save className="size-4" /> Save</button></div></header>
+    {error && <p role="alert" className="mt-4 rounded-lg bg-destructive/10 p-3 text-sm text-destructive">{error}</p>}
+    {item.stale && <p role="status" className="mt-6 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm">This package is based on an older analysis. Your edits are preserved. Refresh the analysis, then choose Regenerate when you are ready to replace this draft.</p>}
     {item.warnings.length > 0 && <div className="mt-6 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4"><h2 className="flex items-center gap-2 font-medium"><ShieldAlert className="size-5 text-amber-600" /> Claim review</h2>{item.warnings.map((warning) => <p key={warning.message} className="mt-2 text-sm text-muted-foreground">{warning.message}</p>)}</div>}
     <div className="mt-6 grid gap-6 lg:grid-cols-[1.35fr_.65fr]"><section className="space-y-5">{(Object.keys(labels) as (keyof typeof labels)[]).map((key) => <article key={key} className="rounded-2xl border bg-card p-5"><div className="flex items-center justify-between gap-3"><h2 className="text-xl">{labels[key]}</h2><button onClick={() => copy(key)} className="inline-flex min-h-11 items-center gap-2 rounded-lg border px-3 text-sm hover:bg-accent">{copied === key ? <Check className="size-4" /> : <Clipboard className="size-4" />} {copied === key ? "Copied" : "Copy"}</button></div><textarea aria-label={labels[key]} className="mt-4 min-h-52 w-full rounded-lg border bg-input-background p-4 text-sm leading-relaxed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" value={item.content[key]} onChange={(event) => setItem({ ...item, content: { ...item.content, [key]: event.target.value } })} /></article>)}</section><aside className="h-fit rounded-2xl border bg-card p-5 lg:sticky lg:top-24"><h2 className="text-xl">Claim sources</h2><p className="mt-1 text-sm text-muted-foreground">These are the facts used to assemble the package.</p><div className="mt-4 space-y-3">{Object.entries(item.source_map).map(([key, source]) => <div key={key} className="rounded-lg bg-muted/60 p-3"><p className="text-xs uppercase tracking-wide text-primary">{source.type.replace("_", " ")}</p><p className="mt-2 text-sm">{source.quote}</p>{source.source_note && <p className="mt-2 text-xs text-muted-foreground">Source: {source.source_note}</p>}</div>)}</div></aside></div>
   </main>;

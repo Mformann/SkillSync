@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   ArrowRight,
   BriefcaseBusiness,
@@ -8,9 +7,8 @@ import {
   MapPin,
   Plus,
 } from "lucide-react";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { api } from "../../lib/api";
+import { usePagedList } from "../../lib/paged-list";
 
 type Workspace = {
   id: number;
@@ -21,31 +19,20 @@ type Workspace = {
   updated_at: string;
   resumes: { id: number; filename: string; size_bytes: number; created_at: string }[];
   latest_analysis_id: number | null;
+  resume_count: number;
 };
 
 export function WorkspacesPage() {
-  const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const list = usePagedList<Workspace>("/workspaces", "id");
+  const { loading, error } = list;
+  const workspaces = list.data || [];
 
-  useEffect(() => {
-    api.get<Workspace[]>("/workspaces")
-      .then((response) => setWorkspaces(response.data))
-      .catch((requestError) => {
-        const message = axios.isAxiosError(requestError)
-          ? requestError.response?.data?.detail
-          : null;
-        setError(typeof message === "string" ? message : "Could not load your target jobs.");
-      })
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) {
+  if (loading && !list.data) {
     return (
-      <div className="flex min-h-[70vh] items-center justify-center" role="status">
+      <main className="flex min-h-[70vh] items-center justify-center" role="status">
         <Loader2 className="size-8 animate-spin text-primary" />
         <span className="sr-only">Loading target jobs</span>
-      </div>
+      </main>
     );
   }
 
@@ -70,6 +57,7 @@ export function WorkspacesPage() {
       {error && (
         <div className="rounded-xl border border-destructive/30 bg-destructive/10 p-4 text-destructive" role="alert">
           {error}
+          <button type="button" className="ml-3 min-h-11 rounded-lg border px-4" onClick={list.hasMore ? list.loadMore : list.reload}>Try again</button>
         </div>
       )}
 
@@ -97,7 +85,7 @@ export function WorkspacesPage() {
                 <BriefcaseBusiness className="size-5 text-primary" />
               </div>
               <span className="rounded-full bg-secondary px-3 py-1 text-xs text-secondary-foreground">
-                {workspace.resumes.length} {workspace.resumes.length === 1 ? "resume" : "resumes"}
+                {workspace.resume_count} {workspace.resume_count === 1 ? "resume" : "resumes"}
               </span>
             </div>
             <h2 className="mt-5 text-xl">{workspace.title}</h2>
@@ -131,6 +119,8 @@ export function WorkspacesPage() {
           </article>
         ))}
       </div>
+      {list.hasMore && <button type="button" onClick={list.loadMore} disabled={loading} className="mt-6 min-h-11 rounded-lg border px-5 disabled:opacity-50">{loading ? "Loading target jobs…" : "Load more target jobs"}</button>}
+      <p role="status" className="sr-only">{workspaces.length} target jobs loaded.</p>
     </main>
   );
 }

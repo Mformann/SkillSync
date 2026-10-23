@@ -1,0 +1,123 @@
+{
+  "secure": true,
+  "private_table_count": 19,
+  "protected_table_count": 20,
+  "migration_heads": [
+    "20261021_07"
+  ],
+  "anonymous_rest_checks": [
+    {
+      "table": "alembic_version",
+      "status": 401
+    },
+    {
+      "table": "analyses",
+      "status": 401
+    },
+    {
+      "table": "application_events",
+      "status": 401
+    },
+    {
+      "table": "application_packages",
+      "status": 401
+    },
+    {
+      "table": "career_achievements",
+      "status": 401
+    },
+    {
+      "table": "career_contacts",
+      "status": 401
+    },
+    {
+      "table": "career_profiles",
+      "status": 401
+    },
+    {
+      "table": "career_reminders",
+      "status": 401
+    },
+    {
+      "table": "growth_preferences",
+      "status": 401
+    },
+    {
+      "table": "interview_sessions",
+      "status": 401
+    },
+    {
+      "table": "job_applications",
+      "status": 401
+    },
+    {
+      "table": "learning_plans",
+      "status": 401
+    },
+    {
+      "table": "learning_tasks",
+      "status": 401
+    },
+    {
+      "table": "passport_reviews",
+      "status": 401
+    },
+    {
+      "table": "passport_shares",
+      "status": 401
+    },
+    {
+      "table": "portfolio_evidence",
+      "status": 401
+    },
+    {
+      "table": "resume_versions",
+      "status": 401
+    },
+    {
+      "table": "resumes",
+      "status": 401
+    },
+    {
+      "table": "skill_assessments",
+      "status": 401
+    },
+    {
+      "table": "target_jobs",
+      "status": 401
+    }
+  ],
+  "all_anonymous_rest_denied": true,
+  "supabase_auth_health": 200,
+  "backend_api_checks": [
+    {
+      "path": "/health/ready",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "path": "/workspaces",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "path": "/resume/all",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "path": "/product/privacy/export",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "path": "/growth/public",
+      "status": 404,
+      "expected": 404
+    }
+  ],
+  "backend_api_identity": "synthetic override with read-only sessions; no real account login",
+  "unrelated_schema_and_function_defaults_unchanged": true,
+  "candidate_records_modified": false,
+  "passed": true
+}

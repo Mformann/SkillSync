@@ -2,6 +2,13 @@ import { describe, expect, it } from "vitest";
 import { apiBaseUrlConfigurationError } from "../src/lib/deployment-config";
 
 describe("API deployment configuration", () => {
+  it.each(["http://localhost:8000", "https://localhost:8000", "http://127.0.0.1:8000"])(
+    "rejects a local API in a deployable beta build: %s",
+    value => expect(apiBaseUrlConfigurationError(value, false)).not.toBeNull(),
+  );
+  it("accepts a deployed HTTPS API in beta builds", () => {
+    expect(apiBaseUrlConfigurationError("https://api.skillsync.example", false)).toBeNull();
+  });
   it.each(["https://api.skillsync.example", "http://localhost:8000", "http://127.0.0.1:8000"])(
     "accepts a safe API origin: %s",
     value => expect(apiBaseUrlConfigurationError(value)).toBeNull(),

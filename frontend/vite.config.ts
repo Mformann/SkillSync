@@ -12,8 +12,8 @@ export default defineConfig({
       apply: 'build',
       config(_config, { mode }) {
         const env = { ...loadEnv(mode, process.cwd(), 'VITE_'), ...process.env }
-        const error = apiBaseUrlConfigurationError(env.VITE_API_BASE_URL || '')
-          || supabaseConfigurationError(env.VITE_SUPABASE_URL || '', env.VITE_SUPABASE_PUBLISHABLE_KEY || env.VITE_SUPABASE_ANON_KEY || '')
+        const error = apiBaseUrlConfigurationError(env.VITE_API_BASE_URL || '', mode !== 'beta')
+          || supabaseConfigurationError(env.VITE_SUPABASE_URL || '', env.VITE_SUPABASE_PUBLISHABLE_KEY || env.VITE_SUPABASE_ANON_KEY || '', mode !== 'beta')
         if (error) throw new Error(`Cannot build: ${error}`)
       },
     },

@@ -1,0 +1,41 @@
+{
+  "scope": "local production container; synthetic identities and documents",
+  "checks": [
+    "real entrypoint validates configuration, migrates and becomes ready",
+    "real ES256/JWKS authentication succeeds; invalid and missing tokens rejected; docs disabled",
+    "CORS allowlist and production request-size limit enforced",
+    "isolated DOCX worker, persisted analysis/cache and two-user ownership work on PostgreSQL",
+    "tailored resume persists and exports a readable DOCX; privacy export succeeds",
+    "representative PostgreSQL read baseline meets its declared error and p95 limits",
+    "latest migration, metadata parity and private-table role restrictions verified",
+    "owned app-data deletion removes the complete synthetic dataset"
+  ],
+  "startup_seconds": 5.932,
+  "load": {
+    "jobs": 201,
+    "resumes": 401,
+    "requests": 120,
+    "concurrency": 4,
+    "errors": 0,
+    "p50_ms": 57.83,
+    "p95_ms": 698.65,
+    "p95_limit_ms": 1500,
+    "api_rss_kib": 220124,
+    "container_cpu_limit": 2,
+    "load_seconds": 5.809,
+    "api_cpu_seconds": 7.51,
+    "api_cpu_percent_of_two_cores": 64.64,
+    "container_memory_limit_mib": 512,
+    "provider": "disabled; consent-off fixture",
+    "provider_seconds": 0,
+    "claim": "local baseline only; repeat on beta host before increasing access"
+  },
+  "database": {
+    "secure": true,
+    "revision": "20261021_09",
+    "application_tables": 22
+  },
+  "passed": true,
+  "non_root": true,
+  "duration_seconds": 18.78
+}

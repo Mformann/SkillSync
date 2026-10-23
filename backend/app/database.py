@@ -21,8 +21,15 @@ class Base:
 engine = create_engine(
     DATABASE_URL,
     # For Postgres, we don't need check_same_thread
-    connect_args={"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {},
+    connect_args={"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {
+        "connect_timeout": 10,
+        # Supabase transaction pooling cannot reuse session prepared statements.
+        "prepare_threshold": None,
+    },
     pool_pre_ping=not DATABASE_URL.startswith("sqlite"),
+    **({} if DATABASE_URL.startswith("sqlite") else {
+        "pool_size": 5, "max_overflow": 5, "pool_timeout": 10, "pool_recycle": 300,
+    }),
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

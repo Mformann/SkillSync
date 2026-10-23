@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 from .. import growth_models as gm, models
 from ..auth_utils import AuthenticatedUser, get_current_user
 from ..database import get_session
+from ..workspace_validation import WorkspaceCreate
 from ..services.growth_service import (QUESTION_BANK, calendar_export, grade_questions,
                                        interview_feedback, make_questions, schedule_plan, token_hash)
 from ..services.job_discovery_service import discover_jobs, import_job, rank_jobs
@@ -247,12 +248,7 @@ def job_preview(payload: JobLink, user: AuthenticatedUser = Depends(get_current_
         raise HTTPException(502, "The job source is unavailable or the listing has expired. Paste the description manually.") from exc
 
 
-class JobSave(Input):
-    title: str = Field(min_length=2, max_length=160)
-    company: str = Field(max_length=160)
-    description: str = Field(min_length=50, max_length=50_000)
-    location: str = Field(default="", max_length=160)
-    employment_type: str = Field(default="", max_length=80)
+class JobSave(WorkspaceCreate):
     url: HttpUrl
 
 

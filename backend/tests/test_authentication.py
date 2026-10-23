@@ -1,4 +1,5 @@
 import json
+import re
 from datetime import datetime, timedelta, timezone
 
 import httpx
@@ -60,15 +61,41 @@ def test_asymmetric_identity_and_bearer_route(signing):
 @pytest.mark.parametrize("change", [
     {"iss": "https://another-project.supabase.co/auth/v1"},
     {"aud": "another-audience"},
-    {"exp": datetime.now(timezone.utc) - timedelta(minutes=1)},
+    {"exp": "expired"},
     {"sub": ""},
-    {"nbf": datetime.now(timezone.utc) + timedelta(hours=1)},
+    {"nbf": "future"},
 ])
 def test_invalid_claims_are_rejected(signing, change):
+    change = dict(change)
+    if change.get("exp") == "expired":
+        change["exp"] = datetime.now(timezone.utc) - timedelta(minutes=1)
+    if change.get("nbf") == "future":
+        change["nbf"] = datetime.now(timezone.utc) + timedelta(hours=1)
     with pytest.raises(HTTPException) as caught:
         auth_utils.verify_access_token(signing(claims(**change)))
     assert caught.value.status_code == 401
     assert caught.value.detail == "Could not validate credentials."
+
+
+@pytest.mark.parametrize("algorithm", ["HS256", "ES256", "RS256"])
+def test_deeply_nested_payload_is_unauthorized_before_network(monkeypatch, algorithm):
+    header = jwt.utils.base64url_encode(json.dumps({"alg": algorithm, "typ": "JWT", "kid": "fixture"}).encode()).decode()
+    payload = jwt.utils.base64url_encode(b"[" * 6000 + b"]" * 6000).decode()
+    token = f"{header}.{payload}.c2lnbmF0dXJl"
+    assert len(token) < 16_384
+    monkeypatch.setattr(auth_utils.httpx, "get", lambda *a, **k: pytest.fail("Malformed payload contacted Auth"))
+    monkeypatch.setattr(auth_utils._jwks_client(PROJECT), "fetch_data", lambda: pytest.fail("Malformed payload fetched JWKS"))
+    response = TestClient(create_app()).get("/auth/me", headers={"Authorization": f"Bearer {token}"})
+    assert response.status_code == 401
+    assert response.headers["WWW-Authenticate"] == "Bearer"
+
+
+def test_parser_recursion_error_is_never_a_server_error(monkeypatch):
+    def recursive(_token):
+        raise RecursionError("synthetic malformed token")
+    monkeypatch.setattr(auth_utils.jwt, "get_unverified_header", recursive)
+    response = TestClient(create_app()).get("/auth/me", headers={"Authorization": "Bearer malformed"})
+    assert response.status_code == 401
 
 
 @pytest.mark.parametrize("required", ["iss", "aud", "exp", "sub"])
@@ -162,14 +189,18 @@ def test_configuration_failure_is_clear(monkeypatch):
 
 def test_all_application_endpoints_require_bearer():
     app = create_app()
+    client = TestClient(app)
+    public_system = {("get", "/health"), ("get", "/health/ready")}
     for path, operations in app.openapi()["paths"].items():
         for method, operation in operations.items():
             # The only intentional public data route requires an unguessable,
             # expiring, revocable passport capability. Writes still need auth.
             public_read = method == "get" and path == "/growth/public/passport/{token}"
-            if method in {"get", "post", "put", "patch", "delete"} and path != "/health" and not public_read:
+            if method in {"get", "post", "put", "patch", "delete"} and (method, path) not in public_system and not public_read:
                 assert operation.get("security"), f"Unprotected endpoint: {method} {path}"
-    client = TestClient(app)
+                concrete = re.sub(r"\{[^}]+\}", "1", path)
+                response = client.request(method, concrete, json={})
+                assert response.status_code == 401, f"Anonymous request reached {method} {path}: {response.status_code}"
     assert client.get("/auth/me").status_code == 401
     assert client.get("/resume/all").status_code == 401
     assert client.get("/dashboard/summary").status_code == 401

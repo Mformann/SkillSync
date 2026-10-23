@@ -18,6 +18,10 @@ const mocks = vi.hoisted(() => ({ get: vi.fn(), post: vi.fn(), put: vi.fn(), del
 vi.mock("../src/lib/api", () => ({ api: mocks, API_BASE_URL: "http://test-api" }));
 vi.mock("../src/app/auth-provider", () => ({ useAuth: () => ({ session: mocks.session }) }));
 const workspace = { id: 1, title: "Frontend engineer", company: "Acme", latest_analysis_id: 2 };
+function futurePlannerDate() {
+  const day = new Date(); day.setDate(day.getDate() + 30);
+  return `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}`;
+}
 const questions = [1, 2, 3].map(n => ({ id: `q${n}`, prompt: `Question ${n}`, options: [`Correct option ${n}`, `Other option ${n}`] }));
 const attempt = { id: 8, skill: "React", score: null, submitted_at: null, created_at: "2026-09-17", questions, scope: "Unproctored" };
 const evidence = { id: 10, title: "React project", description: "A working project with accessible interactions.", url: "https://example.com", skills: ["React"], verification_status: "self_reported" };
@@ -29,7 +33,7 @@ beforeEach(() => {
   mocks.get.mockImplementation(async (url: string) => {
     const responses: Record<string, unknown> = {
       "/workspaces": [workspace], "/growth/assessments": { supported_skills: ["React", "SQL"], attempts: [] },
-      "/learning/plans/by-analysis/2": { id: 3, hours_per_week: 5, target_date: "2026-10-17", tasks: [] },
+      "/learning/plans/by-analysis/2": { id: 3, hours_per_week: 5, target_date: futurePlannerDate(), tasks: [] },
       "/growth/plans/3/schedule": { schedule: null, study_days: [0, 2, 4] },
       "/growth/jobs": { configured: false, jobs: [], errors: [], sources: [] },
       "/growth/preferences": { roles: [], locations: [], remote_only: false, minimum_salary: null, currency: "INR" },
@@ -71,7 +75,7 @@ it("shows a resource error with a retry action instead of a false empty history"
 it("waits for saved study days before allowing planner edits", async () => {
   let resolveSchedule!: (response: { data: { schedule: null; study_days: number[] } }) => void;
   const saved = new Promise<{ data: { schedule: null; study_days: number[] } }>(resolve => { resolveSchedule = resolve; });
-  mocks.get.mockImplementation(async (url: string) => url.endsWith("/schedule") ? saved : { data: { id: 3, hours_per_week: 5, target_date: "2026-10-17", tasks: [] } });
+  mocks.get.mockImplementation(async (url: string) => url.endsWith("/schedule") ? saved : { data: { id: 3, hours_per_week: 5, target_date: futurePlannerDate(), tasks: [] } });
   page(<GrowthPlannerPanel workspace={workspace} />);
   await waitFor(() => expect(mocks.get).toHaveBeenCalledWith("/growth/plans/3/schedule", expect.anything()));
   expect(screen.queryByLabelText("Hours per week")).toBeNull();
@@ -87,7 +91,7 @@ it("reschedules with selected capacity and shows an impossible-deadline warning"
   const hours = await screen.findByLabelText("Hours per week"); fireEvent.change(hours, { target: { value: "1" } });
   await userEvent.click(screen.getByRole("button", { name: "Reschedule remaining work" }));
   expect(await screen.findByText("Deadline exceeds available study capacity.")).toBeTruthy();
-  expect(mocks.post).toHaveBeenCalledWith("/growth/plans/3/replan", { hours_per_week: 1, target_date: "2026-10-17", study_days: [0, 2, 4] });
+  expect(mocks.post).toHaveBeenCalledWith("/growth/plans/3/replan", { hours_per_week: 1, target_date: futurePlannerDate(), study_days: [0, 2, 4] });
 });
 
 it("captures a supported job only after the user reviews and saves it", async () => {

@@ -1,0 +1,187 @@
+{
+  "ok": true,
+  "analysis_id": "2",
+  "steps": [
+    "Uploaded a DOCX and completed consent-off analysis through the browser",
+    "Generated a persistent learning plan",
+    "Edited and saved a tailored resume",
+    "Downloaded the tailored DOCX",
+    "Verified saved changes after reload",
+    "Rendered the saved tailored resume through Chromium print media to an A4 PDF",
+    "Edited the job, refreshed analysis explicitly, and verified stale plan/version notices with saved edits preserved",
+    "Read a table-only DOCX through the browser; verified a true zero across gap report and dashboard, then pending/unavailable state after a saved-job upload"
+  ],
+  "errors": [],
+  "responses": [
+    {
+      "path": "/growth/reminders",
+      "status": 200
+    },
+    {
+      "path": "/resume/upload",
+      "status": 200
+    },
+    {
+      "path": "/resume/analysis/2/explainable",
+      "status": 200
+    },
+    {
+      "path": "/resume/analysis/2/run",
+      "status": 200
+    },
+    {
+      "path": "/learning/plans/by-analysis/2",
+      "status": 404
+    },
+    {
+      "path": "/resume/analysis/latest/explainable",
+      "status": 200
+    },
+    {
+      "path": "/learning/plans",
+      "status": 201
+    },
+    {
+      "path": "/resume/analysis/2/explainable",
+      "status": 200
+    },
+    {
+      "path": "/resume-studio/analyses/2/versions",
+      "status": 200
+    },
+    {
+      "path": "/resume-studio/analyses/2/versions",
+      "status": 201
+    },
+    {
+      "path": "/resume-studio/versions/2",
+      "status": 200
+    },
+    {
+      "path": "/resume-studio/versions/2/docx",
+      "status": 200
+    },
+    {
+      "path": "/growth/reminders",
+      "status": 200
+    },
+    {
+      "path": "/resume-studio/analyses/2/versions",
+      "status": 200
+    },
+    {
+      "path": "/resume/analysis/2/explainable",
+      "status": 200
+    },
+    {
+      "path": "/growth/reminders",
+      "status": 200
+    },
+    {
+      "path": "/resume/analysis/2/run",
+      "status": 200
+    },
+    {
+      "path": "/learning/plans/by-analysis/2",
+      "status": 200
+    },
+    {
+      "path": "/growth/reminders",
+      "status": 200
+    },
+    {
+      "path": "/resume-studio/analyses/2/versions",
+      "status": 200
+    },
+    {
+      "path": "/growth/reminders",
+      "status": 200
+    },
+    {
+      "path": "/resume/gap-report/2",
+      "status": 200
+    },
+    {
+      "path": "/growth/reminders",
+      "status": 200
+    },
+    {
+      "path": "/growth/reminders",
+      "status": 200
+    },
+    {
+      "path": "/resume/all",
+      "status": 200
+    },
+    {
+      "path": "/dashboard/summary",
+      "status": 200
+    },
+    {
+      "path": "/resume/analysis/latest/explainable",
+      "status": 200
+    },
+    {
+      "path": "/learning/plans/by-analysis/2",
+      "status": 200
+    },
+    {
+      "path": "/product/analytics",
+      "status": 200
+    },
+    {
+      "path": "/growth/reminders",
+      "status": 200
+    },
+    {
+      "path": "/career/workspaces",
+      "status": 200
+    },
+    {
+      "path": "/career/workspaces/2",
+      "status": 200
+    },
+    {
+      "path": "/growth/reminders",
+      "status": 200
+    },
+    {
+      "path": "/resume/all",
+      "status": 200
+    },
+    {
+      "path": "/dashboard/summary",
+      "status": 200
+    },
+    {
+      "path": "/resume/analysis/latest/explainable",
+      "status": 200
+    },
+    {
+      "path": "/resume/gap-report/3",
+      "status": 200
+    },
+    {
+      "path": "/growth/reminders",
+      "status": 200
+    },
+    {
+      "path": "/product/analytics",
+      "status": 200
+    },
+    {
+      "path": "/growth/reminders",
+      "status": 200
+    },
+    {
+      "path": "/career/workspaces",
+      "status": 200
+    },
+    {
+      "path": "/career/workspaces/2",
+      "status": 200
+    }
+  ],
+  "analysisRunRequests": 1,
+  "totalRunRequests": 2
+}

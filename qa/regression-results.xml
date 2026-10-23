@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="9" skipped="0" tests="10" time="2.571" timestamp="2026-10-19T19:59:44.429590+05:30" hostname="Mann"><testcase classname="qa.test_qa_audit" name="test_full_candidate_flow_and_ownership" time="0.354" /><testcase classname="qa.test_qa_audit" name="test_zero_match_is_not_replaced_by_sample_score" time="0.117"><failure message="assert 78 == 0">qa\test_qa_audit.py:103: in test_zero_match_is_not_replaced_by_sample_score
+    assert client.get("/resume/all").json()[0]["score"] == 0
+E   assert 78 == 0</failure></testcase><testcase classname="qa.test_qa_audit" name="test_daily_ai_limit_counts_forced_reruns" time="0.103"><failure message="AssertionError: A forced rerun bypassed the one-call daily allowance&#10;assert 2 == 1&#10; +  where 2 = len([True, True])">qa\test_qa_audit.py:119: in test_daily_ai_limit_counts_forced_reruns
+    assert len(calls) == 1, "A forced rerun bypassed the one-call daily allowance"
+E   AssertionError: A forced rerun bypassed the one-call daily allowance
+E   assert 2 == 1
+E    +  where 2 = len([True, True])</failure></testcase><testcase classname="qa.test_qa_audit" name="test_updated_job_invalidates_analysis" time="0.115"><failure message="AssertionError: assert ['Python', 'Docker'] == ['Kubernetes']&#10;  &#10;  At index 0 diff: 'Python' != 'Kubernetes'&#10;  Left contains one more item: 'Docker'&#10;  Use -v to get more diff">qa\test_qa_audit.py:131: in test_updated_job_invalidates_analysis
+    assert [r["name"] for r in second["result"]["requirements"]] == ["Kubernetes"]
+E   AssertionError: assert ['Python', 'Docker'] == ['Kubernetes']
+E     
+E     At index 0 diff: 'Python' != 'Kubernetes'
+E     Left contains one more item: 'Docker'
+E     Use -v to get more diff</failure></testcase><testcase classname="qa.test_qa_audit" name="test_table_resume_is_readable" time="0.131"><failure message="AssertionError: {&quot;detail&quot;:&quot;Very little readable text was found in this resume.&quot;}&#10;assert 422 == 200&#10; +  where 422 = &lt;Response [422 Unprocessable Entity]&gt;.status_code">qa\test_qa_audit.py:137: in test_table_resume_is_readable
+    assert response.status_code == 200, response.text
+E   AssertionError: {"detail":"Very little readable text was found in this resume."}
+E   assert 422 == 200
+E    +  where 422 = &lt;Response [422 Unprocessable Entity]&gt;.status_code</failure></testcase><testcase classname="qa.test_qa_audit" name="test_upload_enforces_workspace_field_limits" time="0.088"><failure message="AssertionError: {&quot;analysis_id&quot;:1,&quot;workspace_id&quot;:1,&quot;resume_id&quot;:1,&quot;message&quot;:&quot;Workspace created and resume processed successfully.&quot;}&#10;assert 200 == 422&#10; +  where 200 = &lt;Response [200 OK]&gt;.status_code">qa\test_qa_audit.py:143: in test_upload_enforces_workspace_field_limits
+    assert response.status_code == 422, response.text
+E   AssertionError: {"analysis_id":1,"workspace_id":1,"resume_id":1,"message":"Workspace created and resume processed successfully."}
+E   assert 200 == 422
+E    +  where 200 = &lt;Response [200 OK]&gt;.status_code</failure></testcase><testcase classname="qa.test_qa_audit" name="test_null_workspace_title_is_validation_error" time="0.056"><failure message="AssertionError: Internal Server Error&#10;assert 500 == 422&#10; +  where 500 = &lt;Response [500 Internal Server Error]&gt;.status_code">qa\test_qa_audit.py:150: in test_null_workspace_title_is_validation_error
+    assert response.status_code == 422, response.text
+E   AssertionError: Internal Server Error
+E   assert 500 == 422
+E    +  where 500 = &lt;Response [500 Internal Server Error]&gt;.status_code</failure></testcase><testcase classname="qa.test_qa_audit" name="test_deeply_nested_unsigned_token_is_unauthorized" time="0.011"><failure message="AssertionError: Internal Server Error&#10;assert 500 == 401&#10; +  where 500 = &lt;Response [500 Internal Server Error]&gt;.status_code">qa\test_qa_audit.py:164: in test_deeply_nested_unsigned_token_is_unauthorized
+    assert response.status_code == 401, response.text
+E   AssertionError: Internal Server Error
+E   assert 500 == 401
+E    +  where 500 = &lt;Response [500 Internal Server Error]&gt;.status_code</failure></testcase><testcase classname="qa.test_qa_audit" name="test_workspace_listing_does_not_query_each_row_separately" time="0.053"><failure message="AssertionError: Listing 20 workspaces executed 41 SELECT queries&#10;assert 41 &lt;= 5&#10; +  where 41 = len(['SELECT target_jobs.id AS target_jobs_id, target_jobs.user_id AS target_jobs_user_id, target_jobs.title AS target_job...breakdown, analyses.analysis_error AS analyses_analysis_error \nFROM analyses \nWHERE ? = analyses.target_job_id', ...])">qa\test_qa_audit.py:183: in test_workspace_listing_does_not_query_each_row_separately
+    assert len(statements) &lt;= 5, f"Listing 20 workspaces executed {len(statements)} SELECT queries"
+E   AssertionError: Listing 20 workspaces executed 41 SELECT queries
+E   assert 41 &lt;= 5
+E    +  where 41 = len(['SELECT target_jobs.id AS target_jobs_id, target_jobs.user_id AS target_jobs_user_id, target_jobs.title AS target_job...breakdown, analyses.analysis_error AS analyses_analysis_error \nFROM analyses \nWHERE ? = analyses.target_job_id', ...])</failure></testcase><testcase classname="qa.test_qa_audit" name="test_gap_report_uses_target_job_requirements" time="0.110"><failure message="AssertionError: The target requires Python and Docker, but gap report returned ['aws', 'azure', 'ci/cd', 'css', 'cypress', 'django']&#10;assert {'aws', 'azur...ss', 'django'} == {'docker'}&#10;  &#10;  Extra items in the left set:&#10;  'aws'&#10;  'cypress'&#10;  'django'&#10;  'azure'&#10;  'css'...&#10;  &#10;  ...Full output truncated (4 lines hidden), use '-vv' to show">qa\test_qa_audit.py:194: in test_gap_report_uses_target_job_requirements
+    assert gaps == {"docker"}, f"The target requires Python and Docker, but gap report returned {sorted(gaps)}"
+E   AssertionError: The target requires Python and Docker, but gap report returned ['aws', 'azure', 'ci/cd', 'css', 'cypress', 'django']
+E   assert {'aws', 'azur...ss', 'django'} == {'docker'}
+E     
+E     Extra items in the left set:
+E     'aws'
+E     'cypress'
+E     'django'
+E     'azure'
+E     'css'...
+E     
+E     ...Full output truncated (4 lines hidden), use '-vv' to show</failure></testcase></testsuite></testsuites>

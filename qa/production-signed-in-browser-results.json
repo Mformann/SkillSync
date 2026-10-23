@@ -1,0 +1,3878 @@
+[
+  {
+    "path": "/dashboard",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 2341,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Welcome back, QA!",
+      "Skill Growth Tracker",
+      "Score History",
+      "Quick Actions",
+      "Weekly Focus Goals",
+      "Resume Activity"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Welcome back, QA!",
+      "Score History",
+      "Quick Actions",
+      "Weekly Focus Goals",
+      "Resume Activity",
+      "Skill Growth Tracker",
+      "Upload New Resume",
+      "View Analysis",
+      "Learning Roadmap"
+    ],
+    "contrast": {
+      "checked": 82,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/upload",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 865,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Match your resume to a real opportunity",
+      "Target job",
+      "Resume"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Match your resume to a real opportunity",
+      "Target job",
+      "Resume"
+    ],
+    "contrast": {
+      "checked": 21,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/workspaces",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 1072,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Target jobs",
+      "Paging fixture 54",
+      "Paging fixture 53",
+      "Paging fixture 52",
+      "Paging fixture 51",
+      "Paging fixture 50",
+      "Paging fixture 49",
+      "Paging fixture 48",
+      "Paging fixture 47",
+      "Paging fixture 46",
+      "Paging fixture 45",
+      "Paging fixture 44",
+      "Paging fixture 43",
+      "Paging fixture 42",
+      "Paging fixture 41",
+      "Paging fixture 40",
+      "Paging fixture 39",
+      "Paging fixture 38",
+      "Paging fixture 37",
+      "Paging fixture 36",
+      "Paging fixture 35",
+      "Paging fixture 34",
+      "Paging fixture 33",
+      "Paging fixture 32",
+      "Paging fixture 31",
+      "Paging fixture 30",
+      "Paging fixture 29",
+      "Paging fixture 28",
+      "Paging fixture 27",
+      "Paging fixture 26",
+      "Paging fixture 25",
+      "Paging fixture 24",
+      "Paging fixture 23",
+      "Paging fixture 22",
+      "Paging fixture 21",
+      "Paging fixture 20",
+      "Paging fixture 19",
+      "Paging fixture 18",
+      "Paging fixture 17",
+      "Paging fixture 16",
+      "Paging fixture 15",
+      "Paging fixture 14",
+      "Paging fixture 13",
+      "Paging fixture 12",
+      "Paging fixture 11",
+      "Paging fixture 10",
+      "Paging fixture 09",
+      "Paging fixture 08",
+      "Paging fixture 07",
+      "Paging fixture 06",
+      "Paging fixture 05"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Target jobs",
+      "Paging fixture 54",
+      "Paging fixture 53",
+      "Paging fixture 52",
+      "Paging fixture 51",
+      "Paging fixture 50",
+      "Paging fixture 49",
+      "Paging fixture 48",
+      "Paging fixture 47",
+      "Paging fixture 46",
+      "Paging fixture 45",
+      "Paging fixture 44",
+      "Paging fixture 43",
+      "Paging fixture 42",
+      "Paging fixture 41",
+      "Paging fixture 40",
+      "Paging fixture 39",
+      "Paging fixture 38",
+      "Paging fixture 37",
+      "Paging fixture 36",
+      "Paging fixture 35",
+      "Paging fixture 34",
+      "Paging fixture 33",
+      "Paging fixture 32",
+      "Paging fixture 31",
+      "Paging fixture 30",
+      "Paging fixture 29",
+      "Paging fixture 28",
+      "Paging fixture 27",
+      "Paging fixture 26",
+      "Paging fixture 25",
+      "Paging fixture 24",
+      "Paging fixture 23",
+      "Paging fixture 22",
+      "Paging fixture 21",
+      "Paging fixture 20",
+      "Paging fixture 19",
+      "Paging fixture 18",
+      "Paging fixture 17",
+      "Paging fixture 16",
+      "Paging fixture 15",
+      "Paging fixture 14",
+      "Paging fixture 13",
+      "Paging fixture 12",
+      "Paging fixture 11",
+      "Paging fixture 10",
+      "Paging fixture 09",
+      "Paging fixture 08",
+      "Paging fixture 07",
+      "Paging fixture 06",
+      "Paging fixture 05"
+    ],
+    "contrast": {
+      "checked": 207,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/analysis/1",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 1008,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Backend engineer",
+      "Candidate positioning",
+      "Requirement evidence",
+      " Relevant strengths",
+      " Resume risks",
+      " How scoring works"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Backend engineer",
+      "Candidate positioning",
+      "Requirement evidence",
+      "Python",
+      "Sql",
+      "Docker",
+      "Kubernetes",
+      "Relevant strengths",
+      "Python",
+      "Sql",
+      "Resume risks",
+      "How scoring works"
+    ],
+    "contrast": {
+      "checked": 95,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/gap-report/1",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 853,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Skill Gap Report",
+      "Priority Gap Analysis",
+      "Target Roles",
+      "Resume Evidence",
+      "Requirements to Improve"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Skill Gap Report",
+      "Priority Gap Analysis",
+      "Target Roles",
+      "Backend engineer",
+      "Resume Evidence",
+      "Requirements to Improve"
+    ],
+    "contrast": {
+      "checked": 32,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/roadmap/1",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 900,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Learning roadmap"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Learning roadmap",
+      "Build job-ready evidence for Docker",
+      "Build job-ready evidence for Kubernetes"
+    ],
+    "contrast": {
+      "checked": 97,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/resume-studio/1",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 897,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Truth-first Resume Studio",
+      "Evidence bullets",
+      " Claim review",
+      "Synthetic QA Candidate"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Truth-first Resume Studio",
+      "Evidence bullets",
+      "Claim review",
+      "Synthetic QA Candidate",
+      "PROFESSIONAL SUMMARY",
+      "RELEVANT SKILLS",
+      "SELECTED EVIDENCE"
+    ],
+    "contrast": {
+      "checked": 34,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 956,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Turn preparation into applications",
+      " Application pipeline",
+      " Portfolio proof",
+      " Grounded interview practice"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Turn preparation into applications",
+      "Application pipeline",
+      "Portfolio proof",
+      "Grounded interview practice",
+      "Add verifiable evidence"
+    ],
+    "contrast": {
+      "checked": 142,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/vault",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 1371,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Vault",
+      "Career profile",
+      "Add an achievement",
+      "Achievement bank"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Vault",
+      "Career profile",
+      "Add an achievement",
+      "Achievement bank"
+    ],
+    "contrast": {
+      "checked": 25,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/package/1",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 1378,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Application package",
+      " Claim review",
+      "Cover letter",
+      "Recruiter outreach",
+      "Follow-up message",
+      "Claim sources"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Claim review",
+      "Application package",
+      "Claim sources",
+      "Cover letter",
+      "Recruiter outreach",
+      "Follow-up message"
+    ],
+    "contrast": {
+      "checked": 20,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/privacy",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 835,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Privacy and data controls",
+      "Export data",
+      "Delete SkillSync data"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Privacy and data controls",
+      "Export data",
+      "Delete SkillSync data"
+    ],
+    "contrast": {
+      "checked": 12,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=assessments",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 849,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Assess your knowledge",
+      "Assessment history"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Assess your knowledge",
+      "Assessment history"
+    ],
+    "contrast": {
+      "checked": 17,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=planner",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 872,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Make your plan fit your week"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Make your plan fit your week"
+    ],
+    "contrast": {
+      "checked": 18,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=jobs",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 850,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Capture a job opportunity",
+      "Discover relevant opportunities"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Capture a job opportunity",
+      "Discover relevant opportunities"
+    ],
+    "contrast": {
+      "checked": 24,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=interview",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 882,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Practise a real conversation",
+      "Resume previous practice"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Practise a real conversation",
+      "Resume previous practice"
+    ],
+    "contrast": {
+      "checked": 19,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=passport",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 866,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Publish a selected Skills Passport",
+      "Manage shared snapshots"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Publish a selected Skills Passport",
+      "Manage shared snapshots"
+    ],
+    "contrast": {
+      "checked": 21,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=contacts",
+    "theme": "light",
+    "width": 375,
+    "elapsed_ms": 990,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "People connected to this opportunity",
+      "Follow-up and learning inbox"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "People connected to this opportunity",
+      "Follow-up and learning inbox",
+      "Build job-ready evidence for Docker",
+      "Build job-ready evidence for Kubernetes"
+    ],
+    "contrast": {
+      "checked": 44,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/dashboard",
+    "theme": "light",
+    "width": 812,
+    "elapsed_ms": 1518,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Welcome back, QA!",
+      "Skill Growth Tracker",
+      "Score History",
+      "Quick Actions",
+      "Weekly Focus Goals",
+      "Resume Activity"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Welcome back, QA!",
+      "Score History",
+      "Quick Actions",
+      "Weekly Focus Goals",
+      "Resume Activity",
+      "Skill Growth Tracker",
+      "Upload New Resume",
+      "View Analysis",
+      "Learning Roadmap"
+    ],
+    "contrast": {
+      "checked": 82,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/upload",
+    "theme": "light",
+    "width": 812,
+    "elapsed_ms": 852,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Match your resume to a real opportunity",
+      "Target job",
+      "Resume"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Match your resume to a real opportunity",
+      "Target job",
+      "Resume"
+    ],
+    "contrast": {
+      "checked": 21,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/workspaces",
+    "theme": "light",
+    "width": 812,
+    "elapsed_ms": 1222,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Target jobs",
+      "Paging fixture 54",
+      "Paging fixture 53",
+      "Paging fixture 52",
+      "Paging fixture 51",
+      "Paging fixture 50",
+      "Paging fixture 49",
+      "Paging fixture 48",
+      "Paging fixture 47",
+      "Paging fixture 46",
+      "Paging fixture 45",
+      "Paging fixture 44",
+      "Paging fixture 43",
+      "Paging fixture 42",
+      "Paging fixture 41",
+      "Paging fixture 40",
+      "Paging fixture 39",
+      "Paging fixture 38",
+      "Paging fixture 37",
+      "Paging fixture 36",
+      "Paging fixture 35",
+      "Paging fixture 34",
+      "Paging fixture 33",
+      "Paging fixture 32",
+      "Paging fixture 31",
+      "Paging fixture 30",
+      "Paging fixture 29",
+      "Paging fixture 28",
+      "Paging fixture 27",
+      "Paging fixture 26",
+      "Paging fixture 25",
+      "Paging fixture 24",
+      "Paging fixture 23",
+      "Paging fixture 22",
+      "Paging fixture 21",
+      "Paging fixture 20",
+      "Paging fixture 19",
+      "Paging fixture 18",
+      "Paging fixture 17",
+      "Paging fixture 16",
+      "Paging fixture 15",
+      "Paging fixture 14",
+      "Paging fixture 13",
+      "Paging fixture 12",
+      "Paging fixture 11",
+      "Paging fixture 10",
+      "Paging fixture 09",
+      "Paging fixture 08",
+      "Paging fixture 07",
+      "Paging fixture 06",
+      "Paging fixture 05"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Target jobs",
+      "Paging fixture 54",
+      "Paging fixture 53",
+      "Paging fixture 52",
+      "Paging fixture 51",
+      "Paging fixture 50",
+      "Paging fixture 49",
+      "Paging fixture 48",
+      "Paging fixture 47",
+      "Paging fixture 46",
+      "Paging fixture 45",
+      "Paging fixture 44",
+      "Paging fixture 43",
+      "Paging fixture 42",
+      "Paging fixture 41",
+      "Paging fixture 40",
+      "Paging fixture 39",
+      "Paging fixture 38",
+      "Paging fixture 37",
+      "Paging fixture 36",
+      "Paging fixture 35",
+      "Paging fixture 34",
+      "Paging fixture 33",
+      "Paging fixture 32",
+      "Paging fixture 31",
+      "Paging fixture 30",
+      "Paging fixture 29",
+      "Paging fixture 28",
+      "Paging fixture 27",
+      "Paging fixture 26",
+      "Paging fixture 25",
+      "Paging fixture 24",
+      "Paging fixture 23",
+      "Paging fixture 22",
+      "Paging fixture 21",
+      "Paging fixture 20",
+      "Paging fixture 19",
+      "Paging fixture 18",
+      "Paging fixture 17",
+      "Paging fixture 16",
+      "Paging fixture 15",
+      "Paging fixture 14",
+      "Paging fixture 13",
+      "Paging fixture 12",
+      "Paging fixture 11",
+      "Paging fixture 10",
+      "Paging fixture 09",
+      "Paging fixture 08",
+      "Paging fixture 07",
+      "Paging fixture 06",
+      "Paging fixture 05"
+    ],
+    "contrast": {
+      "checked": 207,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/analysis/1",
+    "theme": "light",
+    "width": 812,
+    "elapsed_ms": 990,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Backend engineer",
+      "Candidate positioning",
+      "Requirement evidence",
+      " Relevant strengths",
+      " Resume risks",
+      " How scoring works"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Backend engineer",
+      "Candidate positioning",
+      "Requirement evidence",
+      "Python",
+      "Sql",
+      "Docker",
+      "Kubernetes",
+      "Relevant strengths",
+      "Python",
+      "Sql",
+      "Resume risks",
+      "How scoring works"
+    ],
+    "contrast": {
+      "checked": 95,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/gap-report/1",
+    "theme": "light",
+    "width": 812,
+    "elapsed_ms": 939,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Skill Gap Report",
+      "Priority Gap Analysis",
+      "Target Roles",
+      "Resume Evidence",
+      "Requirements to Improve"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Skill Gap Report",
+      "Priority Gap Analysis",
+      "Target Roles",
+      "Backend engineer",
+      "Resume Evidence",
+      "Requirements to Improve"
+    ],
+    "contrast": {
+      "checked": 32,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/roadmap/1",
+    "theme": "light",
+    "width": 812,
+    "elapsed_ms": 987,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Learning roadmap"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Learning roadmap",
+      "Build job-ready evidence for Docker",
+      "Build job-ready evidence for Kubernetes"
+    ],
+    "contrast": {
+      "checked": 97,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/resume-studio/1",
+    "theme": "light",
+    "width": 812,
+    "elapsed_ms": 911,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Truth-first Resume Studio",
+      "Evidence bullets",
+      " Claim review",
+      "Synthetic QA Candidate"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Truth-first Resume Studio",
+      "Evidence bullets",
+      "Claim review",
+      "Synthetic QA Candidate",
+      "PROFESSIONAL SUMMARY",
+      "RELEVANT SKILLS",
+      "SELECTED EVIDENCE"
+    ],
+    "contrast": {
+      "checked": 34,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career",
+    "theme": "light",
+    "width": 812,
+    "elapsed_ms": 977,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Turn preparation into applications",
+      " Application pipeline",
+      " Portfolio proof",
+      " Grounded interview practice"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Turn preparation into applications",
+      "Application pipeline",
+      "Portfolio proof",
+      "Grounded interview practice",
+      "Add verifiable evidence"
+    ],
+    "contrast": {
+      "checked": 142,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/vault",
+    "theme": "light",
+    "width": 812,
+    "elapsed_ms": 853,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Career Vault",
+      "Career profile",
+      "Add an achievement",
+      "Achievement bank"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Vault",
+      "Career profile",
+      "Add an achievement",
+      "Achievement bank"
+    ],
+    "contrast": {
+      "checked": 25,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/package/1",
+    "theme": "light",
+    "width": 812,
+    "elapsed_ms": 844,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Application package",
+      " Claim review",
+      "Cover letter",
+      "Recruiter outreach",
+      "Follow-up message",
+      "Claim sources"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Claim review",
+      "Application package",
+      "Claim sources",
+      "Cover letter",
+      "Recruiter outreach",
+      "Follow-up message"
+    ],
+    "contrast": {
+      "checked": 20,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/privacy",
+    "theme": "light",
+    "width": 812,
+    "elapsed_ms": 827,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Privacy and data controls",
+      "Export data",
+      "Delete SkillSync data"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Privacy and data controls",
+      "Export data",
+      "Delete SkillSync data"
+    ],
+    "contrast": {
+      "checked": 12,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=assessments",
+    "theme": "light",
+    "width": 812,
+    "elapsed_ms": 909,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Assess your knowledge",
+      "Assessment history"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Assess your knowledge",
+      "Assessment history"
+    ],
+    "contrast": {
+      "checked": 17,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=planner",
+    "theme": "light",
+    "width": 812,
+    "elapsed_ms": 868,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Make your plan fit your week"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Make your plan fit your week"
+    ],
+    "contrast": {
+      "checked": 18,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=jobs",
+    "theme": "light",
+    "width": 812,
+    "elapsed_ms": 901,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Capture a job opportunity",
+      "Discover relevant opportunities"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Capture a job opportunity",
+      "Discover relevant opportunities"
+    ],
+    "contrast": {
+      "checked": 24,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=interview",
+    "theme": "light",
+    "width": 812,
+    "elapsed_ms": 936,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Practise a real conversation",
+      "Resume previous practice"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Practise a real conversation",
+      "Resume previous practice"
+    ],
+    "contrast": {
+      "checked": 19,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=passport",
+    "theme": "light",
+    "width": 812,
+    "elapsed_ms": 995,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Publish a selected Skills Passport",
+      "Manage shared snapshots"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Publish a selected Skills Passport",
+      "Manage shared snapshots"
+    ],
+    "contrast": {
+      "checked": 21,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=contacts",
+    "theme": "light",
+    "width": 812,
+    "elapsed_ms": 1085,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "People connected to this opportunity",
+      "Follow-up and learning inbox"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "People connected to this opportunity",
+      "Follow-up and learning inbox",
+      "Build job-ready evidence for Docker",
+      "Build job-ready evidence for Kubernetes"
+    ],
+    "contrast": {
+      "checked": 44,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/dashboard",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 1450,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Welcome back, QA!",
+      "Skill Growth Tracker",
+      "Score History",
+      "Quick Actions",
+      "Weekly Focus Goals",
+      "Resume Activity"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Welcome back, QA!",
+      "Score History",
+      "Quick Actions",
+      "Weekly Focus Goals",
+      "Resume Activity",
+      "Skill Growth Tracker",
+      "Upload New Resume",
+      "View Analysis",
+      "Learning Roadmap"
+    ],
+    "contrast": {
+      "checked": 82,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/upload",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 881,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Match your resume to a real opportunity",
+      "Target job",
+      "Resume"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Match your resume to a real opportunity",
+      "Target job",
+      "Resume"
+    ],
+    "contrast": {
+      "checked": 21,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/workspaces",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 1036,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Target jobs",
+      "Paging fixture 54",
+      "Paging fixture 53",
+      "Paging fixture 52",
+      "Paging fixture 51",
+      "Paging fixture 50",
+      "Paging fixture 49",
+      "Paging fixture 48",
+      "Paging fixture 47",
+      "Paging fixture 46",
+      "Paging fixture 45",
+      "Paging fixture 44",
+      "Paging fixture 43",
+      "Paging fixture 42",
+      "Paging fixture 41",
+      "Paging fixture 40",
+      "Paging fixture 39",
+      "Paging fixture 38",
+      "Paging fixture 37",
+      "Paging fixture 36",
+      "Paging fixture 35",
+      "Paging fixture 34",
+      "Paging fixture 33",
+      "Paging fixture 32",
+      "Paging fixture 31",
+      "Paging fixture 30",
+      "Paging fixture 29",
+      "Paging fixture 28",
+      "Paging fixture 27",
+      "Paging fixture 26",
+      "Paging fixture 25",
+      "Paging fixture 24",
+      "Paging fixture 23",
+      "Paging fixture 22",
+      "Paging fixture 21",
+      "Paging fixture 20",
+      "Paging fixture 19",
+      "Paging fixture 18",
+      "Paging fixture 17",
+      "Paging fixture 16",
+      "Paging fixture 15",
+      "Paging fixture 14",
+      "Paging fixture 13",
+      "Paging fixture 12",
+      "Paging fixture 11",
+      "Paging fixture 10",
+      "Paging fixture 09",
+      "Paging fixture 08",
+      "Paging fixture 07",
+      "Paging fixture 06",
+      "Paging fixture 05"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Target jobs",
+      "Paging fixture 54",
+      "Paging fixture 53",
+      "Paging fixture 52",
+      "Paging fixture 51",
+      "Paging fixture 50",
+      "Paging fixture 49",
+      "Paging fixture 48",
+      "Paging fixture 47",
+      "Paging fixture 46",
+      "Paging fixture 45",
+      "Paging fixture 44",
+      "Paging fixture 43",
+      "Paging fixture 42",
+      "Paging fixture 41",
+      "Paging fixture 40",
+      "Paging fixture 39",
+      "Paging fixture 38",
+      "Paging fixture 37",
+      "Paging fixture 36",
+      "Paging fixture 35",
+      "Paging fixture 34",
+      "Paging fixture 33",
+      "Paging fixture 32",
+      "Paging fixture 31",
+      "Paging fixture 30",
+      "Paging fixture 29",
+      "Paging fixture 28",
+      "Paging fixture 27",
+      "Paging fixture 26",
+      "Paging fixture 25",
+      "Paging fixture 24",
+      "Paging fixture 23",
+      "Paging fixture 22",
+      "Paging fixture 21",
+      "Paging fixture 20",
+      "Paging fixture 19",
+      "Paging fixture 18",
+      "Paging fixture 17",
+      "Paging fixture 16",
+      "Paging fixture 15",
+      "Paging fixture 14",
+      "Paging fixture 13",
+      "Paging fixture 12",
+      "Paging fixture 11",
+      "Paging fixture 10",
+      "Paging fixture 09",
+      "Paging fixture 08",
+      "Paging fixture 07",
+      "Paging fixture 06",
+      "Paging fixture 05"
+    ],
+    "contrast": {
+      "checked": 207,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/analysis/1",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 1047,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Backend engineer",
+      "Candidate positioning",
+      "Requirement evidence",
+      " Relevant strengths",
+      " Resume risks",
+      " How scoring works"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Backend engineer",
+      "Candidate positioning",
+      "Requirement evidence",
+      "Python",
+      "Sql",
+      "Docker",
+      "Kubernetes",
+      "Relevant strengths",
+      "Python",
+      "Sql",
+      "Resume risks",
+      "How scoring works"
+    ],
+    "contrast": {
+      "checked": 95,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/gap-report/1",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 991,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Skill Gap Report",
+      "Priority Gap Analysis",
+      "Target Roles",
+      "Resume Evidence",
+      "Requirements to Improve"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Skill Gap Report",
+      "Priority Gap Analysis",
+      "Target Roles",
+      "Backend engineer",
+      "Resume Evidence",
+      "Requirements to Improve"
+    ],
+    "contrast": {
+      "checked": 32,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/roadmap/1",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 1093,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Learning roadmap"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Learning roadmap",
+      "Build job-ready evidence for Docker",
+      "Build job-ready evidence for Kubernetes"
+    ],
+    "contrast": {
+      "checked": 97,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/resume-studio/1",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 918,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Truth-first Resume Studio",
+      "Evidence bullets",
+      " Claim review",
+      "Synthetic QA Candidate"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Truth-first Resume Studio",
+      "Evidence bullets",
+      "Claim review",
+      "Synthetic QA Candidate",
+      "PROFESSIONAL SUMMARY",
+      "RELEVANT SKILLS",
+      "SELECTED EVIDENCE"
+    ],
+    "contrast": {
+      "checked": 34,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 1015,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Turn preparation into applications",
+      " Application pipeline",
+      " Portfolio proof",
+      " Grounded interview practice"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Turn preparation into applications",
+      "Application pipeline",
+      "Portfolio proof",
+      "Grounded interview practice",
+      "Add verifiable evidence"
+    ],
+    "contrast": {
+      "checked": 142,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/vault",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 948,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Vault",
+      "Career profile",
+      "Add an achievement",
+      "Achievement bank"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Vault",
+      "Career profile",
+      "Add an achievement",
+      "Achievement bank"
+    ],
+    "contrast": {
+      "checked": 25,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/package/1",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 932,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Application package",
+      " Claim review",
+      "Cover letter",
+      "Recruiter outreach",
+      "Follow-up message",
+      "Claim sources"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Claim review",
+      "Application package",
+      "Claim sources",
+      "Cover letter",
+      "Recruiter outreach",
+      "Follow-up message"
+    ],
+    "contrast": {
+      "checked": 20,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/privacy",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 842,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Privacy and data controls",
+      "Export data",
+      "Delete SkillSync data"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Privacy and data controls",
+      "Export data",
+      "Delete SkillSync data"
+    ],
+    "contrast": {
+      "checked": 12,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=assessments",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 866,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Assess your knowledge",
+      "Assessment history"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Assess your knowledge",
+      "Assessment history"
+    ],
+    "contrast": {
+      "checked": 17,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=planner",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 943,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Make your plan fit your week"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Make your plan fit your week"
+    ],
+    "contrast": {
+      "checked": 18,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=jobs",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 968,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Capture a job opportunity",
+      "Discover relevant opportunities"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Capture a job opportunity",
+      "Discover relevant opportunities"
+    ],
+    "contrast": {
+      "checked": 24,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=interview",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 912,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Practise a real conversation",
+      "Resume previous practice"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Practise a real conversation",
+      "Resume previous practice"
+    ],
+    "contrast": {
+      "checked": 19,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=passport",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 906,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Publish a selected Skills Passport",
+      "Manage shared snapshots"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Publish a selected Skills Passport",
+      "Manage shared snapshots"
+    ],
+    "contrast": {
+      "checked": 21,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=contacts",
+    "theme": "light",
+    "width": 1440,
+    "elapsed_ms": 920,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "People connected to this opportunity",
+      "Follow-up and learning inbox"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "People connected to this opportunity",
+      "Follow-up and learning inbox",
+      "Build job-ready evidence for Docker",
+      "Build job-ready evidence for Kubernetes"
+    ],
+    "contrast": {
+      "checked": 44,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/dashboard",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 1445,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Welcome back, QA!",
+      "Skill Growth Tracker",
+      "Score History",
+      "Quick Actions",
+      "Weekly Focus Goals",
+      "Resume Activity"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Welcome back, QA!",
+      "Score History",
+      "Quick Actions",
+      "Weekly Focus Goals",
+      "Resume Activity",
+      "Skill Growth Tracker",
+      "Upload New Resume",
+      "View Analysis",
+      "Learning Roadmap"
+    ],
+    "contrast": {
+      "checked": 82,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/upload",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 783,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Match your resume to a real opportunity",
+      "Target job",
+      "Resume"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Match your resume to a real opportunity",
+      "Target job",
+      "Resume"
+    ],
+    "contrast": {
+      "checked": 21,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/workspaces",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 1066,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Target jobs",
+      "Paging fixture 54",
+      "Paging fixture 53",
+      "Paging fixture 52",
+      "Paging fixture 51",
+      "Paging fixture 50",
+      "Paging fixture 49",
+      "Paging fixture 48",
+      "Paging fixture 47",
+      "Paging fixture 46",
+      "Paging fixture 45",
+      "Paging fixture 44",
+      "Paging fixture 43",
+      "Paging fixture 42",
+      "Paging fixture 41",
+      "Paging fixture 40",
+      "Paging fixture 39",
+      "Paging fixture 38",
+      "Paging fixture 37",
+      "Paging fixture 36",
+      "Paging fixture 35",
+      "Paging fixture 34",
+      "Paging fixture 33",
+      "Paging fixture 32",
+      "Paging fixture 31",
+      "Paging fixture 30",
+      "Paging fixture 29",
+      "Paging fixture 28",
+      "Paging fixture 27",
+      "Paging fixture 26",
+      "Paging fixture 25",
+      "Paging fixture 24",
+      "Paging fixture 23",
+      "Paging fixture 22",
+      "Paging fixture 21",
+      "Paging fixture 20",
+      "Paging fixture 19",
+      "Paging fixture 18",
+      "Paging fixture 17",
+      "Paging fixture 16",
+      "Paging fixture 15",
+      "Paging fixture 14",
+      "Paging fixture 13",
+      "Paging fixture 12",
+      "Paging fixture 11",
+      "Paging fixture 10",
+      "Paging fixture 09",
+      "Paging fixture 08",
+      "Paging fixture 07",
+      "Paging fixture 06",
+      "Paging fixture 05"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Target jobs",
+      "Paging fixture 54",
+      "Paging fixture 53",
+      "Paging fixture 52",
+      "Paging fixture 51",
+      "Paging fixture 50",
+      "Paging fixture 49",
+      "Paging fixture 48",
+      "Paging fixture 47",
+      "Paging fixture 46",
+      "Paging fixture 45",
+      "Paging fixture 44",
+      "Paging fixture 43",
+      "Paging fixture 42",
+      "Paging fixture 41",
+      "Paging fixture 40",
+      "Paging fixture 39",
+      "Paging fixture 38",
+      "Paging fixture 37",
+      "Paging fixture 36",
+      "Paging fixture 35",
+      "Paging fixture 34",
+      "Paging fixture 33",
+      "Paging fixture 32",
+      "Paging fixture 31",
+      "Paging fixture 30",
+      "Paging fixture 29",
+      "Paging fixture 28",
+      "Paging fixture 27",
+      "Paging fixture 26",
+      "Paging fixture 25",
+      "Paging fixture 24",
+      "Paging fixture 23",
+      "Paging fixture 22",
+      "Paging fixture 21",
+      "Paging fixture 20",
+      "Paging fixture 19",
+      "Paging fixture 18",
+      "Paging fixture 17",
+      "Paging fixture 16",
+      "Paging fixture 15",
+      "Paging fixture 14",
+      "Paging fixture 13",
+      "Paging fixture 12",
+      "Paging fixture 11",
+      "Paging fixture 10",
+      "Paging fixture 09",
+      "Paging fixture 08",
+      "Paging fixture 07",
+      "Paging fixture 06",
+      "Paging fixture 05"
+    ],
+    "contrast": {
+      "checked": 207,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/analysis/1",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 951,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Backend engineer",
+      "Candidate positioning",
+      "Requirement evidence",
+      " Relevant strengths",
+      " Resume risks",
+      " How scoring works"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Backend engineer",
+      "Candidate positioning",
+      "Requirement evidence",
+      "Python",
+      "Sql",
+      "Docker",
+      "Kubernetes",
+      "Relevant strengths",
+      "Python",
+      "Sql",
+      "Resume risks",
+      "How scoring works"
+    ],
+    "contrast": {
+      "checked": 95,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/gap-report/1",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 957,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Skill Gap Report",
+      "Priority Gap Analysis",
+      "Target Roles",
+      "Resume Evidence",
+      "Requirements to Improve"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Skill Gap Report",
+      "Priority Gap Analysis",
+      "Target Roles",
+      "Backend engineer",
+      "Resume Evidence",
+      "Requirements to Improve"
+    ],
+    "contrast": {
+      "checked": 32,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/roadmap/1",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 975,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Learning roadmap"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Learning roadmap",
+      "Build job-ready evidence for Docker",
+      "Build job-ready evidence for Kubernetes"
+    ],
+    "contrast": {
+      "checked": 97,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/resume-studio/1",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 953,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Truth-first Resume Studio",
+      "Evidence bullets",
+      " Claim review",
+      "Synthetic QA Candidate"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Truth-first Resume Studio",
+      "Evidence bullets",
+      "Claim review",
+      "Synthetic QA Candidate",
+      "PROFESSIONAL SUMMARY",
+      "RELEVANT SKILLS",
+      "SELECTED EVIDENCE"
+    ],
+    "contrast": {
+      "checked": 34,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 994,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Turn preparation into applications",
+      " Application pipeline",
+      " Portfolio proof",
+      " Grounded interview practice"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Turn preparation into applications",
+      "Application pipeline",
+      "Portfolio proof",
+      "Grounded interview practice",
+      "Add verifiable evidence"
+    ],
+    "contrast": {
+      "checked": 142,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/vault",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 841,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Vault",
+      "Career profile",
+      "Add an achievement",
+      "Achievement bank"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Vault",
+      "Career profile",
+      "Add an achievement",
+      "Achievement bank"
+    ],
+    "contrast": {
+      "checked": 25,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/package/1",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 878,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Application package",
+      " Claim review",
+      "Cover letter",
+      "Recruiter outreach",
+      "Follow-up message",
+      "Claim sources"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Claim review",
+      "Application package",
+      "Claim sources",
+      "Cover letter",
+      "Recruiter outreach",
+      "Follow-up message"
+    ],
+    "contrast": {
+      "checked": 20,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/privacy",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 808,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Privacy and data controls",
+      "Export data",
+      "Delete SkillSync data"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Privacy and data controls",
+      "Export data",
+      "Delete SkillSync data"
+    ],
+    "contrast": {
+      "checked": 12,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=assessments",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 900,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Assess your knowledge",
+      "Assessment history"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Assess your knowledge",
+      "Assessment history"
+    ],
+    "contrast": {
+      "checked": 17,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=planner",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 915,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Make your plan fit your week"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Make your plan fit your week"
+    ],
+    "contrast": {
+      "checked": 18,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=jobs",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 983,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Capture a job opportunity",
+      "Discover relevant opportunities"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Capture a job opportunity",
+      "Discover relevant opportunities"
+    ],
+    "contrast": {
+      "checked": 24,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=interview",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 915,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Practise a real conversation",
+      "Resume previous practice"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Practise a real conversation",
+      "Resume previous practice"
+    ],
+    "contrast": {
+      "checked": 19,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=passport",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 933,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Publish a selected Skills Passport",
+      "Manage shared snapshots"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Publish a selected Skills Passport",
+      "Manage shared snapshots"
+    ],
+    "contrast": {
+      "checked": 21,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=contacts",
+    "theme": "dark",
+    "width": 375,
+    "elapsed_ms": 1054,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 375,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "People connected to this opportunity",
+      "Follow-up and learning inbox"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "People connected to this opportunity",
+      "Follow-up and learning inbox",
+      "Build job-ready evidence for Docker",
+      "Build job-ready evidence for Kubernetes"
+    ],
+    "contrast": {
+      "checked": 44,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/dashboard",
+    "theme": "dark",
+    "width": 812,
+    "elapsed_ms": 1508,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Welcome back, QA!",
+      "Skill Growth Tracker",
+      "Score History",
+      "Quick Actions",
+      "Weekly Focus Goals",
+      "Resume Activity"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Welcome back, QA!",
+      "Score History",
+      "Quick Actions",
+      "Weekly Focus Goals",
+      "Resume Activity",
+      "Skill Growth Tracker",
+      "Upload New Resume",
+      "View Analysis",
+      "Learning Roadmap"
+    ],
+    "contrast": {
+      "checked": 82,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/upload",
+    "theme": "dark",
+    "width": 812,
+    "elapsed_ms": 881,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Match your resume to a real opportunity",
+      "Target job",
+      "Resume"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Match your resume to a real opportunity",
+      "Target job",
+      "Resume"
+    ],
+    "contrast": {
+      "checked": 21,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/workspaces",
+    "theme": "dark",
+    "width": 812,
+    "elapsed_ms": 1182,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Target jobs",
+      "Paging fixture 54",
+      "Paging fixture 53",
+      "Paging fixture 52",
+      "Paging fixture 51",
+      "Paging fixture 50",
+      "Paging fixture 49",
+      "Paging fixture 48",
+      "Paging fixture 47",
+      "Paging fixture 46",
+      "Paging fixture 45",
+      "Paging fixture 44",
+      "Paging fixture 43",
+      "Paging fixture 42",
+      "Paging fixture 41",
+      "Paging fixture 40",
+      "Paging fixture 39",
+      "Paging fixture 38",
+      "Paging fixture 37",
+      "Paging fixture 36",
+      "Paging fixture 35",
+      "Paging fixture 34",
+      "Paging fixture 33",
+      "Paging fixture 32",
+      "Paging fixture 31",
+      "Paging fixture 30",
+      "Paging fixture 29",
+      "Paging fixture 28",
+      "Paging fixture 27",
+      "Paging fixture 26",
+      "Paging fixture 25",
+      "Paging fixture 24",
+      "Paging fixture 23",
+      "Paging fixture 22",
+      "Paging fixture 21",
+      "Paging fixture 20",
+      "Paging fixture 19",
+      "Paging fixture 18",
+      "Paging fixture 17",
+      "Paging fixture 16",
+      "Paging fixture 15",
+      "Paging fixture 14",
+      "Paging fixture 13",
+      "Paging fixture 12",
+      "Paging fixture 11",
+      "Paging fixture 10",
+      "Paging fixture 09",
+      "Paging fixture 08",
+      "Paging fixture 07",
+      "Paging fixture 06",
+      "Paging fixture 05"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Target jobs",
+      "Paging fixture 54",
+      "Paging fixture 53",
+      "Paging fixture 52",
+      "Paging fixture 51",
+      "Paging fixture 50",
+      "Paging fixture 49",
+      "Paging fixture 48",
+      "Paging fixture 47",
+      "Paging fixture 46",
+      "Paging fixture 45",
+      "Paging fixture 44",
+      "Paging fixture 43",
+      "Paging fixture 42",
+      "Paging fixture 41",
+      "Paging fixture 40",
+      "Paging fixture 39",
+      "Paging fixture 38",
+      "Paging fixture 37",
+      "Paging fixture 36",
+      "Paging fixture 35",
+      "Paging fixture 34",
+      "Paging fixture 33",
+      "Paging fixture 32",
+      "Paging fixture 31",
+      "Paging fixture 30",
+      "Paging fixture 29",
+      "Paging fixture 28",
+      "Paging fixture 27",
+      "Paging fixture 26",
+      "Paging fixture 25",
+      "Paging fixture 24",
+      "Paging fixture 23",
+      "Paging fixture 22",
+      "Paging fixture 21",
+      "Paging fixture 20",
+      "Paging fixture 19",
+      "Paging fixture 18",
+      "Paging fixture 17",
+      "Paging fixture 16",
+      "Paging fixture 15",
+      "Paging fixture 14",
+      "Paging fixture 13",
+      "Paging fixture 12",
+      "Paging fixture 11",
+      "Paging fixture 10",
+      "Paging fixture 09",
+      "Paging fixture 08",
+      "Paging fixture 07",
+      "Paging fixture 06",
+      "Paging fixture 05"
+    ],
+    "contrast": {
+      "checked": 207,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/analysis/1",
+    "theme": "dark",
+    "width": 812,
+    "elapsed_ms": 1119,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Backend engineer",
+      "Candidate positioning",
+      "Requirement evidence",
+      " Relevant strengths",
+      " Resume risks",
+      " How scoring works"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Backend engineer",
+      "Candidate positioning",
+      "Requirement evidence",
+      "Python",
+      "Sql",
+      "Docker",
+      "Kubernetes",
+      "Relevant strengths",
+      "Python",
+      "Sql",
+      "Resume risks",
+      "How scoring works"
+    ],
+    "contrast": {
+      "checked": 95,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/gap-report/1",
+    "theme": "dark",
+    "width": 812,
+    "elapsed_ms": 878,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Skill Gap Report",
+      "Priority Gap Analysis",
+      "Target Roles",
+      "Resume Evidence",
+      "Requirements to Improve"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Skill Gap Report",
+      "Priority Gap Analysis",
+      "Target Roles",
+      "Backend engineer",
+      "Resume Evidence",
+      "Requirements to Improve"
+    ],
+    "contrast": {
+      "checked": 32,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/roadmap/1",
+    "theme": "dark",
+    "width": 812,
+    "elapsed_ms": 1054,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Learning roadmap"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Learning roadmap",
+      "Build job-ready evidence for Docker",
+      "Build job-ready evidence for Kubernetes"
+    ],
+    "contrast": {
+      "checked": 97,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/resume-studio/1",
+    "theme": "dark",
+    "width": 812,
+    "elapsed_ms": 973,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Truth-first Resume Studio",
+      "Evidence bullets",
+      " Claim review",
+      "Synthetic QA Candidate"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Truth-first Resume Studio",
+      "Evidence bullets",
+      "Claim review",
+      "Synthetic QA Candidate",
+      "PROFESSIONAL SUMMARY",
+      "RELEVANT SKILLS",
+      "SELECTED EVIDENCE"
+    ],
+    "contrast": {
+      "checked": 34,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career",
+    "theme": "dark",
+    "width": 812,
+    "elapsed_ms": 1091,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Turn preparation into applications",
+      " Application pipeline",
+      " Portfolio proof",
+      " Grounded interview practice"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Turn preparation into applications",
+      "Application pipeline",
+      "Portfolio proof",
+      "Grounded interview practice",
+      "Add verifiable evidence"
+    ],
+    "contrast": {
+      "checked": 142,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/vault",
+    "theme": "dark",
+    "width": 812,
+    "elapsed_ms": 826,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Career Vault",
+      "Career profile",
+      "Add an achievement",
+      "Achievement bank"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Vault",
+      "Career profile",
+      "Add an achievement",
+      "Achievement bank"
+    ],
+    "contrast": {
+      "checked": 25,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/package/1",
+    "theme": "dark",
+    "width": 812,
+    "elapsed_ms": 891,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Application package",
+      " Claim review",
+      "Cover letter",
+      "Recruiter outreach",
+      "Follow-up message",
+      "Claim sources"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Claim review",
+      "Application package",
+      "Claim sources",
+      "Cover letter",
+      "Recruiter outreach",
+      "Follow-up message"
+    ],
+    "contrast": {
+      "checked": 20,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/privacy",
+    "theme": "dark",
+    "width": 812,
+    "elapsed_ms": 846,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Privacy and data controls",
+      "Export data",
+      "Delete SkillSync data"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Privacy and data controls",
+      "Export data",
+      "Delete SkillSync data"
+    ],
+    "contrast": {
+      "checked": 12,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=assessments",
+    "theme": "dark",
+    "width": 812,
+    "elapsed_ms": 935,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Assess your knowledge",
+      "Assessment history"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Assess your knowledge",
+      "Assessment history"
+    ],
+    "contrast": {
+      "checked": 17,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=planner",
+    "theme": "dark",
+    "width": 812,
+    "elapsed_ms": 872,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Make your plan fit your week"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Make your plan fit your week"
+    ],
+    "contrast": {
+      "checked": 18,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=jobs",
+    "theme": "dark",
+    "width": 812,
+    "elapsed_ms": 969,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Capture a job opportunity",
+      "Discover relevant opportunities"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Capture a job opportunity",
+      "Discover relevant opportunities"
+    ],
+    "contrast": {
+      "checked": 24,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=interview",
+    "theme": "dark",
+    "width": 812,
+    "elapsed_ms": 981,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Practise a real conversation",
+      "Resume previous practice"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Practise a real conversation",
+      "Resume previous practice"
+    ],
+    "contrast": {
+      "checked": 19,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=passport",
+    "theme": "dark",
+    "width": 812,
+    "elapsed_ms": 918,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Publish a selected Skills Passport",
+      "Manage shared snapshots"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Publish a selected Skills Passport",
+      "Manage shared snapshots"
+    ],
+    "contrast": {
+      "checked": 21,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=contacts",
+    "theme": "dark",
+    "width": 812,
+    "elapsed_ms": 1170,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 812,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "People connected to this opportunity",
+      "Follow-up and learning inbox"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "People connected to this opportunity",
+      "Follow-up and learning inbox",
+      "Build job-ready evidence for Docker",
+      "Build job-ready evidence for Kubernetes"
+    ],
+    "contrast": {
+      "checked": 44,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/dashboard",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 1491,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Welcome back, QA!",
+      "Skill Growth Tracker",
+      "Score History",
+      "Quick Actions",
+      "Weekly Focus Goals",
+      "Resume Activity"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Welcome back, QA!",
+      "Score History",
+      "Quick Actions",
+      "Weekly Focus Goals",
+      "Resume Activity",
+      "Skill Growth Tracker",
+      "Upload New Resume",
+      "View Analysis",
+      "Learning Roadmap"
+    ],
+    "contrast": {
+      "checked": 82,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/upload",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 892,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Match your resume to a real opportunity",
+      "Target job",
+      "Resume"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Match your resume to a real opportunity",
+      "Target job",
+      "Resume"
+    ],
+    "contrast": {
+      "checked": 21,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/workspaces",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 1241,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Target jobs",
+      "Paging fixture 54",
+      "Paging fixture 53",
+      "Paging fixture 52",
+      "Paging fixture 51",
+      "Paging fixture 50",
+      "Paging fixture 49",
+      "Paging fixture 48",
+      "Paging fixture 47",
+      "Paging fixture 46",
+      "Paging fixture 45",
+      "Paging fixture 44",
+      "Paging fixture 43",
+      "Paging fixture 42",
+      "Paging fixture 41",
+      "Paging fixture 40",
+      "Paging fixture 39",
+      "Paging fixture 38",
+      "Paging fixture 37",
+      "Paging fixture 36",
+      "Paging fixture 35",
+      "Paging fixture 34",
+      "Paging fixture 33",
+      "Paging fixture 32",
+      "Paging fixture 31",
+      "Paging fixture 30",
+      "Paging fixture 29",
+      "Paging fixture 28",
+      "Paging fixture 27",
+      "Paging fixture 26",
+      "Paging fixture 25",
+      "Paging fixture 24",
+      "Paging fixture 23",
+      "Paging fixture 22",
+      "Paging fixture 21",
+      "Paging fixture 20",
+      "Paging fixture 19",
+      "Paging fixture 18",
+      "Paging fixture 17",
+      "Paging fixture 16",
+      "Paging fixture 15",
+      "Paging fixture 14",
+      "Paging fixture 13",
+      "Paging fixture 12",
+      "Paging fixture 11",
+      "Paging fixture 10",
+      "Paging fixture 09",
+      "Paging fixture 08",
+      "Paging fixture 07",
+      "Paging fixture 06",
+      "Paging fixture 05"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Target jobs",
+      "Paging fixture 54",
+      "Paging fixture 53",
+      "Paging fixture 52",
+      "Paging fixture 51",
+      "Paging fixture 50",
+      "Paging fixture 49",
+      "Paging fixture 48",
+      "Paging fixture 47",
+      "Paging fixture 46",
+      "Paging fixture 45",
+      "Paging fixture 44",
+      "Paging fixture 43",
+      "Paging fixture 42",
+      "Paging fixture 41",
+      "Paging fixture 40",
+      "Paging fixture 39",
+      "Paging fixture 38",
+      "Paging fixture 37",
+      "Paging fixture 36",
+      "Paging fixture 35",
+      "Paging fixture 34",
+      "Paging fixture 33",
+      "Paging fixture 32",
+      "Paging fixture 31",
+      "Paging fixture 30",
+      "Paging fixture 29",
+      "Paging fixture 28",
+      "Paging fixture 27",
+      "Paging fixture 26",
+      "Paging fixture 25",
+      "Paging fixture 24",
+      "Paging fixture 23",
+      "Paging fixture 22",
+      "Paging fixture 21",
+      "Paging fixture 20",
+      "Paging fixture 19",
+      "Paging fixture 18",
+      "Paging fixture 17",
+      "Paging fixture 16",
+      "Paging fixture 15",
+      "Paging fixture 14",
+      "Paging fixture 13",
+      "Paging fixture 12",
+      "Paging fixture 11",
+      "Paging fixture 10",
+      "Paging fixture 09",
+      "Paging fixture 08",
+      "Paging fixture 07",
+      "Paging fixture 06",
+      "Paging fixture 05"
+    ],
+    "contrast": {
+      "checked": 207,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/analysis/1",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 1081,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Backend engineer",
+      "Candidate positioning",
+      "Requirement evidence",
+      " Relevant strengths",
+      " Resume risks",
+      " How scoring works"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Backend engineer",
+      "Candidate positioning",
+      "Requirement evidence",
+      "Python",
+      "Sql",
+      "Docker",
+      "Kubernetes",
+      "Relevant strengths",
+      "Python",
+      "Sql",
+      "Resume risks",
+      "How scoring works"
+    ],
+    "contrast": {
+      "checked": 95,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/gap-report/1",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 933,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Skill Gap Report",
+      "Priority Gap Analysis",
+      "Target Roles",
+      "Resume Evidence",
+      "Requirements to Improve"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Skill Gap Report",
+      "Priority Gap Analysis",
+      "Target Roles",
+      "Backend engineer",
+      "Resume Evidence",
+      "Requirements to Improve"
+    ],
+    "contrast": {
+      "checked": 32,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/roadmap/1",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 1053,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Learning roadmap"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Learning roadmap",
+      "Build job-ready evidence for Docker",
+      "Build job-ready evidence for Kubernetes"
+    ],
+    "contrast": {
+      "checked": 97,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/resume-studio/1",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 993,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Truth-first Resume Studio",
+      "Evidence bullets",
+      " Claim review",
+      "Synthetic QA Candidate"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Truth-first Resume Studio",
+      "Evidence bullets",
+      "Claim review",
+      "Synthetic QA Candidate",
+      "PROFESSIONAL SUMMARY",
+      "RELEVANT SKILLS",
+      "SELECTED EVIDENCE"
+    ],
+    "contrast": {
+      "checked": 34,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 1050,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Turn preparation into applications",
+      " Application pipeline",
+      " Portfolio proof",
+      " Grounded interview practice"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Turn preparation into applications",
+      "Application pipeline",
+      "Portfolio proof",
+      "Grounded interview practice",
+      "Add verifiable evidence"
+    ],
+    "contrast": {
+      "checked": 142,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/vault",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 944,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Vault",
+      "Career profile",
+      "Add an achievement",
+      "Achievement bank"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Vault",
+      "Career profile",
+      "Add an achievement",
+      "Achievement bank"
+    ],
+    "contrast": {
+      "checked": 25,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/package/1",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 948,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Application package",
+      " Claim review",
+      "Cover letter",
+      "Recruiter outreach",
+      "Follow-up message",
+      "Claim sources"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Claim review",
+      "Application package",
+      "Claim sources",
+      "Cover letter",
+      "Recruiter outreach",
+      "Follow-up message"
+    ],
+    "contrast": {
+      "checked": 20,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/privacy",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 1043,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Privacy and data controls",
+      "Export data",
+      "Delete SkillSync data"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Privacy and data controls",
+      "Export data",
+      "Delete SkillSync data"
+    ],
+    "contrast": {
+      "checked": 12,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=assessments",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 862,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Assess your knowledge",
+      "Assessment history"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Assess your knowledge",
+      "Assessment history"
+    ],
+    "contrast": {
+      "checked": 17,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=planner",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 868,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Make your plan fit your week"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Make your plan fit your week"
+    ],
+    "contrast": {
+      "checked": 18,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=jobs",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 986,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Capture a job opportunity",
+      "Discover relevant opportunities"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Capture a job opportunity",
+      "Discover relevant opportunities"
+    ],
+    "contrast": {
+      "checked": 24,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=interview",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 960,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Practise a real conversation",
+      "Resume previous practice"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Practise a real conversation",
+      "Resume previous practice"
+    ],
+    "contrast": {
+      "checked": 19,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=passport",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 871,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "Publish a selected Skills Passport",
+      "Manage shared snapshots"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "Publish a selected Skills Passport",
+      "Manage shared snapshots"
+    ],
+    "contrast": {
+      "checked": 21,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "path": "/career/growth?workspace=1&tab=contacts",
+    "theme": "dark",
+    "width": 1440,
+    "elapsed_ms": 1059,
+    "mainCount": 1,
+    "overflow": false,
+    "scrollWidth": 1440,
+    "mainMissing": false,
+    "headings": [
+      "Career Growth",
+      "People connected to this opportunity",
+      "Follow-up and learning inbox"
+    ],
+    "unlabeled": [],
+    "smallButtons": [],
+    "axMainCount": 1,
+    "axHeadingNames": [
+      "Career Growth",
+      "People connected to this opportunity",
+      "Follow-up and learning inbox",
+      "Build job-ready evidence for Docker",
+      "Build job-ready evidence for Kubernetes"
+    ],
+    "contrast": {
+      "checked": 44,
+      "failures": [],
+      "skippedGradients": 0
+    },
+    "errors": [],
+    "badResponses": []
+  }
+]

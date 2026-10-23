@@ -16,7 +16,7 @@ import {
   TriangleAlert,
 } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { api } from "../../lib/api";
 
@@ -49,10 +49,12 @@ type ExplainableResponse = {
   analysis_id: number;
   workspace_id: number | null;
   status: string;
+  stale?: boolean;
   provider: string | null;
   model: string | null;
   prompt_version: string | null;
   fallback_reason: string | null;
+  notice?: string | null;
   context: {
     job_title: string | null;
     company: string | null;
@@ -111,54 +113,105 @@ export function AnalysisPage() {
   const [error, setError] = useState("");
   const [filter, setFilter] = useState<"all" | "required" | "gaps">("all");
 
-  const targetId = id && id !== "latest" ? id : null;
-  const [currentAnalysisId, setCurrentAnalysisId] = useState<number | string | null>(targetId);
+  const targetId = id && id !== "latest" ? Number(id) : null;
+  const [currentAnalysisId, setCurrentAnalysisId] = useState<number | null>(targetId);
+  const controller = useRef<AbortController | null>(null);
 
-  const runAnalysis = useCallback(async (explicitId?: number | string, force = false) => {
-    const aid = explicitId || currentAnalysisId || targetId;
-    if (!aid) return;
+  const acceptResponse = useCallback(async (initial: ExplainableResponse, signal: AbortSignal) => {
+    if (signal.aborted) return;
+    const polling = new AbortController();
+    const abort = () => polling.abort();
+    signal.addEventListener("abort", abort, { once: true });
+    const timer = window.setTimeout(abort, 45_000);
+    // The race also bounds a request waiting on session refresh before Axios
+    // starts its own network timeout. Aborting still cancels the eventual GET.
+    const stopped = new Promise<never>((_, reject) => {
+      polling.signal.addEventListener("abort", () => reject(new Error("Status polling stopped.")), { once: true });
+    });
+    const poll = async () => {
+      let response = initial;
+      let delay = 1000;
+      while (!polling.signal.aborted) {
+        setData(response);
+        setCurrentAnalysisId(response.analysis_id);
+        if (response.status !== "processing") return;
+        await new Promise<void>((resolve, reject) => {
+          const stop = () => { window.clearTimeout(pause); reject(new DOMException("Aborted", "AbortError")); };
+          const pause = window.setTimeout(() => { polling.signal.removeEventListener("abort", stop); resolve(); }, delay);
+          polling.signal.addEventListener("abort", stop, { once: true });
+        });
+        if (polling.signal.aborted) return;
+        response = (await api.get<ExplainableResponse>(`/resume/analysis/${response.analysis_id}/explainable`, { signal: polling.signal })).data;
+        delay = Math.min(3000, delay * 1.5);
+      }
+    };
+    try { await Promise.race([poll(), stopped]); }
+    finally {
+      window.clearTimeout(timer);
+      signal.removeEventListener("abort", abort);
+      polling.abort();
+    }
+  }, []);
+
+  const runAnalysis = useCallback(async (aid: number, force = false) => {
+    controller.current?.abort();
+    const request = new AbortController();
+    controller.current = request;
     setRunning(true);
     setError("");
     try {
       const response = await api.post<ExplainableResponse>(
         `/resume/analysis/${aid}/run`,
         null,
-        { params: { force } },
+        { params: { force }, signal: request.signal },
       );
-      setData(response.data);
-      setCurrentAnalysisId(response.data.analysis_id);
+      if (!request.signal.aborted) await acceptResponse(response.data, request.signal);
     } catch (requestError) {
+      if (request.signal.aborted) return;
       const detail = axios.isAxiosError(requestError) ? requestError.response?.data?.detail : null;
-      setError(typeof detail === "string" ? detail : "The analysis could not be completed.");
+      setError(typeof detail === "string" ? detail : "The analysis could not be completed. Reload to check its status before retrying.");
     } finally {
-      setRunning(false);
+      if (!request.signal.aborted) setRunning(false);
     }
-  }, [currentAnalysisId, targetId]);
+  }, [acceptResponse]);
 
   useEffect(() => {
+    const request = new AbortController();
+    controller.current = request;
     const endpoint = targetId
       ? `/resume/analysis/${targetId}/explainable`
       : `/resume/analysis/latest/explainable`;
 
     setLoading(true);
-    api.get<ExplainableResponse>(endpoint)
+    setData(null);
+    setError("");
+    setRunning(false);
+    void api.get<ExplainableResponse>(endpoint, { signal: request.signal })
       .then(async (response) => {
+        if (request.signal.aborted) return;
         setData(response.data);
         setCurrentAnalysisId(response.data.analysis_id);
-        if (!response.data.result) {
-          await runAnalysis(response.data.analysis_id, false);
+        // A never-started analysis starts once. Active runs are polled with
+        // GET; stale/failed runs require a deliberate user action.
+        if (response.data.status === "pending") {
+          setLoading(false);
+          await runAnalysis(response.data.analysis_id);
+        } else {
+          await acceptResponse(response.data, request.signal);
         }
       })
       .catch((requestError) => {
+        if (request.signal.aborted) return;
         if (axios.isAxiosError(requestError) && requestError.response?.status === 404) {
           setError("Upload a resume and target job to see your first explainable skill analysis.");
         } else {
           const detail = axios.isAxiosError(requestError) ? requestError.response?.data?.detail : null;
-          setError(typeof detail === "string" ? detail : "This analysis could not be loaded.");
+          setError(typeof detail === "string" ? detail : "This analysis could not be loaded. Reload to check its status.");
         }
       })
-      .finally(() => setLoading(false));
-  }, [targetId, runAnalysis]);
+      .finally(() => { if (!request.signal.aborted) setLoading(false); });
+    return () => { request.abort(); controller.current?.abort(); };
+  }, [targetId, runAnalysis, acceptResponse]);
 
   const matches = useMemo(() => {
     if (!data?.result) return [];
@@ -167,7 +220,7 @@ export function AnalysisPage() {
       .map((match) => ({ match, requirement: requirements.get(match.requirement_name.toLowerCase()) }))
       .filter((item) => {
         if (filter === "required") return item.requirement?.priority === "required";
-        if (filter === "gaps") return ["poorly_demonstrated", "missing_evidence", "missing_skill"].includes(item.match.status);
+        if (filter === "gaps") return item.match.status !== "strong_match";
         return true;
       });
   }, [data, filter]);
@@ -194,7 +247,7 @@ export function AnalysisPage() {
         <div className="max-w-lg text-center">
           <AlertCircle className="mx-auto size-12 text-destructive" />
           <h1 className="mt-4 text-2xl">Analysis unavailable</h1>
-          <p className="mt-2 text-muted-foreground">{error || "No explainable result is available yet."}</p>
+          <p className="mt-2 text-muted-foreground">{error || data?.notice || (data?.stale ? "Your job, resume, or processing preferences changed. Run the current analysis to refresh this result." : "No explainable result is available yet. Retry explicitly to start a new run.")}</p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link to="/upload" className="inline-flex min-h-11 items-center rounded-lg bg-primary px-5 text-sm font-medium text-primary-foreground hover:bg-primary/90">
               Upload Resume & Job
@@ -204,7 +257,7 @@ export function AnalysisPage() {
             </Link>
             {currentAnalysisId && (
               <button onClick={() => runAnalysis(currentAnalysisId, true)} disabled={running} className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-border px-5 text-sm hover:bg-accent">
-                <RefreshCw className="size-4" /> Retry Analysis
+                <RefreshCw className="size-4" /> {data?.stale ? "Run current analysis" : "Retry Analysis"}
               </button>
             )}
           </div>
@@ -236,7 +289,7 @@ export function AnalysisPage() {
             <p className="mt-2 text-muted-foreground">Compared with {data.context.resume_filename || "your resume"}</p>
           </div>
           <button
-            onClick={() => runAnalysis(undefined, true)}
+            onClick={() => currentAnalysisId && runAnalysis(currentAnalysisId, true)}
             disabled={running}
             className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-border bg-card px-5 text-sm hover:bg-accent disabled:opacity-60"
           >
@@ -245,13 +298,14 @@ export function AnalysisPage() {
           </button>
         </header>
 
+        {data.status === "failed" && <p role="alert" className="mb-6 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm">The latest run was interrupted. This is your previous result for the current inputs. Choose Re-run analysis to try again.</p>}
         <section className={`mb-6 flex items-start gap-3 rounded-xl border p-4 ${isFallback ? "border-amber-500/30 bg-amber-500/10" : "border-green-500/30 bg-green-500/10"}`}>
           {isFallback ? <TriangleAlert className="mt-0.5 size-5 shrink-0 text-amber-600" /> : <Sparkles className="mt-0.5 size-5 shrink-0 text-green-600" />}
           <div>
             <p className="font-medium">{isFallback ? "Limited comparison mode" : "AI-assisted evidence analysis"}</p>
             <p className="mt-1 text-sm text-muted-foreground">
               {isFallback
-                ? "The free AI provider was unavailable, so this result uses explicit keyword matching. Configure GROQ_API_KEY and re-run for semantic analysis."
+                ? "This result uses a local keyword comparison. Review your AI processing preference in Target jobs and retry when your allowance and the provider are available."
                 : `Analyzed with ${data.model}. Scores are calculated by SkillSync, not generated by the model.`}
             </p>
             {isFallback && data.fallback_reason && (
@@ -285,13 +339,13 @@ export function AnalysisPage() {
                 <h2 className="text-2xl">Requirement evidence</h2>
                 <p className="mt-1 text-sm text-muted-foreground">Every classification is tied to resume evidence.</p>
               </div>
-              <div className="flex rounded-lg border border-border bg-card p-1" aria-label="Filter requirements">
+              <div className="flex flex-wrap gap-2 rounded-lg border border-border bg-card p-1" role="group" aria-label="Filter requirements">
                 {(["all", "required", "gaps"] as const).map((value) => (
                   <button
                     key={value}
                     onClick={() => setFilter(value)}
                     aria-pressed={filter === value}
-                    className={`min-h-10 rounded-md px-3 text-sm capitalize ${filter === value ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+                    className={`min-h-11 min-w-11 rounded-md px-3 text-sm capitalize ${filter === value ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"}`}
                   >
                     {value}
                   </button>

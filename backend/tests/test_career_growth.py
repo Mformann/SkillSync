@@ -322,9 +322,9 @@ def test_growth_migration_creates_tables_and_supports_existing_dev_schema(monkey
 
 def test_guided_interview_does_not_lower_existing_scored_practice():
     from app.services.career_service import readiness_summary
-    analysis = SimpleNamespace(score_breakdown={"overall": 50})
+    scores = {"overall": 50}
     sessions = [SimpleNamespace(scores={"ai": {"overall": 90}, "guided": {"mode": "guided_practice"}})]
-    assert readiness_summary(analysis, None, 0, sessions, False)["components"]["interview"] == 90
+    assert readiness_summary(scores, None, 0, sessions, False)["components"]["interview"] == 90
 
 
 def test_feed_errors_are_reported_without_fake_jobs(environment, monkeypatch):
@@ -352,3 +352,20 @@ def test_interview_provider_requires_consent_and_validates_output(monkeypatch):
     assert result["mode"] == "ai_coaching" and result["overall"] == 70 and len(called) == 1
     monkeypatch.setattr("app.services.growth_service.httpx.post", lambda *a, **kw: httpx.Response(200, request=httpx.Request("POST", "https://test.example"), json={"choices": [{"message": {"content": '{"relevance":999}'}}]}))
     assert interview_feedback("Question", "Answer", "Role", [], True)["mode"] == "guided_practice"
+
+
+@pytest.mark.parametrize("body", [{"choices": []}, {"choices": [{}]}, {"choices": None}])
+def test_malformed_interview_provider_response_preserves_guided_practice(monkeypatch, body):
+    import httpx
+    from app.services.growth_service import interview_feedback
+    monkeypatch.setenv("GROQ_API_KEY", "synthetic-key")
+    monkeypatch.delenv("GROQ_MODEL", raising=False)
+    calls = []
+
+    def post(url, **kwargs):
+        calls.append(kwargs)
+        return httpx.Response(200, request=httpx.Request("POST", url), json=body)
+
+    monkeypatch.setattr("app.services.growth_service.httpx.post", post)
+    assert interview_feedback("Question", "An answer for interview practice", "Role", [], True)["mode"] == "guided_practice"
+    assert calls[0]["json"]["model"] == "openai/gpt-oss-20b"

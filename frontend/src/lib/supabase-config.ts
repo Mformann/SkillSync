@@ -1,8 +1,9 @@
-export function supabaseConfigurationError(url: string, key: string): string | null {
+export function supabaseConfigurationError(url: string, key: string, allowLocal = true): string | null {
   if (!url || !key) return "Set VITE_SUPABASE_URL and a public VITE_SUPABASE_PUBLISHABLE_KEY (or VITE_SUPABASE_ANON_KEY).";
   try {
     const parsed = new URL(url);
     const local = ["localhost", "127.0.0.1", "[::1]"].includes(parsed.hostname);
+    if (local && !allowLocal) return "Deployment builds require a hosted HTTPS Supabase origin.";
     if (parsed.username || parsed.password || parsed.search || parsed.hash || parsed.pathname !== "/" || (parsed.protocol !== "https:" && !(local && parsed.protocol === "http:"))) {
       return "VITE_SUPABASE_URL must be your project's HTTPS origin (HTTP is allowed only for local development).";
     }

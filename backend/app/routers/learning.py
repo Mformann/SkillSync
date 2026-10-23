@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from .. import models
 from ..auth_utils import AuthenticatedUser, get_current_user
 from ..database import get_session
+from ..services.analysis_runs import derived_is_stale, material_fingerprint, require_current_result
 from ..services.roadmap_service import (
     _practical_test_for,
     _youtube_resources_for,
@@ -80,6 +81,7 @@ def _plan_out(plan: models.LearningPlan) -> dict:
         "completed_tasks": completed,
         "total_tasks": len(tasks),
         "tasks": [_task_out(task) for task in tasks],
+        "stale": derived_is_stale(plan.analysis, plan.source_input_hash),
     }
 
 
@@ -109,8 +111,7 @@ def create_or_recalculate_plan(
     ).first()
     if not analysis:
         raise HTTPException(status_code=404, detail="Analysis not found.")
-    if not analysis.explainable_data:
-        raise HTTPException(status_code=409, detail="Run the explainable job analysis before creating a roadmap.")
+    require_current_result(analysis)
     if not analysis.target_job_id:
         raise HTTPException(status_code=422, detail="This analysis is not linked to a target-job workspace.")
 
@@ -127,6 +128,7 @@ def create_or_recalculate_plan(
         models.LearningPlan.analysis_id == analysis.id,
         models.LearningPlan.user_id == current_user.id,
     ).first()
+    retained = []
     if not plan:
         plan = models.LearningPlan(
             user_id=current_user.id,
@@ -141,19 +143,22 @@ def create_or_recalculate_plan(
         db.flush()
     else:
         for task in list(plan.tasks):
-            if task.status != "completed":
+            if task.status == "completed" or task.progress or task.evidence_url or task.reflection or task.assessment_score is not None:
+                retained.append(task)
+            else:
                 db.delete(task)
         db.flush()
 
     plan.hours_per_week = payload.hours_per_week
     plan.target_date = payload.target_date
     plan.experience_level = payload.experience_level
-    plan.total_estimated_hours = sum(item["estimated_hours"] for item in generated)
     plan.status = "active"
+    plan.source_input_hash = material_fingerprint(analysis)
 
-    existing_skills = {
-        task.skill.casefold() for task in plan.tasks if task.status == "completed"
-    }
+    existing_skills = {task.skill.casefold() for task in retained}
+    plan.total_estimated_hours = sum(task.estimated_hours for task in retained) + sum(
+        item["estimated_hours"] for item in generated if item["skill"].casefold() not in existing_skills
+    )
     for item in generated:
         if item["skill"].casefold() in existing_skills:
             continue

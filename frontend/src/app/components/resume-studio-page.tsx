@@ -14,6 +14,7 @@ type Content = {
 };
 type Warning = { code: string; severity: "high" | "medium"; message: string; evidence_id?: string };
 type Version = {
+  stale?: boolean;
   id: number; name: string; template: "classic" | "modern"; content: Content;
   warnings: Warning[]; created_at: string; updated_at: string;
 };
@@ -75,9 +76,15 @@ export function ResumeStudioPage() {
   };
   const createVersion = async () => {
     if (!id || id === "latest") return;
-    const created = (await api.post<Version>(`/resume-studio/analyses/${id}/versions`, {})).data;
-    setVersions((items) => [created, ...items]);
-    setCurrent(created);
+    setError("");
+    try {
+      const created = (await api.post<Version>(`/resume-studio/analyses/${id}/versions`, {})).data;
+      setVersions((items) => [created, ...items]);
+      setCurrent(created);
+    } catch (requestError) {
+      const detail = axios.isAxiosError(requestError) ? requestError.response?.data?.detail : null;
+      setError(typeof detail === "string" ? detail : "A new version could not be created.");
+    }
   };
   const download = async () => {
     if (!current) return;
@@ -110,6 +117,7 @@ export function ResumeStudioPage() {
         </div>
       </div>
       {error && <p className="resume-studio-controls mb-4 rounded-lg bg-destructive/10 p-3 text-sm text-destructive">{error}</p>}
+      {current.stale && <p role="status" className="resume-studio-controls mb-4 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm">This version is based on an older analysis. Your edits are preserved. Refresh the analysis, then choose New version to create an updated draft.</p>}
       <div className="grid gap-6 xl:grid-cols-[minmax(330px,0.75fr)_minmax(540px,1.25fr)]">
         <section className="resume-studio-controls space-y-5 rounded-2xl border bg-card p-5" aria-label="Resume editor">
           <div className="grid gap-3 sm:grid-cols-2">
