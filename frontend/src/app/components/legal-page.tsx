@@ -42,7 +42,7 @@ export function LegalPage({ kind, eyebrow, title, summary, effectiveDate, sectio
   const Icon = meta.icon;
 
   return (
-    <main id="main-content" className="min-h-[calc(100vh-4rem)] bg-background text-foreground">
+    <main className="min-h-[calc(100vh-4rem)] bg-background text-foreground">
       <header className="border-b border-border bg-card">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-16">
           <Link
@@ -96,7 +96,7 @@ export function LegalPage({ kind, eyebrow, title, summary, effectiveDate, sectio
 
         <article className="min-w-0 max-w-3xl">
           <div className="rounded-2xl border border-primary/20 bg-primary/[0.04] p-5 text-sm leading-6 text-muted-foreground">
-            This page describes the current SkillSync product. The person or organization operating a deployed version of SkillSync must publish its legal identity, contact details, and any jurisdiction-specific disclosures before a public launch.
+            SkillSync is operated by <strong className="font-semibold text-foreground">Akyra Studios</strong>. For privacy questions, support, or concerns about these terms, contact <a href="mailto:mann@akyrastudios.com" className="rounded-sm font-semibold text-primary underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">mann@akyrastudios.com</a>.
           </div>
 
           <div className="mt-10 divide-y divide-border">

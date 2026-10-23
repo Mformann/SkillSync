@@ -47,6 +47,10 @@ test("public legal pages are readable, linked, and available without signing in"
   await expect(page.getByRole("heading", { name: "Privacy policy", exact: true })).toBeVisible();
   await expect(page.getByRole("navigation", { name: "Privacy policy table of contents" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Optional AI processing" })).toBeVisible();
+  await expect(page.getByText("Akyra Studios operates SkillSync", { exact: false })).toBeVisible();
+  await expect(page.getByRole("link", { name: "mann@akyrastudios.com" }).first()).toHaveAttribute("href", "mailto:mann@akyrastudios.com");
+  await expect(page.getByText("Effective October 23, 2026")).toBeVisible();
+  expect(await page.locator('[id="main-content"]').count()).toBe(1);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 
   await page.getByRole("link", { name: "Optional AI processing" }).click();
@@ -61,9 +65,28 @@ test("public legal pages are readable, linked, and available without signing in"
   await expect(page.getByRole("heading", { name: "Terms & conditions", exact: true })).toBeVisible();
   await expect(page.getByRole("navigation", { name: "Terms & conditions table of contents" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "AI output and career guidance" })).toBeVisible();
+  await expect(page.getByText("SkillSync is currently free to use.", { exact: false })).toBeVisible();
+  await expect(page.getByRole("navigation", { name: "Legal and support" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Read the privacy policy" })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   expect(errors).toEqual([]);
+});
+
+test("login and signup notices open the public legal pages", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  for (const route of ["/login", "/signup"]) {
+    await page.goto(route);
+    await page.getByRole("link", { name: "Privacy policy", exact: true }).click();
+    await expect(page).toHaveURL(/\/privacy-policy$/);
+    await expect(page.getByRole("heading", { name: "Privacy policy", exact: true })).toBeVisible();
+    await page.goto(route);
+    await page.getByRole("link", { name: "Terms & conditions", exact: true }).click();
+    await expect(page).toHaveURL(/\/terms$/);
+    await expect(page.getByRole("heading", { name: "Terms & conditions", exact: true })).toBeVisible();
+  }
+  await page.goto("/terms-and-conditions");
+  await expect(page).toHaveURL(/\/terms$/);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 });
 
 test("a simulated sign-in reaches the dashboard and signs out cleanly", async ({ page }) => {

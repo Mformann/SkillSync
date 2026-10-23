@@ -8,7 +8,7 @@ const sections: LegalSection[] = [
     content: (
       <>
         <p>These terms govern your access to and use of SkillSync. By creating an account or using the service, you agree to these terms and the <Link to="/privacy-policy">privacy policy</Link>. If you do not agree, do not use the service.</p>
-        <p>The person or organization running your SkillSync deployment is the service operator. That operator must identify itself and provide any additional terms required for its jurisdiction or deployment.</p>
+        <p>SkillSync is operated by Akyra Studios. For support or questions about these terms, contact <a href="mailto:mann@akyrastudios.com">mann@akyrastudios.com</a>. References to the operator in these terms mean Akyra Studios.</p>
       </>
     ),
   },
@@ -28,7 +28,7 @@ const sections: LegalSection[] = [
     content: (
       <>
         <p>SkillSync provides career-planning tools, including resume and job-description comparison, skill-gap analysis, learning roadmaps, application materials, interview practice, application tracking, and selected sharing features.</p>
-        <p>The current application does not charge a fee. A deployment operator must clearly disclose any future paid plan, renewal, cancellation, and refund terms before charging users.</p>
+        <p>SkillSync is currently free to use. We will clearly disclose any future paid plan, pricing, renewal, cancellation, and refund terms before you choose a paid subscription. Using the current free service does not enroll you in a future paid plan.</p>
       </>
     ),
   },
@@ -84,7 +84,7 @@ const sections: LegalSection[] = [
     title: "Third-party services and links",
     content: (
       <>
-        <p>SkillSync depends on third-party services such as Supabase for authentication and, when enabled with your consent, Groq for AI processing. Learning resources, job links, and portfolio links may lead to third-party websites.</p>
+        <p>SkillSync uses Supabase for authentication and its application database, Render for the backend, Vercel for the web interface, and Groq for AI processing when enabled with your consent. Learning resources, job links, and portfolio links may lead to third-party websites.</p>
         <p>Those services operate under their own terms and privacy practices. SkillSync does not control third-party content, availability, security, or hiring decisions.</p>
       </>
     ),
@@ -145,7 +145,7 @@ const sections: LegalSection[] = [
     content: (
       <>
         <p>These terms may be updated when the service or legal requirements change. Material changes should be announced in the service, and continued use after the effective date means you accept the revised terms where permitted by law.</p>
-        <p>If a concern or dispute arises, contact the deployment operator first through its published support channel. These terms are governed by the mandatory laws that apply to you and the operator; the operator must add any required governing-law, venue, business-identity, and contact disclosures before public launch.</p>
+        <p>If a concern or dispute arises, contact Akyra Studios at <a href="mailto:mann@akyrastudios.com">mann@akyrastudios.com</a> so we can work to resolve it. The mandatory laws and consumer protections that apply to you and the operator continue to apply.</p>
       </>
     ),
   },
@@ -158,7 +158,7 @@ export function TermsPage() {
       eyebrow="Clear rules, fair use"
       title="Terms & conditions"
       summary="The rules for using SkillSync and the important limits you should understand before relying on career or AI-generated guidance."
-      effectiveDate="September 21, 2026"
+      effectiveDate="October 23, 2026"
       sections={sections}
     />
   );

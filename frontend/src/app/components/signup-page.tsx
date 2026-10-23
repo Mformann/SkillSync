@@ -6,6 +6,7 @@ import { supabase } from "../../lib/supabase";
 import { PasswordInput } from "./password-input";
 import { AuthFeedback } from "./auth-feedback";
 import { authErrorMessage } from "../../lib/auth-navigation";
+import { LegalNotice } from "./legal-links";
 
 export function SignupPage() {
   const navigate = useNavigate();
@@ -186,9 +187,7 @@ export function SignupPage() {
             </div>
           </div>
 
-          <p className="mt-6 text-center text-sm text-muted-foreground">
-            By signing up, you agree to our Terms of Service and Privacy Policy
-          </p>
+          <LegalNotice action="signing up" />
         </motion.div>
       </div>
     </div>

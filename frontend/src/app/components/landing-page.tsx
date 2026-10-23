@@ -271,9 +271,10 @@ export function LandingPage() {
             <a href="#how-it-works" className="cursor-pointer transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">How it works</a>
             <a href="#privacy" className="cursor-pointer transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Privacy approach</a>
             <Link to="/privacy-policy" className="cursor-pointer transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Privacy policy</Link>
-            <Link to="/terms" className="cursor-pointer transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Terms</Link>
+            <Link to="/terms" className="cursor-pointer transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Terms &amp; conditions</Link>
+            <a href="mailto:mann@akyrastudios.com" className="cursor-pointer transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Contact</a>
           </nav>
-          <p className="text-sm text-muted-foreground">© 2026 SkillSync</p>
+          <p className="text-sm text-muted-foreground">© 2026 SkillSync · Akyra Studios</p>
         </div>
       </footer>
     </main>

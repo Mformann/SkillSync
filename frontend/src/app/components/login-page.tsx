@@ -7,6 +7,7 @@ import { useAuth } from "../auth-provider";
 import { PasswordInput } from "./password-input";
 import { AuthFeedback } from "./auth-feedback";
 import { authErrorMessage, postLoginPath } from "../../lib/auth-navigation";
+import { LegalNotice } from "./legal-links";
 
 export function LoginPage() {
   const reduceMotion = useReducedMotion();
@@ -133,9 +134,7 @@ export function LoginPage() {
           </div>
         </div>
 
-        <p className="mt-6 text-center text-sm text-muted-foreground">
-          By logging in, you agree to our Terms of Service and Privacy Policy
-        </p>
+        <LegalNotice action="logging in" />
       </motion.div>
     </div>
   );

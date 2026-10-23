@@ -8,7 +8,7 @@ const sections: LegalSection[] = [
     content: (
       <>
         <p>This policy explains how the current SkillSync application handles personal information when you create an account, upload a resume, analyze a target role, build career materials, or use career-growth tools.</p>
-        <p>The person or organization that runs your SkillSync deployment is the service operator and, where applicable, the data controller. That operator must provide its legal name, address, privacy contact, and any additional notices required where it operates.</p>
+        <p>Akyra Studios operates SkillSync and is responsible for the personal information processed through the service. Contact <a href="mailto:mann@akyrastudios.com">mann@akyrastudios.com</a> with privacy questions or requests.</p>
       </>
     ),
   },
@@ -63,8 +63,15 @@ const sections: LegalSection[] = [
     title: "Service providers and disclosures",
     content: (
       <>
-        <p>SkillSync relies on service providers to operate. The current application uses Supabase for identity and session management and can use Groq for consented AI processing. A deployment may also use hosting, database, logging, email-delivery, and security providers selected by its operator.</p>
-        <p>Information may also be disclosed when required by law, to protect users or the service, to investigate misuse, or as part of a business transfer subject to appropriate safeguards. The current repository does not include targeted-advertising trackers or a feature that sells career data.</p>
+        <p>Our production service uses the following providers:</p>
+        <ul>
+          <li><strong>Supabase:</strong> account authentication, sessions, and storage of application records in PostgreSQL. <a href="https://supabase.com/legal/customer-resources/data-processing-addendum">Supabase data-processing information</a>.</li>
+          <li><strong>Render:</strong> hosting for the backend that processes uploads and application requests. <a href="https://render.com/privacy">Render privacy information</a>.</li>
+          <li><strong>Vercel:</strong> hosting and delivery of the web interface. <a href="https://vercel.com/legal/privacy-notice">Vercel privacy information</a>.</li>
+          <li><strong>Groq:</strong> optional AI processing of relevant content when you enable it. <a href="https://console.groq.com/docs/legal/customer-data-processing-addendum">Groq data-processing information</a>.</li>
+        </ul>
+        <p>Hosting and security providers may process connection information such as IP addresses, request times, and diagnostic information. Provider processing and retention depend on the services and settings in use.</p>
+        <p>Information may also be disclosed when required by law, to protect users or the service, to investigate misuse, or as part of a business transfer subject to appropriate safeguards. SkillSync does not include targeted-advertising trackers or a feature that sells career data.</p>
       </>
     ),
   },
@@ -83,7 +90,7 @@ const sections: LegalSection[] = [
     title: "Retention and deletion",
     content: (
       <>
-        <p>Application records remain available until you remove them, the operator applies a retention schedule, or they are no longer needed for the purposes described here. The current codebase does not define one universal automatic retention period for every deployment.</p>
+        <p>Application records remain available until you remove them, we apply a retention schedule, or they are no longer needed for the purposes described here. SkillSync does not currently apply a single automatic deletion period to every type of record.</p>
         <p>Signed-in users can <Link to="/privacy">export their SkillSync data or permanently delete application data</Link>. Application-data deletion covers workspaces, analyses, plans, resumes and extracted text, career evidence, packages, and tracking data. It does not delete the separate Supabase identity account; contact the deployment operator to request account deletion.</p>
         <p>Backups and security logs may remain for a limited period where the deployment operator’s infrastructure requires it, subject to applicable law.</p>
       </>
@@ -104,7 +111,7 @@ const sections: LegalSection[] = [
     content: (
       <>
         <p>You can decline external AI processing, review saved workspace information, export application data, delete application data, revoke public career-passport links, and stop using the service.</p>
-        <p>Depending on where you live, you may also have rights to access, correct, delete, restrict, object to, or receive a portable copy of personal information, and to withdraw consent. Submit requests through the privacy contact published by your deployment operator. You may also have the right to complain to a local data-protection authority.</p>
+        <p>Depending on where you live, you may also have rights to access, correct, delete, restrict, object to, or receive a portable copy of personal information, and to withdraw consent. Submit requests to <a href="mailto:mann@akyrastudios.com">mann@akyrastudios.com</a>. You may also have the right to complain to a local data-protection authority.</p>
       </>
     ),
   },
@@ -124,7 +131,7 @@ const sections: LegalSection[] = [
     content: (
       <>
         <p>This policy may change when SkillSync’s features, providers, or legal obligations change. Material updates should be announced in the service, and the effective date at the top of this page should be revised.</p>
-        <p>For privacy questions or requests, use the support or privacy contact published by the operator of your SkillSync deployment. A production deployment should not launch until those operator details are added.</p>
+        <p>For privacy questions, data requests, or account-deletion requests, contact Akyra Studios at <a href="mailto:mann@akyrastudios.com">mann@akyrastudios.com</a>.</p>
       </>
     ),
   },
@@ -137,7 +144,7 @@ export function PrivacyPolicyPage() {
       eyebrow="Your data, explained"
       title="Privacy policy"
       summary="What SkillSync collects, how optional AI processing works, and the controls available for your career data."
-      effectiveDate="September 21, 2026"
+      effectiveDate="October 23, 2026"
       sections={sections}
     />
   );

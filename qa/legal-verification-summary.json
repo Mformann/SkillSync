@@ -1,0 +1,25 @@
+{
+  "scope": "Privacy policy and terms follow-up",
+  "operator": "Akyra Studios",
+  "contact": "mann@akyrastudios.com",
+  "effective_date": "2026-10-23",
+  "typecheck": "passed",
+  "lint": "passed",
+  "frontend_tests": {
+    "passed": 132,
+    "failed": 0
+  },
+  "strict_build": "passed with synthetic public HTTPS configuration",
+  "browser_tests": {
+    "passed": 7,
+    "failed": 0
+  },
+  "changes": [
+    "Public policy and terms show the supplied operator/contact",
+    "Hosting and optional AI providers are disclosed",
+    "Login/signup legal notices link to both pages",
+    "App footer exposes legal/support links and signed-in data controls",
+    "Legal pages retain section navigation and have a unique main-content target"
+  ],
+  "deployment": "Not performed by this follow-up"
+}

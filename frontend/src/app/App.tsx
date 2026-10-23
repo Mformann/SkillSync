@@ -7,6 +7,7 @@ import { lazy, Suspense, useEffect, type ReactNode } from "react";
 import { MotionConfig } from "motion/react";
 import { Loader2 } from "lucide-react";
 import { RouteFocus } from "./components/route-focus";
+import { LegalFooter } from "./components/legal-links";
 
 const LandingPage = lazy(() => import("./components/landing-page").then((module) => ({ default: module.LandingPage })));
 const LoginPage = lazy(() => import("./components/login-page").then((module) => ({ default: module.LoginPage })));
@@ -88,6 +89,7 @@ export default function App() {
               </Routes>
             </Suspense>
             </div>
+            <LegalFooter />
           </div>
         </Router>
       </AuthProvider>
