@@ -4,6 +4,7 @@ design-system/
 frontend/dist/
 frontend/node_modules/
 *.png
+!frontend/public/brand/*.png
 CAREER_GROWTH.md
 DEPLOYMENT.md
 PROJECT_AUDIT.md
